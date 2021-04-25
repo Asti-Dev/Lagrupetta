@@ -1,6 +1,6 @@
 <div>
     <div class="d-flex align-items-start my-1">
-        <a class="btn btn-success" wire:click.prevent="create()" title="Crear solicitud">
+        <a class="btn btn-success" href="{{ route('pedidos.create') }}" title="Crear solicitud">
             Nuevo
         </a>
         <div class="mx-3 d-flex">
@@ -102,8 +102,8 @@
                             class="btn btn-primary">Pago pendiente</button>
                         @endif
                         @if ($pedido->pedidoEstado->nombre === 'TERMINADO')
-                        <button wire:click.prevent="asignarChofer({{$pedido->id}})" 
-                            class="btn btn-primary">Asignar Entrega</button>
+                            <a href="{{route('pedidos.asignarChofer', $pedido->id)}}" 
+                                class="btn btn-primary">Asignar Entrega</a>
                         @endif
                         @if($pedido->pedidoEstado->nombre === 'COTIZADO' &&
                         $pedido->pedidoDetalle->confirmacion != 'ACEPTADO')

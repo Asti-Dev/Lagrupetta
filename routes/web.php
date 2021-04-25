@@ -6,10 +6,11 @@ use App\Http\Controllers\ConfirmationsController;
 use App\Http\Controllers\CotizacionController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\PedidoController;
 use App\Http\Livewire\Diagnostico\Diagnostico;
 use App\Http\Livewire\Paquete\Paquete;
 use App\Http\Livewire\ParteModelo\ParteModelo;
-use App\Http\Livewire\Pedido\Pedido;
+use App\Http\Livewire\Pedido\CreateClientForm;
 use App\Http\Livewire\Pedido\PedidoDetalle\Cotizar;
 use App\Http\Livewire\Pedido\PedidoDetalle\PedidoDetalle;
 use App\Http\Livewire\Pedido\Solicitud\Solicitud;
@@ -58,6 +59,9 @@ Route::get('/bicicleta/diagnostico/{diagnostico}', [DownloadController::class, '
 Route::view('/dashboard', 'home')->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'administracion'], function() {
+    
+    Route::get('/quickClient', CreateClientForm::class)->name('quickClient');
+
 
     Route::resource('clientes', ClienteController::class);
     
@@ -73,7 +77,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'administracion'], function() 
 
     Route::get('/pruebas', Prueba::class)->name('pruebas.index');
 
-    Route::get('/pedidos', Pedido::class)->name('pedidos.index');
+    Route::resource('pedidos', PedidoController::class)->only(['index','create']);
+
+    Route::put('/entrega/{id}', [PedidoController::class, 'asignarChofer'])->name('pedidos.asignarChofer');
 
     Route::get('/pedidos/{pedido}', Solicitud::class)->name('pedido.show');
 

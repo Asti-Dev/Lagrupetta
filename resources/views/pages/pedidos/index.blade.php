@@ -6,14 +6,6 @@
             <div class="my-3">
                 <h2>Pedidos </h2>
             </div>
-            <div class="d-flex align-items-strech my-1">
-                 <a class="btn btn-success" href="{{ route('pedidos.create') }}" title="Crear solicitud">
-                    Nuevo
-                </a>
-                <a class="btn btn-success" href="{{ route('pedidos.index') }}">
-                    Limpiar
-                </a>
-            </div>
         </div>
     </div>
     
@@ -23,9 +15,12 @@
             <p>{{ $message }}</p>
         </div>
     @endif
+    
+    @hasanyrole('administrador|super-admin')
 
 
     <livewire:pedido.table>
 
+    @endhasanyrole
 
 @endsection

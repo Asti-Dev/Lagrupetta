@@ -90,8 +90,8 @@ class Form extends Component
         Mail::to($this->pedido->cliente->user->email)
             ->send(new MailSolicitud($this->pedido, $url));
 
-
         session()->flash('success', 'pedido actualizado!');
+        return redirect()->route('pedidos.index');
     }
 
 

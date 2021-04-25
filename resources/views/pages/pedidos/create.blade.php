@@ -30,5 +30,6 @@
         </div>
     @endif
     
-    <livewire:pedido.create-form>
+    <livewire:pedido.form />
+    
 @endsection
