@@ -22,7 +22,7 @@
                     <i class="fas fa-backward "></i>
                 </a>
             </div>
-            <livewire:almacen.ingreso.form :pedido="$pedido">
+            <livewire:almacen.ingreso.form :wire:key="$pedido->id" :pedido="$pedido">
         </div>
             @break
     
