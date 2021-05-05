@@ -29,8 +29,6 @@ class Taller extends Component
 
         })->orderBy('id', 'desc')->paginate(6);
 
-        return view('livewire.taller.taller',$data)
-        ->extends('layouts.app')
-        ->section('content');
+        return view('livewire.taller.taller',$data);
     }
 }
