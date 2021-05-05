@@ -1,9 +1,4 @@
 <div>
-    @hasanyrole('jefe mecanicos|super-admin')
-
-    <livewire:almacen.ingreso.ingreso />
-
-    @endhasanyrole
     
     <div class="row">
         <div class="col-lg-12 margin-tb">
