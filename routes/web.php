@@ -89,7 +89,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'logistica'], function() {
 
     Route::get('/transportes', Transporte::class)->name('transportes.index');
 
-    Route::get('/taller', Taller::class)->name('taller.index');
+    Route::view('/taller', 'pages.taller.index')->name('taller.index');
 
     Route::get('/salida/{pedidoDetalleId}', Diagnostico::class)->name('diagnostico.salida');
 
