@@ -15,7 +15,7 @@ class CreatePedidoDetallesTable extends Migration
     {
         Schema::create('pedido_detalles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('diagnostico_id')->constrained();
+            $table->foreignId('diagnostico_id')->nullable()->constrained();
             $table->longText('explicacion')->nullable();
             $table->dateTime('fecha_entrega_aprox')->nullable();
             $table->double('precio_total')->nullable();
