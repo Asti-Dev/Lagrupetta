@@ -21,6 +21,7 @@ class CreateRevisionPruebaTable extends Migration
             $table->boolean('completado')->default(0);
             $table->boolean('corregir')->default(0);
             $table->string('comentario')->nullable();
+            $table->string('respuesta')->nullable();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->foreign('created_by')->references('id')->on('users');
             $table->bigInteger('updated_by')->nullable()->unsigned();
