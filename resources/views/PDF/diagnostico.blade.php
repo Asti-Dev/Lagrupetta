@@ -6,7 +6,7 @@
     <tr>
         <td colspan="2">logo</td>
         <td colspan="6">
-            <h2 >Lagrupetta</h2>
+            <h2 >La Grupetta</h2>
             <h3>Diagnostico {{$serial ?? ''}}</h3>
         </td>
         <td colspan="4">
@@ -70,7 +70,7 @@
                              Comentario del Mecanico
                         </td>
                         <td colspan="2">
-                            {{$parte['comentarioDiag'] ?? ''}}
+                            {{$comentarioDiag ?? ''}}
                         </td>
                      </tr>
                 </tbody>

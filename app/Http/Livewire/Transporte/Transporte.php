@@ -16,6 +16,10 @@ class Transporte extends Component
     public ModelsTransporte $transporte;
     public $observacion;
     public $transportes = [];
+    public $estados = [
+        'TERMINADO' => 'ENTREGADO',
+        'SOLICITADO' => 'RECOGIDO',
+    ];
 
 
     public function rules()
@@ -40,7 +44,7 @@ class Transporte extends Component
 
     public function completado()
     {
-        
+        $estado = $this->transporte->pedido->pedidoEstado->nombre;
         $this->transporte->update([
             'observacion_chofer' => $this->observacion,
             'completado' => ModelsTransporte::CUMPLIMIENTO[0] ,
@@ -48,7 +52,7 @@ class Transporte extends Component
         ]);
 
         $this->transporte->pedido->update([
-            'pedido_estado_id' => PedidoEstado::where('nombre','RECOGIDO')->first()->id,
+            'pedido_estado_id' => PedidoEstado::where('nombre',$this->estados[$estado])->first()->id,
         ]);
 
         $this->view = 'table';

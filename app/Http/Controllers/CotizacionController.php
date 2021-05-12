@@ -226,7 +226,7 @@ class CotizacionController extends Controller
 
         $data = array(
             'cliente' =>  ($cliente->nombre ?? '') . ' ' . ($cliente->apellido ?? ''),
-            'bicicleta'=> ($bicicleta->marca ?? '') . ' ' . ($bicicleta->modelo ?? '') . ($bicicleta->codigo ?? ''),
+            'bicicleta'=> ($bicicleta->marca ?? '') . ' ' . ($bicicleta->modelo ?? '') . ' ' . ($bicicleta->codigo ?? ''),
             'mecanico' => ($mecanico->nombre_apellido ?? ''),
             'color' => ($color ?? ''),
             'comentarioDiag' => ($comentarioDiag ?? ''),
