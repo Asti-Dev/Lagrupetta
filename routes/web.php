@@ -6,6 +6,7 @@ use App\Http\Controllers\ConfirmationsController;
 use App\Http\Controllers\CotizacionController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Livewire\Cliente\CreateClientForm;
 use App\Http\Livewire\Diagnostico\Diagnostico;
 use App\Http\Livewire\Paquete\Paquete;
 use App\Http\Livewire\ParteModelo\ParteModelo;
@@ -58,6 +59,8 @@ Route::get('/bicicleta/diagnostico/{diagnostico}', [DownloadController::class, '
 Route::view('/dashboard', 'home')->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'administracion'], function() {
+
+    Route::get('/quickClient', CreateClientForm::class)->name('quickClient');
 
     Route::resource('clientes', ClienteController::class);
     
