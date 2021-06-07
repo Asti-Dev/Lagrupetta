@@ -33,8 +33,8 @@
                             <label class="text-right"> {{date('d/m/Y h:i A' ,strtotime( $pedido->transporteRecojo()->fecha_hora_completado) )}} </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
-                            <label class="mb-1">Direccion:</label>
-                            <label class="text-right"> {{$pedido->cliente->direccion}} </label>
+                            <label class="mb-1">Observacion Chofer:</label>
+                            <label class="text-right"> {{$pedido->transporteRecojo()->observacion_chofer}} </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Codigo:</label>

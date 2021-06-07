@@ -83,6 +83,13 @@
                             <i class="fas fa-file-download text-primary"></i>
                             </a>
                             @endif
+                            @if ($pedido->pedidoDetalle->diagnostico ?? '')
+                            <a class="mx-2" style="width: min-content"
+                            href="{{ route('download.diagnostico', $pedido->id) }}"
+                            title="show">
+                            <i class="fas fa-file-download text-primary"></i>
+                            </a>
+                            @endif
 
                             <form class="mx-2" style="width: min-content"
                             wire:submit.prevent="destroy({{$pedido->id}})">
@@ -95,20 +102,22 @@
                         </div>
                         @if ($pedido->pedidoEstado->nombre === 'PAGO PENDIENTE')
                         <button wire:click.prevent="completado({{$pedido->id}})" 
-                            class="btn btn-primary">Completado</button>
+                            class=" mx-4 btn btn-primary btn-sm">Completado</button>
                         @endif
                         @if ($pedido->pedidoEstado->nombre === 'ENTREGADO')
                         <button wire:click.prevent="pago({{$pedido->id}})" 
-                            class="btn btn-primary">Pago pendiente</button>
+                            class="mx-4 btn btn-primary btn-sm">Pago pendiente</button>
                         @endif
                         @if ($pedido->pedidoEstado->nombre === 'TERMINADO')
                         <button wire:click.prevent="asignarChofer({{$pedido->id}})" 
-                            class="btn btn-primary">Asignar Entrega</button>
+                            class="mx-4 btn btn-primary btn-sm">Asignar Entrega</button>
                         @endif
                         @if($pedido->pedidoEstado->nombre === 'COTIZADO' &&
                         $pedido->pedidoDetalle->confirmacion != 'ACEPTADO')
+                  
                        <a href="{{route('cotizacion.edit', $pedido->pedidoDetalle->id)}}" 
-                           class="btn btn-primary">Reenviar Cotizacion</a>
+                           class="mx-4 btn btn-primary btn-sm">Reenviar Cotizacion</a>
+             
                        @endif
                         <small class="">{{$pedido->created_at->diffForHumans()}} </small>
                     </div>

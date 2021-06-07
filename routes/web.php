@@ -98,5 +98,5 @@ Route::group(['middleware' => 'auth', 'prefix' => 'logistica'], function() {
 
     Route::get('/cotizar/{pedidoDetalle}', Cotizar::class)->name('cotizar');
 
-    Route::resource('cotizacion', CotizacionController::class)->only(['update']);
+    Route::resource('cotizacion', CotizacionController::class)->except(['index','create','store','destroy']);
 });

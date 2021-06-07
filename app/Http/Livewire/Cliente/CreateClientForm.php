@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Cliente;
 use Livewire\Component;
 use App\Models\Bicicleta;
 use App\Models\Cliente;
+use App\Models\Parte;
+use App\Models\ParteModelo;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -64,7 +66,8 @@ class CreateClientForm extends Component
         ])->assignRole('cliente');
 
         $cliente = Cliente::create([
-            'nombre_apellido' => $this->nombre . ' ' . $this->apellido,
+            'nombre' =>  $this->nombre,
+            'apellido' =>  $this->apellido,
             'telefono' => $this->telefono,
             'direccion' => $this->direccion,
             'email' => $this->email,
@@ -75,14 +78,22 @@ class CreateClientForm extends Component
 
         ]);
 
-        Bicicleta::create(
-            [
+        $bicicleta = Bicicleta::create([
             'cliente_id' => $cliente->id,
             'marca' => $this->marca,
             'modelo' => $this->modelo,
             'codigo' => $this->codigo,
             ] 
         );
+
+        $parteModelos = ParteModelo::orderBy('id', 'asc')->get();
+
+        foreach ($parteModelos as $parteModelo ) {
+            Parte::create([
+                    'parte_modelo_id' => $parteModelo->id,
+                    'bicicleta_id' => $bicicleta->id,
+            ]);
+        }
 
         session()->flash('message', 'Cliente creado!');
 

@@ -72,20 +72,24 @@ class Transporte extends Component
 
     public function render()
     {
-        $this->transportes = ModelsTransporte::where([
+        $this->transportes = ModelsTransporte::whereHas('pedido', function($q){
+
+                $q->where('confirmacion', '=', 'ACEPTADO');
+    
+            })->where([
+                ['ruta', '=', 'RECOJO'] ,
+                ['completado','!=', 'COMPLETADO' ]
+            ])->orWhere([
                 ['ruta', '=', 'RECOJO'] ,
                 ['completado','=', null ]
             ])->orWhere([
-                ['ruta', '=', 'RECOJO'] ,
-                ['completado','!=', 'COMPLETADO' ]
-            ])->
-            orWhere([
                 ['ruta', '=', 'ENTREGA'] ,
                 ['completado','=', null ]
             ])->orWhere([
                 ['ruta', '=', 'ENTREGA'] ,
                 ['completado','!=', 'COMPLETADO' ]
             ])->orderBy('id', 'desc')->get();
+
         // $this->transportes = ModelsTransporte::whereHas('pedido.pedidoEstado', function($q){
 
         //     $q->where('nombre', '=', 'SOLICITADO')

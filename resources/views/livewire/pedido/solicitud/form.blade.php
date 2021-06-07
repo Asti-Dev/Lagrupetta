@@ -16,7 +16,7 @@
         <div class="form-group row">
             <label for="bicicleta" class="col-sm-4 col-form-label">Bicicletas:</label>
             <div class="col-sm-8">
-            <select class="form-control" wire:model="bicicleta" name="bicicleta">
+            <select class="form-control" wire:model="bicicleta.id" name="bicicleta">
                 @if (empty($bicicletas))
                     <option value="{{$bicicleta->id}}"> {{$bicicleta->marca}}{{' ' . $bicicleta->modelo}}</option>
                 @else
@@ -51,7 +51,7 @@
         <div class="form-group row">
             <label for="observacion" class="col-sm-4 col-form-label">Observacion</label>
             <div class="col-sm-8">
-            <textarea class="form-control" name="observacion" id="observacion" rows="3">{{ $observacion }}</textarea>
+            <textarea class="form-control" wire:model="observacion" name="observacion" id="observacion" rows="3">{{ $observacion }}</textarea>
             </div>
         </div>
         <div class="form-group row">

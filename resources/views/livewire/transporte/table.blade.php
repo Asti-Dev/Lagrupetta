@@ -22,23 +22,27 @@
                     </div>
                     <div class="my-2 mx-3">
                         <div class="d-flex w-100 justify-content-between">
-                            <label class="mb-1">Cliente:</label>
+                            <b class="mb-1">Cliente:</b>
                             <label class="text-right">
                                 {{$transporte->pedido->cliente->nombre .' '. $transporte->pedido->cliente->apellido}}
                             </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
-                            <label class="mb-1">Bicicleta:</label>
+                            <b class="mb-1">Bicicleta:</b>
                             <label
                                 class="text-right">{{$transporte->pedido->bicicleta->marca .' '. $transporte->pedido->bicicleta->modelo}}
                             </label>
                         </div>
-                        <div class="d-flex w-100 justify-content-between">
-                            <label class="mb-1">Direccion:</label>
+                        <div class="d-flex flex-column w-100 justify-content-between">
+                            <b class="mb-1">Direccion:</b>
                             <label class="text-right"> {{$transporte->pedido->cliente->direccion}} </label>
                         </div>
+                        <div class="d-flex flex-column w-100 justify-content-between">
+                            <b class="mb-1">Observacion Cliente:</b>
+                            <label class="text-right"> {{$transporte->pedido->observacion_cliente}} </label>
+                        </div>
                         <div class="d-flex w-100 justify-content-between">
-                            <label class="mb-1">Codigo:</label>
+                            <b class="mb-1">Codigo:</b>
                             <label class="text-right"> {{$transporte->pedido->codigo}} </label>
                         </div>
                     </div>

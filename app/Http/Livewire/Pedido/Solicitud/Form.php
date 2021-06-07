@@ -22,7 +22,7 @@ class Form extends Component
     public $check;
     public $chofer;
     public $chofers = [];
-    public $bicicleta;
+    public Bicicleta $bicicleta;
     public $bicicletas = [];
     public $fechaRecojoAprox;
     public $observacion;
@@ -35,7 +35,7 @@ class Form extends Component
     {
         $this->cliente = $this->pedido->cliente->user->email;
         $this->chofer = $this->pedido->transporteRecojo()->choferTransporte->nombre_apellido;
-        $this->bicicleta = $this->pedido->bicicleta->first();
+        $this->bicicleta = $this->pedido->bicicleta;
         $this->fechaRecojoAprox = date('Y-m-d',strtotime($this->pedido->fecha_recojo_aprox)) ;
         $this->observacion = $this->pedido->observacion_cliente;
         $this->confirmacion = $this->pedido->confirmacion;
@@ -45,7 +45,7 @@ class Form extends Component
     {
         return [
             'cliente' => 'required',
-            'bicicleta' => 'required',
+            'bicicleta.id' => 'required',
             'chofer' => 'required',
             'confirmacion' => Rule::in(Pedido::ESTADOS),
         ];
@@ -91,8 +91,10 @@ class Form extends Component
             ->send(new MailSolicitud($this->pedido, $url));
 
 
-        session()->flash('success', 'pedido actualizado!');
-    }
+         session()->flash('success', 'Pedido Actualizado!');
+
+        return redirect()->route('pedidos.index');
+}
 
 
     public function updatedChofer()

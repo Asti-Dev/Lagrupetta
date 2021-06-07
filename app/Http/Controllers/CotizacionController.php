@@ -119,8 +119,6 @@ class CotizacionController extends Controller
 
         $this->insertarPaquetes($request, $pedidoDetalle);
 
-
-
         $pedido->pedidoDetalle->update([
             'explicacion' => $request->input('explicacion'),
             'diagnostico_id' => $diagnostico->id,

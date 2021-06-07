@@ -43,8 +43,8 @@
                             </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
-                            <label class="mb-1">Direccion:</label>
-                            <label class="text-right"> {{$pedidoDetalle->pedido->cliente->direccion}} </label>
+                            <label class="mb-1">Observacion Chofer:</label>
+                            <label class="text-right"> {{$pedidoDetalle->pedido->transporteRecojo()->observacion_chofer}} </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">LLegada al Taller:</label>

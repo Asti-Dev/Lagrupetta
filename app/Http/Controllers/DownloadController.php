@@ -11,7 +11,13 @@ class DownloadController extends Controller
 {
     public function descargarDiagnosticoPedido (Pedido $pedido){
 
-        $serial = $pedido->revision->diagnostico->serial;
+         
+
+        if(is_null($pedido->revision)){
+            $serial = $pedido->pedidoDetalle->diagnostico->serial;
+        } else {
+            $serial = $pedido->revision->diagnostico->serial;
+        }
         
         return Storage::disk('local')->download('/pdf/Diagnostico #'. $serial .'.pdf');
     }

@@ -55,11 +55,11 @@
             </div>
         </div>
         <div class="col-sm-6">
-            @if ($message = Session::get('success'))
+            @if (session()->has('message'))
             <div class="alert alert-success">
-                <p>{{ $message }}</p>
+                {{ session('message') }}
             </div>
-            @endif
+        @endif
             @if ($errors->any())
             <div class="alert alert-danger">
                 <strong>Whoops!</strong> Hubo un problema con los datos ingresados<br><br>
