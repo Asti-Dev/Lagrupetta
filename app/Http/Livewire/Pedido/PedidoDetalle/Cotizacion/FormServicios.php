@@ -12,15 +12,20 @@ class FormServicios extends Component
 
     public function mount()
     {
+
         $this->indexCount = 0;
         if ($this->pedido) {
-            foreach ($this->pedido->servicios as $servicio) {
-                $indexCount = $this->indexCount++;
-                $this->orderServicios[$indexCount] = [
-                    'id' => $servicio->id,
-                    'nombre' => $servicio->nombre,
-                    "precio" => $servicio->precio
-                ];
+            foreach ($this->pedido->pedidoDetalle->servicios as $servicio) {
+                if(is_null($servicio->pivot->paquete_id)){
+                    $indexCount = $this->indexCount++;
+                    $this->orderServicios[$indexCount] = [
+                        'id' => $servicio->id,
+                        'nombre' => $servicio->nombre,
+                        'cantidad' => $servicio->pivot->cantidad,
+                        'precio_unitario' => $servicio->precio,
+                        "precio" => $servicio->pivot->precio_total
+                    ];
+                };
             }
         }
     }

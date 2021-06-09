@@ -41,6 +41,7 @@ class PedidoDetalle extends Model
     {
         return $this->belongsToMany(Servicio::class, 'pedido_detalle_servicio','pedido_detalle_id','servicio_id')
         ->withPivot(
+            'paquete_id',
             'cantidad_pendiente',
             'cantidad',
             'precio_total',
@@ -54,6 +55,7 @@ class PedidoDetalle extends Model
     {
         return $this->belongsToMany(Paquete::class, 'pedido_detalle_servicio','pedido_detalle_id','paquete_id')
         ->withPivot(
+            'servicio_id',
             'cantidad_pendiente',
             'cantidad',
             'precio_total',

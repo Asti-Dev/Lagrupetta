@@ -20,7 +20,9 @@ class FormPaquetes extends Component
                     'id' => $paquete->id,
                     'nombre' => $paquete->nombre,
                     'descripcion' => $paquete->descripcion,
-                    "precio" => $paquete->precio
+                    "cantidad" => $paquete->pivot->cantidad,
+                    "precio_unitario" => $paquete->precio,
+                    "precio" => $paquete->pivot->precio_total,
                 ];
             }
         }

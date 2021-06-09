@@ -11,6 +11,7 @@ use App\Http\Livewire\Diagnostico\Diagnostico;
 use App\Http\Livewire\Paquete\Paquete;
 use App\Http\Livewire\ParteModelo\ParteModelo;
 use App\Http\Livewire\Pedido\Pedido;
+use App\Http\Livewire\Pedido\PedidoDetalle\Cotizacion\CotizacionEdit;
 use App\Http\Livewire\Pedido\PedidoDetalle\Cotizar;
 use App\Http\Livewire\Pedido\PedidoDetalle\PedidoDetalle;
 use App\Http\Livewire\Pedido\Solicitud\Solicitud;
@@ -99,4 +100,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'logistica'], function() {
     Route::get('/cotizar/{pedidoDetalle}', Cotizar::class)->name('cotizar');
 
     Route::resource('cotizacion', CotizacionController::class)->except(['index','create','store','destroy']);
+
+    Route::put('/cotizacion/update/{pedidoDetalleId}', [CotizacionController::class, 'updateCotizacion'])->name('cotizacion.updateCotizacion');
+
+    Route::get('/cotizacion/edit/{pedido}', CotizacionEdit::class)->name('cotizacion.edit2');
 });

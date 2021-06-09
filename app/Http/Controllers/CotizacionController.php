@@ -151,6 +151,50 @@ class CotizacionController extends Controller
             ->with('success', 'Cotizacion realizada!');
     }
 
+    public function updateCotizacion(Request $request, $pedidoDetalleId)
+    {
+        $pedidoDetalle = PedidoDetalle::find($pedidoDetalleId);
+
+        $request->validate([
+            'fecha_entrega' => 'required',
+            'explicacion' => 'required',
+        ]);
+        $pedido = Pedido::find($pedidoDetalle->pedido->id);
+
+        $pedidoDetalle->paquetes()->detach();
+
+        $pedidoDetalle->servicios()->detach();
+
+        $this->insertarServicios($request, $pedidoDetalle);
+
+        $this->insertarPaquetes($request, $pedidoDetalle);
+
+        $pedido->pedidoDetalle->update([
+            'explicacion' => $request->input('explicacion'),
+            'fecha_entrega_aprox' => $request->input('fecha_entrega'),
+            'precio_total' => $request->input('total_precio'),
+            'precio_final' => $request->input('total_precio'),
+        ]);
+
+        $url['aceptar'] = URL::temporarySignedRoute(
+            'pedido.aceptarCotizacion',
+            now()->addMinutes(30),
+            ['pedido' => $pedido->id]
+        );
+
+        $url['rechazar'] = URL::temporarySignedRoute(
+            'pedido.rechazarCotizacion',
+            now()->addMinutes(30),
+            ['pedido' => $pedido->id]
+        );
+
+        Mail::to($pedido->cliente->user->email)
+            ->send(new MailCotizacion($pedido, $url, $pedido->pedidoDetalle->diagnostico->serial));
+
+        return redirect()->route('taller.index')
+            ->with('success', 'Cotizacion actualizada!');
+
+    }
     /**
      * Remove the specified resource from storage.
      *

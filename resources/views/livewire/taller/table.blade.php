@@ -71,6 +71,10 @@
                         <a href="{{route('cotizar',  $pedidoDetalle->id )}}" 
                             class="btn btn-primary">Diagnosticar/Cotizar</a>
                         @endif
+                        @if($pedidoDetalle->confirmacion === 'EN ESPERA')
+                        <a href="{{route('cotizacion.edit2',  $pedidoDetalle->pedido->id )}}" 
+                            class="btn btn-primary">Editar Cotizacion</a>
+                        @endif
                         <small class="">{{$pedidoDetalle->pedido->created_at->diffForHumans()}} </small>
                     </div>
                 </div>
