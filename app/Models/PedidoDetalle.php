@@ -29,7 +29,7 @@ class PedidoDetalle extends Model
         return $this->hasOne(Pedido::class, 'pedido_detalle_id', 'id');
     }
 
-    public function mecanico(){
+    public function mecanicoUno(){
         return $this->belongsTo(Empleado::class, 'mecanico', 'id' );
     } 
 

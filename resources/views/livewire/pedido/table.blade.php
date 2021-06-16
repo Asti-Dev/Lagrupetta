@@ -76,13 +76,13 @@
                             </a>
                             @endif
 
-                            @if ($pedido->revision->completado ?? '')
-                            <a class="mx-2" style="width: min-content"
-                            href="{{ route('download.diagnostico', $pedido->id) }}"
-                            title="show">
-                            <i class="fas fa-file-download text-primary"></i>
+                            @if($pedido->pedidoEstado->nombre === 'COTIZADO' &&
+                            $pedido->pedidoDetalle->confirmacion != 'ACEPTADO')
+                            <a class="mx-2" href="{{route('cotizacion.show', $pedido->id)}}" style="width: min-content" title="show">
+                                <i class="fas fa-eye text-success"></i>
                             </a>
                             @endif
+
                             @if ($pedido->pedidoDetalle->diagnostico ?? '')
                             <a class="mx-2" style="width: min-content"
                             href="{{ route('download.diagnostico', $pedido->id) }}"
@@ -112,13 +112,6 @@
                         <button wire:click.prevent="asignarChofer({{$pedido->id}})" 
                             class="mx-4 btn btn-primary btn-sm">Asignar Entrega</button>
                         @endif
-                        @if($pedido->pedidoEstado->nombre === 'COTIZADO' &&
-                        $pedido->pedidoDetalle->confirmacion != 'ACEPTADO')
-                  
-                       <a href="{{route('cotizacion.edit', $pedido->pedidoDetalle->id)}}" 
-                           class="mx-4 btn btn-primary btn-sm">Reenviar Cotizacion</a>
-             
-                       @endif
                         <small class="">{{$pedido->created_at->diffForHumans()}} </small>
                     </div>
                 </div>

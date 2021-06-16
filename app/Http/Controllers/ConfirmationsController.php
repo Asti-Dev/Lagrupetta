@@ -78,6 +78,17 @@ class ConfirmationsController extends Controller
         return view('respuesta.aceptar', $data);
     }
 
+    public function aceptarCotizacionManual(Pedido $pedido)
+    {
+        $pedido->pedidoDetalle->update(
+            ['confirmacion' => PedidoDetalle::ESTADOS[0]] +
+            ['fecha_confirmacion' => Carbon::now()->setTimezone('America/Lima')]
+        );
+
+        return redirect()->route('pedidos.index')
+            ->with('success', 'Cotizacion Aceptada!');
+    }
+
     public function rechazarCotizacion(Pedido $pedido, Request $request) 
     {
         if (! $request->hasValidSignature()) {
@@ -103,7 +114,7 @@ class ConfirmationsController extends Controller
             ['fecha_confirmacion' => Carbon::now()->setTimezone('America/Lima')]
 
         ]);
-
+        
         Mail::to($pedido->cliente->user->email)
             ->send(new CotizacionRechazo($pedido));
 
@@ -111,5 +122,38 @@ class ConfirmationsController extends Controller
 
         return view('respuesta.rechazar', $data);
 
+    }
+
+    public function rechazarCotizacionManual(Pedido $pedido)
+    {
+        $servicioDiagnostico = Servicio::where('nombre', '=','Diagnostico de bicicleta')->first();
+        $pedido->pedidoDetalle->paquetes()->detach();
+        $pedido->pedidoDetalle->servicios()->detach();
+        $pedido->pedidoDetalle->servicios()->attach($servicioDiagnostico->id,
+        [
+            'cantidad_pendiente' => 0,
+            'cantidad' => 1,
+            'precio_total' => $servicioDiagnostico->precio,
+            'precio_final' => $servicioDiagnostico->precio,
+
+        ]
+        );
+        $pedido->pedidoDetalle->update([
+            'precio_total' => $servicioDiagnostico->precio,
+            'precio_final' => $servicioDiagnostico->precio,
+            'confirmacion' => PedidoDetalle::ESTADOS[2],
+            ['fecha_confirmacion' => Carbon::now()->setTimezone('America/Lima')]
+
+        ]);
+        try {
+            Mail::to($pedido->cliente->user->email)
+            ->send(new CotizacionRechazo($pedido));
+        } catch (\Exception $e) {
+            session()->flash('danger', 'Email no enviado!');
+        }
+
+
+        return redirect()->route('pedidos.index')
+            ->with('success', 'Cotizacion Rechazada!');
     }
 }

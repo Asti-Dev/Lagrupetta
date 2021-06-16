@@ -55,7 +55,6 @@ class CreateClientForm extends Component
                     ],
                 'marca' => 'required',
                 'modelo' => 'required',
-                'codigo' => 'required',
                 ]
         );
 
@@ -82,7 +81,7 @@ class CreateClientForm extends Component
             'cliente_id' => $cliente->id,
             'marca' => $this->marca,
             'modelo' => $this->modelo,
-            'codigo' => $this->codigo,
+            'codigo' => $this->codigo ?? '',
             ] 
         );
 

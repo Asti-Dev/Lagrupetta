@@ -5,7 +5,7 @@
     <div class="col form-group d-flex flex-column justify-content-end ">
         <strong>Nombre:</strong>
         <select class="form-control" wire:model="servicio.nombre" wire:change="encontrarServicio()" name="nombreservicio[]">
-            <option value=""> Selecciona un Paquete</option>
+            <option value=""> Selecciona un Servicio</option>
             @foreach ($listaServicios as $listaServicio)
             <option value="{{$listaServicio->nombre}}">{{ $listaServicio->nombre }}</option>
             @endforeach

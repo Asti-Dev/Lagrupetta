@@ -9,7 +9,13 @@
         <div >Tab Bar</div>
     </div>
     </div>
-    
+
+    <div>
+        <textarea wire:model.lazy='text' type="text"></textarea>
+    </div>
+    <div>
+        {{$urlwords}}
+    </div>
     
     <a wire:click.prevent="pdf()" class="btn btn-primary">
         PDF

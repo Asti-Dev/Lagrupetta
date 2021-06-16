@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Transporte;
 use App\Models\Pedido;
 use App\Models\PedidoEstado;
 use App\Models\Transporte as ModelsTransporte;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -15,7 +16,7 @@ class Transporte extends Component
 
     public ModelsTransporte $transporte;
     public $observacion;
-    public $transportes = [];
+    public Collection $transportes;
     public $estados = [
         'TERMINADO' => 'ENTREGADO',
         'SOLICITADO' => 'RECOGIDO',
@@ -72,32 +73,14 @@ class Transporte extends Component
 
     public function render()
     {
-        $this->transportes = ModelsTransporte::whereHas('pedido', function($q){
+        $transportes = ModelsTransporte::whereHas('pedido', function($q){
 
                 $q->where('confirmacion', '=', 'ACEPTADO');
     
-            })->where([
-                ['ruta', '=', 'RECOJO'] ,
-                ['completado','!=', 'COMPLETADO' ]
-            ])->orWhere([
-                ['ruta', '=', 'RECOJO'] ,
-                ['completado','=', null ]
-            ])->orWhere([
-                ['ruta', '=', 'ENTREGA'] ,
-                ['completado','=', null ]
-            ])->orWhere([
-                ['ruta', '=', 'ENTREGA'] ,
-                ['completado','!=', 'COMPLETADO' ]
-            ])->orderBy('id', 'desc')->get();
+            })->orderBy('id', 'desc')->get();
 
-        // $this->transportes = ModelsTransporte::whereHas('pedido.pedidoEstado', function($q){
-
-        //     $q->where('nombre', '=', 'SOLICITADO')
-        //     ->orWhere('nombre', '=', 'RECOGIDO')
-        //     ->orWhere('nombre', '=', 'TERMINADO')
-        //     ->orWhere('nombre', '=', 'ENTREGADO');
-
-        // })->orderBy('id', 'desc')->get();
+        $this->transportes = $transportes->whereIn('ruta', ['RECOJO','ENTREGA'])->
+        whereNotIn('completado', ['COMPLETADO']);
         
         return view('livewire.transporte.transporte')
         ->extends('layouts.app')

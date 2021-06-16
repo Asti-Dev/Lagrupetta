@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\MailCotizacion;
+use App\Mail\ServicioTerminado;
 use App\Models\Bicicleta;
 use App\Models\Cliente;
 use App\Models\Diagnostico;
@@ -21,48 +22,13 @@ use Carbon\Carbon;
 
 class CotizacionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function show($pedidoId)
     {
-        //
-    }
+        $data = [];
+        $data['pedido'] = Pedido::find($pedidoId);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('pages.cotizacion.show', $data);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\PedidoDetalle  $pedidoDetalle
-     * @return \Illuminate\Http\Response
-     */
-    public function show(PedidoDetalle $pedidoDetalle)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -78,18 +44,24 @@ class CotizacionController extends Controller
 
         $url['aceptar'] = URL::temporarySignedRoute(
             'pedido.aceptarCotizacion',
-            now()->addMinutes(30),
+            now()->addMinutes(60),
             ['pedido' => $pedido->id]
         );
 
         $url['rechazar'] = URL::temporarySignedRoute(
             'pedido.rechazarCotizacion',
-            now()->addMinutes(30),
+            now()->addMinutes(60),
             ['pedido' => $pedido->id]
         );
 
-        Mail::to($pedido->cliente->user->email)
+        try{
+            Mail::to($pedido->cliente->user->email)
             ->send(new MailCotizacion($pedido, $url, $diagnostico->serial));
+        }
+        catch(\Exception $e){ // Using a generic exception
+            session()->flash('danger', 'Email no enviado!');
+        }
+
 
         return redirect()->route('pedidos.index')
             ->with('success', 'Cotizacion reenviada!');
@@ -134,18 +106,23 @@ class CotizacionController extends Controller
 
         $url['aceptar'] = URL::temporarySignedRoute(
             'pedido.aceptarCotizacion',
-            now()->addMinutes(30),
+            now()->addMinutes(60),
             ['pedido' => $pedido->id]
         );
 
         $url['rechazar'] = URL::temporarySignedRoute(
             'pedido.rechazarCotizacion',
-            now()->addMinutes(30),
+            now()->addMinutes(60),
             ['pedido' => $pedido->id]
         );
 
-        Mail::to($pedido->cliente->user->email)
+            try{
+                Mail::to($pedido->cliente->user->email)
             ->send(new MailCotizacion($pedido, $url, $diagnostico->serial));
+            }
+            catch(\Exception $e){ // Using a generic exception
+                session()->flash('danger', 'Email no enviado!');
+            }
 
         return redirect()->route('taller.index')
             ->with('success', 'Cotizacion realizada!');
@@ -174,36 +151,32 @@ class CotizacionController extends Controller
             'fecha_entrega_aprox' => $request->input('fecha_entrega'),
             'precio_total' => $request->input('total_precio'),
             'precio_final' => $request->input('total_precio'),
+            'confirmacion' => PedidoDetalle::ESTADOS[1],
         ]);
 
         $url['aceptar'] = URL::temporarySignedRoute(
             'pedido.aceptarCotizacion',
-            now()->addMinutes(30),
+            now()->addMinutes(60),
             ['pedido' => $pedido->id]
         );
 
         $url['rechazar'] = URL::temporarySignedRoute(
             'pedido.rechazarCotizacion',
-            now()->addMinutes(30),
+            now()->addMinutes(60),
             ['pedido' => $pedido->id]
         );
 
-        Mail::to($pedido->cliente->user->email)
+        try{
+            Mail::to($pedido->cliente->user->email)
             ->send(new MailCotizacion($pedido, $url, $pedido->pedidoDetalle->diagnostico->serial));
-
+        }
+        catch(\Exception $e){ // Using a generic exception
+            session()->flash('danger', 'Email no enviado!');
+        }
+        
         return redirect()->route('taller.index')
             ->with('success', 'Cotizacion actualizada!');
 
-    }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\PedidoDetalle  $pedidoDetalle
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PedidoDetalle $pedidoDetalle)
-    {
-        //
     }
 
     public function diagnosticoSalida(Request $request, $id){
@@ -222,6 +195,14 @@ class CotizacionController extends Controller
         $pedido->update([
             'pedido_estado_id' => PedidoEstado::where('nombre', 'TERMINADO')->first()->id,
         ]);
+
+        try{
+            Mail::to($pedido->cliente->user->email)
+            ->send(new ServicioTerminado($pedido, $pedido->revision->diagnostico->serial));
+        }
+        catch(\Exception $e){ // Using a generic exception
+            session()->flash('danger', 'Email no enviado!');
+        }
 
         return redirect()->route('taller.index')
             ->with('success', 'Pedido Terminado!');

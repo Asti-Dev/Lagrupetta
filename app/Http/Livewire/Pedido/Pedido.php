@@ -42,12 +42,22 @@ class Pedido extends Component
 
         $chofer = Empleado::where('nombre_apellido','=', $this->chofer)->first();
 
-        Transporte::create([
-            'chofer' => $chofer->id,
-            'pedido_id' => $this->pedido->id,
-            'ruta' => Transporte::RUTA[0]
-        ]);
+        $transporteEntrega = Transporte::where([
+            ['pedido_id', $this->pedido->id],
+            ['ruta', Transporte::RUTA[0]]
+        ])->first();
 
+        if ($transporteEntrega !== null) {
+            $transporteEntrega->update(['chofer' => $chofer->id]);
+        } else {
+            $transporteEntrega = Transporte::create([
+                'chofer' => $chofer->id,
+                'pedido_id' => $this->pedido->id,
+                'ruta' => Transporte::RUTA[0]
+            ]);
+        }
+
+        
         $this->view = 'table';
     }
 

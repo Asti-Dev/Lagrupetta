@@ -14,7 +14,7 @@ class Servicio extends Component
     public $view = 'create';
     public $nombre;
     public $precio;
-    public $activo;
+    public $activo = 0;
 
 
     public $servicioId;
@@ -81,6 +81,7 @@ class Servicio extends Component
     {
         $this->nombre = '';
         $this->precio = '';
+        $this->activo = 0;
 
 
         $this->view = 'create';

@@ -58,16 +58,20 @@ class Form extends Component
         ]);
 
         $url['aceptar'] = URL::temporarySignedRoute(
-            'pedido.aceptarSolicitud', now()->addMinutes(30), ['pedido' => $pedido->id]
+            'pedido.aceptarSolicitud', now()->addMinutes(60), ['pedido' => $pedido->id]
         );
 
         $url['rechazar'] = URL::temporarySignedRoute(
-            'pedido.rechazarSolicitud', now()->addMinutes(30), ['pedido' => $pedido->id]
+            'pedido.rechazarSolicitud', now()->addMinutes(60), ['pedido' => $pedido->id]
         );
 
-        Mail::to($pedido->cliente->user->email)
-        ->send(new MailSolicitud($pedido, $url));
-
+        try{
+            Mail::to($pedido->cliente->user->email)
+            ->send(new MailSolicitud($pedido, $url));
+        }
+        catch(\Exception $e){ // Using a generic exception
+            session()->flash('danger', 'Email no enviado!');
+        }
 
         session()->flash('success', 'pedido creado!');
 

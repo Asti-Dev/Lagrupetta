@@ -6,6 +6,7 @@ use App\Http\Controllers\ConfirmationsController;
 use App\Http\Controllers\CotizacionController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\WhatsappController;
 use App\Http\Livewire\Cliente\CreateClientForm;
 use App\Http\Livewire\Diagnostico\Diagnostico;
 use App\Http\Livewire\Paquete\Paquete;
@@ -69,6 +70,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'administracion'], function() 
 
     Route::resource('empleados', EmpleadoController::class);
 
+    Route::get('/whatsapp/{pedido}', [WhatsappController::class, 'sendMessage'])->name('whatsapp.sendMessage');
+
+
     Route::get('/servicios', Servicio::class)->name('servicios.index');
 
     Route::get('/paquetes', Paquete::class)->name('paquetes.index');
@@ -102,6 +106,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'logistica'], function() {
     Route::resource('cotizacion', CotizacionController::class)->except(['index','create','store','destroy']);
 
     Route::put('/cotizacion/update/{pedidoDetalleId}', [CotizacionController::class, 'updateCotizacion'])->name('cotizacion.updateCotizacion');
+
+    Route::get('/aceptarCotizacionManual/{pedido}', [ConfirmationsController::class, 'aceptarCotizacionManual'])->name('pedido.aceptarCotizacionManual');
+
+    Route::get('/rechazarCotizacionManual/{pedido}', [ConfirmationsController::class, 'rechazarCotizacionManual'])->name('pedido.rechazarCotizacionManual');
 
     Route::get('/cotizacion/edit/{pedido}', CotizacionEdit::class)->name('cotizacion.edit2');
 });

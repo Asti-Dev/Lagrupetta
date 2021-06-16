@@ -67,11 +67,11 @@
                         <a href="{{route('todoList', ['pedidoDetalleId' => $pedidoDetalle->id] )}}" 
                             class="btn btn-primary">Trabajar</a>
                         @endif
-                        @if($pedidoDetalle->diagnostico_id == false)
+                        @if($pedidoDetalle->diagnostico_id === false)
                         <a href="{{route('cotizar',  $pedidoDetalle->id )}}" 
                             class="btn btn-primary">Diagnosticar/Cotizar</a>
                         @endif
-                        @if($pedidoDetalle->confirmacion === 'EN ESPERA')
+                        @if($pedidoDetalle->confirmacion === 'EN ESPERA' || $pedidoDetalle->confirmacion === 'RECHAZADO')
                         <a href="{{route('cotizacion.edit2',  $pedidoDetalle->pedido->id )}}" 
                             class="btn btn-primary">Editar Cotizacion</a>
                         @endif

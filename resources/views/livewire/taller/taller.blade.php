@@ -19,6 +19,11 @@
             <p>{{ $message }}</p>
         </div>
     @endif
+    @if ($message = Session::get('danger'))
+    <div class="alert alert-danger">
+        <p>{{ $message }}</p>
+    </div>
+    @endif
     @hasanyrole('jefe mecanicos|mecanico|super-admin')
     @include("livewire.taller.$view") 
     @endhasanyrole

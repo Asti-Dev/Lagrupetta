@@ -35,7 +35,7 @@
                                 @foreach ($paquete->servicios as $paquete_servicio)
                                 <li class="list-group-item">
 
-                                   @if (!$paquete_servicio->pedidoDetalles
+                                    @if (!$paquete_servicio->pedidoDetalles
                                     ->where('id',$pedido->pedidoDetalle->id)
                                     ->where('pivot.paquete_id',$paquete->id)
                                     ->first()->pivot->checked)
