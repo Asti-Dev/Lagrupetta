@@ -19,6 +19,9 @@ class WhatsappController extends Controller
         $ServicioUrlTitulo = '%0A%0A%2AServicios%20adicionales%2A';
         $ServicioUrlItem = '%0A%E2%9C%85%20NOMBRESERVICIO%20x%20CANTIDADSERVICIO%0APrecio%3A%2APRECIOSERVICIO%2A';
         $ServicioUrlTotal = '';
+        $RepuestoUrlTitulo = '%0A%0A%2ARepuestos%2A';
+        $RepuestoUrlItem = '%0A%E2%9C%85%20NOMBREREPUESTO%20x%20CANTIDADREPUESTO%0APrecio%3A%2APRECIOREPUESTO%2A';
+        $RepuestoUrlTotal = '';
 
         $whatsappArray = [
             'NUMBER',
@@ -37,6 +40,11 @@ class WhatsappController extends Controller
             'NOMBRESERVICIO',
             'CANTIDADSERVICIO',
             'PRECIOSERVICIO',
+        ];
+        $whatsappArrayRepuesto =[
+            'NOMBREREPUESTO',
+            'CANTIDADREPUESTO',
+            'PRECIOREPUESTO',
         ];
 
         $whatsappArrayRemplazo = [
@@ -64,7 +72,16 @@ class WhatsappController extends Controller
             $ServicioUrlTotal .= str_replace($whatsappArrayServicio, $whatsappArrayServicioRemplazo, $ServicioUrlItem);
         }
 
-        $whatsappUrl = $whatsappUrl1 . $PaqueteUrlTitulo . $PaqueteUrlTotal . $ServicioUrlTitulo . $ServicioUrlTotal . $whatsappUrl2;
+        foreach ($pedido->pedidoDetalle->repuestos as $repuesto) {
+            $whatsappArrayRepuestoRemplazo = [
+                rawurldecode($repuesto->nombre),
+                rawurldecode($repuesto->pivot->cantidad),
+                rawurldecode($repuesto->pivot->precio_total)
+            ];
+            $RepuestoUrlTotal .= str_replace($whatsappArrayRepuesto, $whatsappArrayRepuestoRemplazo, $RepuestoUrlItem);
+        }
+
+        $whatsappUrl = $whatsappUrl1 . $PaqueteUrlTitulo . $PaqueteUrlTotal . $ServicioUrlTitulo . $ServicioUrlTotal . $RepuestoUrlTitulo . $RepuestoUrlTotal . $whatsappUrl2;
 
         $linkUrl = str_replace($whatsappArray, $whatsappArrayRemplazo, $whatsappUrl);
 

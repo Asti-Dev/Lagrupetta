@@ -46,6 +46,16 @@
                 {{ __('Paquetes') }}
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{{ route('repuestos.index') }}">
+                {{ __('Repuestos') }}
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{{ route('pruebas.index') }}">
+                {{ __('Pruebas') }}
+              </a>
+            </li>
           </ul>
         </div>
         {{-- Etiqueta nivel 2  --}}
@@ -127,6 +137,16 @@
             <li class="nav-item">
               <a class="nav-link text-light" href="{{ route('paquetes.index') }}">
                 {{ __('Paquetes') }}
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{{ route('repuestos.index') }}">
+                {{ __('Repuestos') }}
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{{ route('pruebas.index') }}">
+                {{ __('Pruebas') }}
               </a>
             </li>
           </ul>

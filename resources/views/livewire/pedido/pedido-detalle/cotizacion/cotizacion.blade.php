@@ -1,6 +1,7 @@
 <div class="col-md-8 mt-3 ">
     <livewire:pedido.pedido-detalle.cotizacion.form-paquetes>
     <livewire:pedido.pedido-detalle.cotizacion.form-servicios>
+    <livewire:pedido.pedido-detalle.cotizacion.form-repuestos>
     <div class="form-group">
         <label for="fecha_entrega">Fecha de Entrega</label>
         <input type="date" id="fecha_entrega" name="fecha_entrega" min="2021-01-00" class="form-control">

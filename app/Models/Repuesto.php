@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
-class Servicio extends Model
+class Repuesto extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'servicios';
+    protected $table = 'repuestos';
     protected $guarded = [
         'id',
     ];
@@ -20,9 +20,8 @@ class Servicio extends Model
 
     public function pedidoDetalles()
     {
-        return $this->belongsToMany(PedidoDetalle::class, 'pedido_detalle_servicio','servicio_id','pedido_detalle_id')
+        return $this->belongsToMany(PedidoDetalle::class, 'pedido_detalle_repuesto','repuesto_id','pedido_detalle_id')
         ->withPivot(
-            'paquete_id',
             'cantidad_pendiente',
             'cantidad',
             'precio_total',
@@ -31,12 +30,6 @@ class Servicio extends Model
             'checked',
         )->withTimestamps();
 
-    }
-
-    public function paquetes()
-    {
-        return $this->belongsToMany(Paquetes::class, 'paquete_servicio', 'servicio_id', 'paquete_id')
-        ->as('paquete-servicio');
     }
 
     protected static function boot()

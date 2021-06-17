@@ -17,6 +17,8 @@
         @method('PUT')
     <livewire:pedido.pedido-detalle.cotizacion.form-paquetes :pedido="$pedido">
     <livewire:pedido.pedido-detalle.cotizacion.form-servicios :pedido="$pedido">
+    <livewire:pedido.pedido-detalle.cotizacion.form-repuestos :pedido="$pedido">
+
     <div class="form-group">
         <label for="fecha_entrega">Fecha de Entrega</label>
         <input wire:model='fechaEntrega' type="date" id="fecha_entrega" name="fecha_entrega" min="2021-01-00" class="form-control">

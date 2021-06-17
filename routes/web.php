@@ -17,6 +17,7 @@ use App\Http\Livewire\Pedido\PedidoDetalle\Cotizar;
 use App\Http\Livewire\Pedido\PedidoDetalle\PedidoDetalle;
 use App\Http\Livewire\Pedido\Solicitud\Solicitud;
 use App\Http\Livewire\Prueba\Prueba;
+use App\Http\Livewire\Repuesto\Repuesto;
 use App\Http\Livewire\Revision\Revision;
 use App\Http\Livewire\Servicio\Servicio;
 use App\Http\Livewire\Taller\Corregir;
@@ -74,6 +75,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'administracion'], function() 
 
 
     Route::get('/servicios', Servicio::class)->name('servicios.index');
+
+    Route::get('/repuestos', Repuesto::class)->name('repuestos.index');
 
     Route::get('/paquetes', Paquete::class)->name('paquetes.index');
 

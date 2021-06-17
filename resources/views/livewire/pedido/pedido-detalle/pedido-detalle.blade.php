@@ -143,8 +143,58 @@
                 </div>
             </div>
         </div>
-        <div class="row m-3">
 
+        <div class="row m-3">
+            <div class="col-md py-3 d-flex justify-content-center">
+                <div class="card w-100">
+                    <div class="card-header">
+                        Repuestos
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach($repuestos as $key => $repuesto)
+                        <li class="list-group-item">
+                            @if ($repuesto->pivot->checked === 0)
+                            <div class="d-flex w-100 justify-content-between align-items-center">
+                                <div class="col-9">
+
+                                    <label class="m-1">{{ $repuesto->nombre }}
+                                        <label class="font-weight-bold text-danger">Pendiente</label>
+                                    </label>
+                                </div>
+                                @else
+                                <div class="d-flex row w-100 justify-content-between align-items-center">
+                                    <div class="col-9">
+
+                                        <label class="m-1">{{ $repuesto->nombre }}
+                                            <label class="font-weight-bold text-success">Listo</label>
+                                        </label>
+                                    </div>
+                                    @endif
+                                    <div class="col-3 d-flex justify-content-around">
+                                        <strong
+                                            style="font-size: 1rem">{{$repuesto->pivot->cantidad_pendiente}}</strong>
+                                        <div>
+                                            @if ($repuesto->pivot->cantidad_pendiente
+                                            < $repuesto->pivot->cantidad)
+                                                <a class="btn btn-secondary btn-sm"
+                                                    wire:click.prevent="addCantRepuesto({{$pedido->id}},{{$repuesto->id}})">
+                                                    <i class="fas fa-plus"></i>
+                                                </a>
+                                                @endif
+                                                @if ($repuesto->pivot->cantidad_pendiente > 0)
+                                                <a class="btn btn-secondary btn-sm"
+                                                    wire:click.prevent="removeCantRepuesto({{$pedido->id}},{{$repuesto->id}})">
+                                                    <i class="fas fa-minus"></i>
+                                                </a>
+                                                @endif
+                                        </div>
+                                    </div>
+                                </div>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
             @if ($totalServicios === $serviciosCompletados)
             <button wire:click.prevent="revisar({{$pedido->id}})" class="btn btn-primary">Revisar</button>
             @endif

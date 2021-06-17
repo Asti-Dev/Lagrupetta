@@ -51,6 +51,19 @@ class PedidoDetalle extends Model
         );
     }
 
+    public function repuestos()
+    {
+        return $this->belongsToMany(Repuesto::class, 'pedido_detalle_repuesto','pedido_detalle_id','repuesto_id')
+        ->withPivot(
+            'cantidad_pendiente',
+            'cantidad',
+            'precio_total',
+            'descuento',
+            'precio_final',
+            'checked',
+        )->withTimestamps();
+    }
+
     public function paquetes()
     {
         return $this->belongsToMany(Paquete::class, 'pedido_detalle_servicio','pedido_detalle_id','paquete_id')

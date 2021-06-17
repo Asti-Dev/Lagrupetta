@@ -34,7 +34,7 @@ class Paquete extends Model
             'descuento',
             'precio_final',
             'checked',
-        );
+        )->withTimestamps();
 
     }
 

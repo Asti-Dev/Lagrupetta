@@ -15,16 +15,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ConfirmationsController extends Controller
 {
-    public function generatePDF()
-    {
-          
-        $pdf = PDF::loadView('pdf')->setOptions(['defaultFont' => 'sans-serif']);
-
-        Storage::disk('local')->put('pdf/myfile2.pdf' ,$pdf->output());
-
-        return 'hi';
-        // return $pdf->download( 'Pedido #'. '.pdf');
-    }
 
     public function aceptarSolicitud(Pedido $pedido, Request $request) 
     {
@@ -98,6 +88,8 @@ class ConfirmationsController extends Controller
         $servicioDiagnostico = Servicio::where('nombre', '=','Diagnostico de bicicleta')->first();
         $pedido->pedidoDetalle->paquetes()->detach();
         $pedido->pedidoDetalle->servicios()->detach();
+        $pedido->pedidoDetalle->repuestos()->detach();
+
         $pedido->pedidoDetalle->servicios()->attach($servicioDiagnostico->id,
         [
             'cantidad_pendiente' => 0,
@@ -129,6 +121,8 @@ class ConfirmationsController extends Controller
         $servicioDiagnostico = Servicio::where('nombre', '=','Diagnostico de bicicleta')->first();
         $pedido->pedidoDetalle->paquetes()->detach();
         $pedido->pedidoDetalle->servicios()->detach();
+        $pedido->pedidoDetalle->repuestos()->detach();
+
         $pedido->pedidoDetalle->servicios()->attach($servicioDiagnostico->id,
         [
             'cantidad_pendiente' => 0,
@@ -142,7 +136,7 @@ class ConfirmationsController extends Controller
             'precio_total' => $servicioDiagnostico->precio,
             'precio_final' => $servicioDiagnostico->precio,
             'confirmacion' => PedidoDetalle::ESTADOS[2],
-            ['fecha_confirmacion' => Carbon::now()->setTimezone('America/Lima')]
+            'fecha_confirmacion' => Carbon::now()->setTimezone('America/Lima')
 
         ]);
         try {

@@ -86,6 +86,7 @@ class CotizacionController extends Controller
 
         $diagnostico = $this->createDiagnostico($request, $pedidoDetalle);
 
+        $this->insertarRepuestos($request, $pedidoDetalle);
 
         $this->insertarServicios($request, $pedidoDetalle);
 
@@ -141,6 +142,10 @@ class CotizacionController extends Controller
         $pedidoDetalle->paquetes()->detach();
 
         $pedidoDetalle->servicios()->detach();
+
+        $pedidoDetalle->repuestos()->detach();
+
+        $this->insertarRepuestos($request, $pedidoDetalle);
 
         $this->insertarServicios($request, $pedidoDetalle);
 
@@ -294,6 +299,29 @@ class CotizacionController extends Controller
 
         return $diagnostico;
 
+    }
+    public function insertarRepuestos(Request $request, PedidoDetalle $pedidoDetalle)
+    {
+        if ($request->input('idrepuestos', [])) {
+            $idrepuestos = $request->input('idrepuestos', []);
+            $cantidad = $request->input('cantidadrepuesto', []);
+            $precio = $request->input('preciorepuesto', []);
+
+            for ($repuesto = 0; $repuesto < count($idrepuestos); $repuesto++) {
+                if ($idrepuestos[$repuesto] != '') {
+                    $pedidoDetalle->repuestos()->attach(
+                        $idrepuestos[$repuesto],
+                        [
+                            'cantidad_pendiente' => $cantidad[$repuesto],
+                            'cantidad' => $cantidad[$repuesto],
+                            'precio_total' => $precio[$repuesto],
+                            'precio_final' => $precio[$repuesto],
+
+                        ]
+                    );
+                }
+            }
+        }
     }
 
     public function insertarServicios(Request $request, PedidoDetalle $pedidoDetalle)

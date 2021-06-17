@@ -67,7 +67,7 @@
                         <a href="{{route('todoList', ['pedidoDetalleId' => $pedidoDetalle->id] )}}" 
                             class="btn btn-primary">Trabajar</a>
                         @endif
-                        @if($pedidoDetalle->diagnostico_id === false)
+                        @if($pedidoDetalle->diagnostico_id == false)
                         <a href="{{route('cotizar',  $pedidoDetalle->id )}}" 
                             class="btn btn-primary">Diagnosticar/Cotizar</a>
                         @endif

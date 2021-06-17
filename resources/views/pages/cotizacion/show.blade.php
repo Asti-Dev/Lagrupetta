@@ -120,6 +120,25 @@
             </ul>
         </div>
         @endif
+        @if ($pedido->pedidoDetalle->repuestos)
+        <div class="card w-100">
+            <div class="card-header">
+                Repuestos
+            </div>
+            <ul class="list-group list-group-flush">
+                @foreach($pedido->pedidoDetalle->repuestos as $key => $repuesto)
+                <li class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                        <div class="col-9">
+                            <label class="m-1">{{ $repuesto->nombre }} x {{$repuesto->pivot->cantidad}}
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
     </div>
 </div>
 

@@ -8,6 +8,7 @@ use App\Models\Pedido;
 use App\Models\PedidoDetalle as ModelsPedidoDetalle;
 use App\Models\PedidoEstado;
 use App\Models\Prueba;
+use App\Models\Repuesto;
 use App\Models\Revision;
 use App\Models\Servicio;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +20,7 @@ class PedidoDetalle extends Component
     public $pedido;
     public $paquetes =[];
     public $servicios =[];
+    public $repuestos =[];
     public $status;
     public $totalServicios;
     public $serviciosCompletados;
@@ -198,6 +200,70 @@ class PedidoDetalle extends Component
             }
 
     }
+    public function addCantRepuesto(Pedido $pedido, Repuesto $repuesto){
+
+            DB::table('pedido_detalle_repuesto')
+            ->where( 'pedido_detalle_id', $pedido->pedidoDetalle->id)
+            ->where( 'repuesto_id', $repuesto->id)
+            ->increment('cantidad_pendiente',1);
+
+            $check = DB::table('pedido_detalle_repuesto')
+            ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
+            ->where('repuesto_id', $repuesto->id)
+            ->first();
+
+            if ($check->cantidad_pendiente === 0) {
+                
+                DB::table('pedido_detalle_repuesto')
+                ->where( 'pedido_detalle_id', $pedido->pedidoDetalle->id)
+                ->where( 'repuesto_id', $repuesto->id)
+                ->update([
+                    'checked' => 1
+                ]);
+
+            } else {
+
+                DB::table('pedido_detalle_repuesto')
+                ->where( 'pedido_detalle_id', $pedido->pedidoDetalle->id)
+                ->where( 'repuesto_id', $repuesto->id)
+                ->update([
+                    'checked' => 0
+                ]);
+            }
+            
+    }
+    public function removeCantRepuesto(Pedido $pedido, Repuesto $repuesto){
+
+             DB::table('pedido_detalle_repuesto')
+            ->where( 'pedido_detalle_id', $pedido->pedidoDetalle->id)
+            ->where( 'repuesto_id', $repuesto->id)
+            ->decrement('cantidad_pendiente',1);
+
+            $check = DB::table('pedido_detalle_repuesto')
+            ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
+            ->where('repuesto_id', $repuesto->id)
+            ->first();
+
+            if ($check->cantidad_pendiente === 0) {
+                
+                DB::table('pedido_detalle_repuesto')
+                ->where( 'pedido_detalle_id', $pedido->pedidoDetalle->id)
+                ->where( 'repuesto_id', $repuesto->id)
+                ->update([
+                    'checked' => 1
+                ]);
+
+            } else {
+                
+                DB::table('pedido_detalle_repuesto')
+                ->where( 'pedido_detalle_id', $pedido->pedidoDetalle->id)
+                ->where( 'repuesto_id', $repuesto->id)
+                ->update([
+                    'checked' => 0
+                ]);
+            }
+
+    }
     public function render()
     {
         if ($this->status) {
@@ -214,6 +280,9 @@ class PedidoDetalle extends Component
             ->wherePivot('paquete_id', null)->get();
 
         $this->paquetes = $this->pedido->pedidoDetalle->paquetes->unique();
+
+        $this->repuestos = $this->pedido->pedidoDetalle->repuestos;
+
 
         $this->totalServicios = $this->pedido->pedidoDetalle->servicios->count();
 
