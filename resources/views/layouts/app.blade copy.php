@@ -35,21 +35,19 @@
 
 <body>
 
-    <div x-data="{ sidebar: true }" id="app">
+    <div id="app">
         @include('layouts.topnav')
-        <div :class="{ 'sidebarshow': sidebar === true }" class="wrapper">
-            @auth
-                @include('layouts.sideNav')
-            @endauth
-            <main class="content-wrapper">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12 p-5">
+        <div class="container-fluid">
+            <div class="row">
+                @auth
+
+                @include('layouts.sidenav')
+
+                @endauth
+                    <main class="col col-md-8 col-lg-9 container-fluid pt-4">
                             @yield('content')
-                        </div>
-                    </div>
-                </div>
-            </main>
+                    </main>
+            </div>
         </div>
     </div>
 

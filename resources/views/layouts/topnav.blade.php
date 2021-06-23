@@ -1,9 +1,8 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+<nav style="height: 10vh" class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
     <div class="container-fluid">
         @auth
 
-        <button type="button" id="sidebarCollapse" data-toggle="collapse" data-target="#sidebarMenu"
-        aria-expanded="false" class="navbar-toggler btn btn-secondary">
+        <button x-on:click="sidebar = !sidebar" type="button" id="sidebarCollapse"  class=" btn btn-secondary">
         <i class="fas fa-align-left"></i>
         </button>
 

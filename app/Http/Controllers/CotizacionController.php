@@ -84,7 +84,7 @@ class CotizacionController extends Controller
         ]);
         $pedido = Pedido::find($pedidoDetalle->pedido->id);
 
-        $diagnostico = $this->createDiagnostico($request, $pedidoDetalle);
+        $diagnostico = $this->createDiagnostico($request, $pedidoDetalle, $salida = 0);
 
         $this->insertarRepuestos($request, $pedidoDetalle);
 
@@ -190,7 +190,11 @@ class CotizacionController extends Controller
 
         $pedido = Pedido::find($pedidoDetalle->pedido->id);
 
-        $diagnostico = $this->createDiagnostico($request, $pedidoDetalle);
+        $diagnostico = $this->createDiagnostico($request, $pedidoDetalle, $salida= 1);
+
+        $diagnostico->update([
+            'salida' => 1
+        ]);
 
         $pedido->revision->update([
             'diagnostico_id' => $diagnostico->id,
@@ -213,7 +217,7 @@ class CotizacionController extends Controller
             ->with('success', 'Pedido Terminado!');
     }
 
-    public function createDiagnostico(Request $request, PedidoDetalle $pedidoDetalle){
+    public function createDiagnostico(Request $request, PedidoDetalle $pedidoDetalle, $salida){
 
         $cliente = Cliente::find($pedidoDetalle->pedido->cliente->id);
         $bicicleta = Bicicleta::find($pedidoDetalle->pedido->bicicleta->id);
@@ -232,6 +236,11 @@ class CotizacionController extends Controller
         $comentario2 = $request->input('comentario2', []);
         $diagnosticoCount = 1 + (count(Diagnostico::all()) ?? 0);
         $serial = 'DC-'. $diagnosticoCount . $cliente->id;
+        $salida = $salida;
+        $nombre = 'Diagnostico #';
+        if ($salida == 1) {
+            $nombre = 'Informe Final #';
+        }
 
 
 
@@ -262,6 +271,7 @@ class CotizacionController extends Controller
             'partes2' => ($partes2 ?? ''),
             'vencimiento' => Carbon::tomorrow()->format('d/m/Y'),
             'serial' => $serial,
+            'salida' => $salida
         );
         
         $diagnostico = Diagnostico::create([
@@ -270,10 +280,11 @@ class CotizacionController extends Controller
             'bicicleta_id' => $bicicleta->id,
             'comentario' => $comentarioDiag,
             'data' => json_encode($data),
+            'salida' => $salida
         ]);
         
         $pdf = PDF::loadView('PDF.diagnostico', $data)->setOptions(['defaultFont' => 'sans-serif']);
-        Storage::disk('local')->put('pdf/'. 'Diagnostico #'. $serial. '.pdf' ,$pdf->output());
+        Storage::disk('local')->put('pdf/'. $nombre . $serial. '.pdf' ,$pdf->output());
 
         
 

@@ -47,11 +47,11 @@
                         </div>
                     </div>
                     <div class="d-flex w-100 justify-content-between">
-                        <a class="btn btn-primary" wire:click.prevent="edit({{$transporte->id}})">
+                        <a class="shadow-lg p-3 btn btn-primary" wire:click.prevent="edit({{$transporte->id}})">
                             @if ($transporte->ruta === 'RECOJO')
-                            Recojo
+                            Realizar Recojo
                             @else
-                            Entrega
+                            Realizar Entrega
                             @endif
                         </a>
                         <small class="">{{$transporte->created_at->diffForHumans()}} </small>

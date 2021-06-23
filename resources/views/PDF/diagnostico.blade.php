@@ -7,7 +7,12 @@
         <td colspan="2">logo</td>
         <td colspan="6">
             <h2 >La Grupetta</h2>
+            @if ($salida == 0)
             <h3>Diagnostico {{$serial ?? ''}}</h3>
+            @else
+            <h3>Informe Final {{$serial ?? ''}}</h3>
+            @endif
+           
         </td>
         <td colspan="4">
             <div>lagrupetta.pe@gmail.com <br>

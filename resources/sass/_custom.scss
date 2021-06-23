@@ -1,0 +1,101 @@
+.sidebar-wrapper{
+    z-index:10000;
+    position:absolute;
+    width: 0;
+    height: 90vh;
+    overflow-y: hidden;
+    animation-name: closesidebar;
+    animation-duration: 1s;
+}
+
+@keyframes closesidebar {
+    from {width: 250px;}
+    to {width: 0px;}
+}
+
+.content-wrapper{
+    height: 90vh;
+    overflow-y: scroll;
+    width: 100%;
+    position: absolute;
+    border: solid 2px green;
+    animation-name: closecontent;
+    animation-duration: 1s;
+}
+
+@keyframes closecontent {
+    from {padding-left: 250px;}
+    to {padding-left: 0px;}
+}
+
+.wrapper.sidebarshow .sidebar-wrapper{
+    width: 250px;
+    animation-name: opensidebar;
+    animation-duration: 1s;
+}
+
+@keyframes opensidebar {
+  from {width: 0px;}
+  to {width: 250px;}
+}
+
+
+.wrapper.sidebarshow .content-wrapper{
+    padding-left: 250px;
+    animation-name: opencontent;
+    animation-duration: 1s;
+}
+
+@keyframes opencontent {
+    from {padding-left: 0px;}
+    to {padding-left: 250px;}
+  }
+
+@media screen and (max-width: 660px) {
+    .sidebar-wrapper{
+        z-index:10000;
+        position:absolute;
+        width: 250px;
+        height: 90vh;
+        overflow-y: hidden;
+        animation-name: opensidebar;
+        animation-duration: 1s;
+    }
+    @keyframes opensidebar {
+        from {width: 0px;}
+        to {width: 250px;}
+      }
+
+    .wrapper.sidebarshow .sidebar-wrapper{
+        width: 0px;
+        animation-name: closesidebar;
+        animation-duration: 1s;
+    }
+
+    @keyframes closesidebar {
+        from {width: 250px;}
+        to {width: 0px;}
+    }
+    
+    .content-wrapper{
+        height: 90vh;
+        overflow-y: scroll;
+        width: 100%;
+        position: absolute;
+        border: solid 2px green;
+    }
+    
+    .wrapper.sidebarshow .content-wrapper{
+        padding-left: 0px;
+    }
+
+    @keyframes opencontent {
+        from {padding-left: 0px;}
+        to {padding-left: 0px;}
+    }
+
+    @keyframes closecontent {
+        from {padding-left: 0px;}
+        to {padding-left: 0px;}
+    }
+}
