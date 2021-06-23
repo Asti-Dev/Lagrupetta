@@ -10052,10 +10052,6 @@ h3 {
   width: 0;
   height: 90vh;
   overflow-y: hidden;
-  -webkit-animation-name: closesidebar;
-          animation-name: closesidebar;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
 }
 
 @-webkit-keyframes closesidebar {
@@ -10080,11 +10076,6 @@ h3 {
   overflow-y: scroll;
   width: 100%;
   position: absolute;
-  border: solid 2px green;
-  -webkit-animation-name: closecontent;
-          animation-name: closecontent;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
 }
 
 @-webkit-keyframes closecontent {
@@ -10106,10 +10097,6 @@ h3 {
 }
 .wrapper.sidebarshow .sidebar-wrapper {
   width: 250px;
-  -webkit-animation-name: opensidebar;
-          animation-name: opensidebar;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
 }
 
 @-webkit-keyframes opensidebar {
@@ -10131,10 +10118,6 @@ h3 {
 }
 .wrapper.sidebarshow .content-wrapper {
   padding-left: 250px;
-  -webkit-animation-name: opencontent;
-          animation-name: opencontent;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
 }
 
 @-webkit-keyframes opencontent {
@@ -10161,10 +10144,6 @@ h3 {
     width: 250px;
     height: 90vh;
     overflow-y: hidden;
-    -webkit-animation-name: opensidebar;
-            animation-name: opensidebar;
-    -webkit-animation-duration: 1s;
-            animation-duration: 1s;
   }
 
   @-webkit-keyframes opensidebar {
@@ -10186,10 +10165,6 @@ h3 {
   }
   .wrapper.sidebarshow .sidebar-wrapper {
     width: 0px;
-    -webkit-animation-name: closesidebar;
-            animation-name: closesidebar;
-    -webkit-animation-duration: 1s;
-            animation-duration: 1s;
   }
 
   @-webkit-keyframes closesidebar {

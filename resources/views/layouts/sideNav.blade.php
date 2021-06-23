@@ -20,41 +20,55 @@
         {{-- Etiqueta nivel 2  --}}
         <div id="administracion" class="nav-link text-dark collapse py-0">
           <ul class="ml-5 nav-item navbar-nav">
+            @hasanyrole('super-admin|administrador')
             <li class="nav-item">
               <a class="nav-link text-light" href="{{ route('clientes.index') }}">
                 {{ __('Clientes') }}
               </a>
             </li>
+            @endhasanyrole
+            @hasanyrole('super-admin|administrador')
             <li class="nav-item">
               <a class="nav-link text-light" href="{{ route('empleados.index') }}">
                 {{ __('Empleados') }}
               </a>
             </li>
+            @endhasanyrole
+            @hasanyrole('super-admin|administrador|chofer|jefe mecanicos')
             <li class="nav-item">
               <a class="nav-link text-light" href="{{ route('pedidos.index') }}">
                 {{ __('Pedidos') }}
               </a>
             </li>
+            @endhasanyrole
+            @hasanyrole('super-admin|administrador')
             <li class="nav-item">
               <a class="nav-link text-light" href="{{ route('servicios.index') }}">
                 {{ __('Servicios') }}
               </a>
             </li>
+            @endhasanyrole
+            @hasanyrole('super-admin|administrador')
             <li class="nav-item">
               <a class="nav-link text-light" href="{{ route('paquetes.index') }}">
                 {{ __('Paquetes') }}
               </a>
             </li>
+            @endhasanyrole
+            @hasanyrole('super-admin|administrador')
             <li class="nav-item">
               <a class="nav-link text-light" href="{{ route('repuestos.index') }}">
                 {{ __('Repuestos') }}
               </a>
             </li>
+            @endhasanyrole
+            @hasanyrole('super-admin|administrador')
             <li class="nav-item">
               <a class="nav-link text-light" href="{{ route('pruebas.index') }}">
                 {{ __('Pruebas') }}
               </a>
             </li>
+            @endhasanyrole
           </ul>
         </div>
         {{-- Etiqueta nivel 2  --}}
@@ -67,21 +81,27 @@
         {{-- Etiqueta nivel 2  --}}
         <div id="logistica" class="nav-link text-dark collapse py-0">
           <ul class="ml-5 nav-item navbar-nav">
+            @hasanyrole('super-admin|administrador|chofer|jefe mecanicos')
             <li class="nav-item">
               <a class="nav-link text-light" href="{{ route('transportes.index') }}">
                 {{ __('Transportes') }}
               </a>
             </li>
+            @endhasanyrole
+            @hasanyrole('super-admin|administrador|chofer|jefe mecanicos')
             <li class="nav-item">
               <a class="nav-link text-light" href="{{ route('taller.index') }}">
                 {{ __('Taller') }}
               </a>
             </li>
+            @endhasanyrole
+            @hasanyrole('super-admin|administrador|jefe mecanicos')
             <li class="nav-item">
               <a class="nav-link text-light" href="{{ route('revisiones.index') }}">
                 {{ __('Calidad') }}
               </a>
             </li>
+            @endhasanyrole
           </ul>
         </div>
         {{-- Etiqueta nivel 2  --}}

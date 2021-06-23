@@ -4,8 +4,6 @@
     width: 0;
     height: 90vh;
     overflow-y: hidden;
-    animation-name: closesidebar;
-    animation-duration: 1s;
 }
 
 @keyframes closesidebar {
@@ -18,9 +16,6 @@
     overflow-y: scroll;
     width: 100%;
     position: absolute;
-    border: solid 2px green;
-    animation-name: closecontent;
-    animation-duration: 1s;
 }
 
 @keyframes closecontent {
@@ -30,8 +25,6 @@
 
 .wrapper.sidebarshow .sidebar-wrapper{
     width: 250px;
-    animation-name: opensidebar;
-    animation-duration: 1s;
 }
 
 @keyframes opensidebar {
@@ -42,8 +35,6 @@
 
 .wrapper.sidebarshow .content-wrapper{
     padding-left: 250px;
-    animation-name: opencontent;
-    animation-duration: 1s;
 }
 
 @keyframes opencontent {
@@ -58,8 +49,6 @@
         width: 250px;
         height: 90vh;
         overflow-y: hidden;
-        animation-name: opensidebar;
-        animation-duration: 1s;
     }
     @keyframes opensidebar {
         from {width: 0px;}
@@ -68,8 +57,6 @@
 
     .wrapper.sidebarshow .sidebar-wrapper{
         width: 0px;
-        animation-name: closesidebar;
-        animation-duration: 1s;
     }
 
     @keyframes closesidebar {
