@@ -63,9 +63,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'administracion'], function() 
 
     Route::get('/quickClient', CreateClientForm::class)->name('quickClient')->middleware(['role:super-admin|administrador']);
 
-    Route::resource('clientes', ClienteController::class)->middleware(['role:super-admin|administrador']);
+    Route::resource('clientes', ClienteController::class)->except(['show'])->middleware(['role:super-admin|administrador']);
+
+    Route::resource('clientes', ClienteController::class)->only(['show'])->middleware(['role:super-admin|administrador|jefe mecanicos|mecanico']);
     
-    Route::resource('bicicletas', BicicletaController::class)->except(['index'])->middleware(['role:super-admin|administrador']);
+    Route::resource('bicicletas', BicicletaController::class)->except(['index'])->middleware(['role:super-admin|administrador|jefe mecanicos|mecanico']);
 
     Route::get('/bicicleta/diagnostico/{diagnostico}', [DownloadController::class, 'descargarDiagnostico'])->name('download.diagnostico.bicicleta');
 

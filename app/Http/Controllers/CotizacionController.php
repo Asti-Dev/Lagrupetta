@@ -207,7 +207,7 @@ class CotizacionController extends Controller
 
         try{
             Mail::to($pedido->cliente->user->email)
-            ->send(new ServicioTerminado($pedido, $pedido->revision->diagnostico->serial));
+            ->send(new ServicioTerminado($pedido, $pedido->revision->diagnostico->serial, $nombre = 'Informe Final #'));
         }
         catch(\Exception $e){ // Using a generic exception
             session()->flash('danger', 'Email no enviado!');
@@ -224,6 +224,7 @@ class CotizacionController extends Controller
         $mecanico = Empleado::find($pedidoDetalle->mecanico);
         $comentarioDiag = $request->input('comentarioMecanicoDiag');
         $color = $request->input('color');
+        $inventario = $request->input('inventario');
         $partes = [];
         $partes2 = [];
         $parteId = $request->input('parteId', []);
@@ -266,6 +267,7 @@ class CotizacionController extends Controller
             'bicicleta'=> ($bicicleta->marca ?? '') . ' ' . ($bicicleta->modelo ?? '') . ' ' . ($bicicleta->codigo ?? ''),
             'mecanico' => ($mecanico->nombre_apellido ?? ''),
             'color' => ($color ?? ''),
+            'inventario' => ($inventario ?? ''),
             'comentarioDiag' => ($comentarioDiag ?? ''),
             'partes' => ($partes ?? ''),
             'partes2' => ($partes2 ?? ''),

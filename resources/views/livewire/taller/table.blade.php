@@ -59,6 +59,7 @@
                     </div>
 
                     <div class="d-flex w-100 justify-content-between">
+                        @hasanyrole('super-admin|mecanico|jefe mecanicos')
                         @if($pedidoDetalle->pedido->pedidoEstado->nombre  === 'CORREGIR')
                         <a href="{{route('corregir', ['revisionId' => $pedidoDetalle->pedido->revision->id] )}}" 
                             class="btn btn-primary">Corregir</a>
@@ -75,6 +76,7 @@
                         <a href="{{route('cotizacion.edit2',  $pedidoDetalle->pedido->id )}}" 
                             class="btn btn-primary">Editar Cotizacion</a>
                         @endif
+                        @endhasanyrole
                         <small class="">{{$pedidoDetalle->pedido->created_at->diffForHumans()}} </small>
                     </div>
                 </div>

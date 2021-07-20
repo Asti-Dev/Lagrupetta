@@ -70,6 +70,14 @@
                         </td>
                     </tr>
                      @endforeach
+                     <tr>
+                        <td>
+                            Inventario
+                       </td>
+                       <td colspan="2">
+                           {{$inventario ?? ''}}
+                       </td>
+                    </tr>
                     <tr>
                          <td>
                              Comentario del Mecanico

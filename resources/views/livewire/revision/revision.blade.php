@@ -12,7 +12,7 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-    @hasanyrole('jefe mecanicos|super-admin')
+
     @include("livewire.revision.$view") 
-    @endhasanyrole
+    
 </div>

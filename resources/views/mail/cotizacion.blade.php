@@ -16,10 +16,10 @@ Se adjunta un pdf con el diagnostico
 </td>
 </tr>
 <tr>
-<td colspan="4" style="padding: 10px" align="center">
+<td colspan="10" style="padding: 10px" align="center">
 Bicicleta: {{$pedido->bicicleta->marca}} {{$pedido->bicicleta->modelo}}
 </td>
-<td colspan="8" style="padding: 10px" align="center">
+<td colspan="2" style="padding: 10px" align="center">
 </td>
 </tr>
 @if (!empty($pedido->pedidoDetalle->paquetes()))
@@ -51,6 +51,23 @@ Servicios
 <li>
 {{$servicio->nombre}} x{{$servicio->pedidoDetalles->find($pedido->pedidoDetalle->id)->pivot->cantidad}}
  : S/.{{$servicio->pedidoDetalles->find($pedido->pedidoDetalle->id)->pivot->precio_final}}
+</li>
+@endforeach
+</ul>
+</td>
+</tr>
+@endif
+@if (!empty($pedido->pedidoDetalle->repuestos()))
+<tr>
+<th colspan="4" style="padding: 10px" align="center">
+Repuestos
+</th>
+<td colspan="8" style="padding: 10px" align="center">
+<ul>
+@foreach ($pedido->pedidoDetalle->repuestos as $repuesto)
+<li>
+{{ $repuesto->nombre }} x {{$repuesto->pivot->cantidad}}
+ : S/.{{$repuesto->pivot->precio_final}}
 </li>
 @endforeach
 </ul>
@@ -90,6 +107,11 @@ Aceptar
 <td>
 @component('mail::button', ['url' => $url['rechazar'],'color'=>'red'])
 Rechazar
+@endcomponent
+</td>
+<td>
+@component('mail::button', ['url' => 'https://api.whatsapp.com/send?phone=51943304475&text=Hola%2C%20deseo%20modificar%20mi%20pedido','color'=>'blue'])
+Modificar
 @endcomponent
 </td>
 </tr>

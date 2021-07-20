@@ -18,10 +18,7 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-    @hasanyrole('administrador|super-admin')
 
     @include("livewire.pedido.$view")
     
-    @endhasanyrole
-
 </div>

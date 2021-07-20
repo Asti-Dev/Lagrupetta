@@ -93,8 +93,12 @@ class PedidoDetalle extends Model
         });
     }
 
-    protected static function booted()
-    {
-        static::addGlobalScope(new MecanicoScope);
+    public function scopeMecanicoSession($query){
+        $empleado = Empleado::find(session()->get('empleado_id'));
+        if($empleado){
+            if($empleado->cargo == 'mecanico' || $empleado->cargo == 'jefe mecanicos'){
+               return $query->where('mecanico', session()->get('empleado_id'));
+            }
+        }
     }
 }

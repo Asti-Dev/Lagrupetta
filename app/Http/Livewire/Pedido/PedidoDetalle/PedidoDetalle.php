@@ -24,6 +24,10 @@ class PedidoDetalle extends Component
     public $status;
     public $totalServicios;
     public $serviciosCompletados;
+    public $totalRepuestos;
+    public $repuestosCompletados;
+    public $checkTotal;
+    public $checkCompletos;
 
 
 
@@ -283,11 +287,18 @@ class PedidoDetalle extends Component
 
         $this->repuestos = $this->pedido->pedidoDetalle->repuestos;
 
-
         $this->totalServicios = $this->pedido->pedidoDetalle->servicios->count();
 
         $this->serviciosCompletados = $this->pedido->pedidoDetalle
             ->servicios()->wherePivot('checked',1)->count();
+
+        $totalRepuestos = $this->pedido->pedidoDetalle->repuestos->count();
+
+        $repuestosCompletados = $this->pedido->pedidoDetalle
+                ->repuestos()->wherePivot('checked',1)->count();
+
+        $this->checkTotal = $totalRepuestos + $this->totalServicios;
+        $this->checkCompletos = $this->serviciosCompletados + $repuestosCompletados;
 
         return view('livewire.pedido.pedido-detalle.pedido-detalle')
         ->extends('layouts.app')

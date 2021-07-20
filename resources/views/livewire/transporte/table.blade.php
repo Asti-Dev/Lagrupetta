@@ -47,6 +47,7 @@
                         </div>
                     </div>
                     <div class="d-flex w-100 justify-content-between">
+                        @hasanyrole('super-admin|chofer')
                         <a class="shadow-lg p-3 btn btn-primary" wire:click.prevent="edit({{$transporte->id}})">
                             @if ($transporte->ruta === 'RECOJO')
                             Realizar Recojo
@@ -54,6 +55,7 @@
                             Realizar Entrega
                             @endif
                         </a>
+                        @endhasanyrole
                         <small class="">{{$transporte->created_at->diffForHumans()}} </small>
                     </div>
                 </div>

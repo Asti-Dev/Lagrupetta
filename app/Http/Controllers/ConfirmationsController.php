@@ -19,7 +19,7 @@ class ConfirmationsController extends Controller
     public function aceptarSolicitud(Pedido $pedido, Request $request) 
     {
         if (! $request->hasValidSignature()) {
-            abort(401);
+            return view('respuesta.aceptar');
         }
 
         $pedido->update(
@@ -35,7 +35,14 @@ class ConfirmationsController extends Controller
     public function rechazarSolicitud(Pedido $pedido, Request $request) 
     {
         if (! $request->hasValidSignature()) {
-            abort(401);
+            return view('respuesta.rechazar');
+        }
+
+        $data['etapa'] = 'solicitud';
+
+        if($pedido->confirmacion == Pedido::ESTADOS[0]){
+            $data['fecha_confirmacion'] = $pedido->fecha_hora_confirmacion;
+            return view('respuesta.info', $data);
         }
 
         $pedido->update(
@@ -46,7 +53,7 @@ class ConfirmationsController extends Controller
         Mail::to($pedido->cliente->user->email)
             ->send(new SolicitudRechazo($pedido));
 
-        $data['etapa'] = 'solicitud';
+        
 
         return view('respuesta.rechazar', $data);
 
@@ -55,16 +62,23 @@ class ConfirmationsController extends Controller
     public function aceptarCotizacion(Pedido $pedido, Request $request) 
     {
         if (! $request->hasValidSignature()) {
-            abort(401);
+            return view('respuesta.aceptar');
         }
+        
+        
+        if($pedido->pedidoDetalle->confirmacion == PedidoDetalle::ESTADOS[2]){
+            $data['fecha_confirmacion'] = $pedido->pedidoDetalle->updated_at;
+            return view('respuesta.info', $data);
+        }
+
+        $data['etapa'] = 'cotizacion';
 
         $pedido->pedidoDetalle->update(
             ['confirmacion' => PedidoDetalle::ESTADOS[0]] +
             ['fecha_confirmacion' => Carbon::now()->setTimezone('America/Lima')]
         );
 
-        $data['etapa'] = 'cotizacion';
-
+        
         return view('respuesta.aceptar', $data);
     }
 
@@ -82,7 +96,14 @@ class ConfirmationsController extends Controller
     public function rechazarCotizacion(Pedido $pedido, Request $request) 
     {
         if (! $request->hasValidSignature()) {
-            abort(401);
+            return view('respuesta.rechazar');
+        }
+
+        $data['etapa'] = 'cotizacion';
+
+        if($pedido->pedidoDetalle->confirmacion == PedidoDetalle::ESTADOS[0]){
+            $data['fecha_confirmacion'] = $pedido->pedidoDetalle->fecha_confirmacion;
+            return view('respuesta.info', $data);
         }
 
         $servicioDiagnostico = Servicio::where('nombre', '=','Diagnostico de bicicleta')->first();
@@ -110,7 +131,7 @@ class ConfirmationsController extends Controller
         Mail::to($pedido->cliente->user->email)
             ->send(new CotizacionRechazo($pedido));
 
-        $data['etapa'] = 'cotizacion';
+        
 
         return view('respuesta.rechazar', $data);
 

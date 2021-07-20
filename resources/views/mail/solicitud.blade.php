@@ -18,10 +18,10 @@
 </td>
 </tr>
 <tr>
-<td colspan="4" style="padding: 10px" align="center">
+<td colspan="8" style="padding: 10px" align="center">
 Bicicleta: {{$pedido->bicicleta->marca}} {{$pedido->bicicleta->modelo}}
 </td>
-<td colspan="8" style="padding: 10px" align="center">
+<td colspan="4"> 
 </td>
 </tr>
 <tr>
@@ -35,7 +35,7 @@ Observacion
 </table>
 <br><br>
 <b>
-Estaremos haciendo el recojo entre las 9am a 12pm del dia {{$hoy}}
+Fecha de Recojo: {{$hoy}}
 </b>
 <table>
 <tr>
@@ -47,6 +47,11 @@ Aceptar
 <td>
 @component('mail::button', ['url' => $url['rechazar'],'color'=>'red'])
 Rechazar
+@endcomponent
+</td>
+<td>
+@component('mail::button', ['url' => 'https://api.whatsapp.com/send?phone=51943304475&text=Hola%2C%20deseo%20modificar%20mi%20pedido','color'=>'blue'])
+Modificar
 @endcomponent
 </td>
 </tr>

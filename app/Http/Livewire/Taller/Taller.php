@@ -17,7 +17,7 @@ class Taller extends Component
 
     public function render()
     {
-        $data['pedidoDetalles'] = PedidoDetalle::whereHas('pedido.pedidoEstado', function($q){
+        $data['pedidoDetalles'] = PedidoDetalle::mecanicoSession()->whereHas('pedido.pedidoEstado', function($q){
 
             $q->where('nombre', '=', 'EN TALLER')
             ->orWhere('nombre', '=', 'COTIZADO')

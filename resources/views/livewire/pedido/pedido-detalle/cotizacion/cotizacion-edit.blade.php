@@ -62,7 +62,15 @@
                 }
             )
 
-            total = sumServicios + sumPaquetes;
+            var Repuestos = document.getElementsByName('preciorepuesto[]');
+            var sumRepuestos = 0;
+            Repuestos.forEach(
+                function(value, key, Repuestos) {
+                    sumRepuestos += parseFloat(value.value);
+                }
+            )
+
+            total = sumRepuestos + sumServicios + sumPaquetes;
 
 
             document.getElementsByName('total_precio')[0].value = total;

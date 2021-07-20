@@ -8,8 +8,6 @@
         </div>
     </div>
     <div wire:poll.10s.keep-alive class="container-fluid" style="background: lightskyblue">
-        
-
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 d-flex justify-content-left">
             @foreach ($pedidos as $pedido)
             <div class="col">
@@ -69,7 +67,10 @@
                     </div>
 
                     <div class="d-flex w-100 justify-content-between">
+
+                       
                         <div class="d-flex flex-row-reverse">
+                            @hasanyrole('super-admin|administrador')
                             @if($pedido->pedidoEstado->nombre === 'SOLICITADO')
                             <a class="mx-2" href="{{route('pedido.show', ['pedido' => $pedido->id])}}" style="width: min-content" title="show">
                                 <i class="fas fa-eye text-success"></i>
@@ -82,7 +83,7 @@
                                 <i class="fas fa-eye text-success"></i>
                             </a>
                             @endif
-
+                            @endhasanyrole
                             @if ($pedido->pedidoDetalle->diagnostico ?? '')
                             <a class="mx-2" style="width: min-content"
                             href="{{ route('download.diagnostico', $pedido->id) }}"
@@ -90,7 +91,7 @@
                             <i class="fas fa-file-download text-primary"></i>
                             </a>
                             @endif
-
+                            @hasanyrole('super-admin|administrador')
                             <form class="mx-2" style="width: min-content"
                             wire:submit.prevent="destroy({{$pedido->id}})">
 
@@ -98,8 +99,12 @@
                                title="delete" style="padding:0px; border: none; background-color:transparent;">
                                <i class="fas fa-trash fa-lg text-danger"></i>
                            </button>
-                       </form>
+                            </form>
+                            @endhasanyrole
                         </div>
+                       
+
+                        @hasanyrole('super-admin|administrador')
                         @if ($pedido->pedidoEstado->nombre === 'PAGO PENDIENTE')
                         <button wire:click.prevent="completado({{$pedido->id}})" 
                             class=" mx-4 btn btn-primary btn-sm">Completado</button>
@@ -112,6 +117,7 @@
                         <button wire:click.prevent="asignarChofer({{$pedido->id}})" 
                             class="mx-4 btn btn-primary btn-sm">Asignar Entrega</button>
                         @endif
+                        @endhasanyrole
                         <small class="">{{$pedido->created_at->diffForHumans()}} </small>
                     </div>
                 </div>

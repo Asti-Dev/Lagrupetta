@@ -13,10 +13,7 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-    @hasanyrole('chofer|super-admin')
 
     @include("livewire.transporte.$view")
-
-    @endhasanyrole
 
 </div>

@@ -51,8 +51,14 @@ class Transporte extends Model
         });
     }
 
-    protected static function booted()
+    public function scopeChoferSession($query)
     {
-        static::addGlobalScope(new ChoferScope);
+        $empleado = Empleado::find(session()->get('empleado_id'));
+        if($empleado){
+            if($empleado->cargo == 'chofer'){
+                return $query->where('chofer', session()->get('empleado_id'));
+            }
+        }
     }
+
 }

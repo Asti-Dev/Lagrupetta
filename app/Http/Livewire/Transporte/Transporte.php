@@ -73,7 +73,7 @@ class Transporte extends Component
 
     public function render()
     {
-        $transportes = ModelsTransporte::whereHas('pedido', function($q){
+        $transportes = ModelsTransporte::choferSession()->whereHas('pedido', function($q){
 
                 $q->where('confirmacion', '=', 'ACEPTADO');
     
