@@ -19,6 +19,11 @@ class Pedido extends Component
     public $chofer;
     public $chofers =[];
     public $pedido;
+    public $estado;
+    public $cliente;
+    public $nroPedido;
+    public $direccion;
+
 
 
     public function create()
@@ -35,6 +40,8 @@ class Pedido extends Component
     {
         $this->pedido = ModelsPedido::find($id);
 
+        $this->direccion = $this->pedido->transporteRecojo()->direccion;
+
         $this->view = 'asignarChofer';
     }
 
@@ -44,16 +51,20 @@ class Pedido extends Component
 
         $transporteEntrega = Transporte::where([
             ['pedido_id', $this->pedido->id],
-            ['ruta', Transporte::RUTA[0]]
+            ['ruta', Transporte::RUTA[0]],
         ])->first();
 
         if ($transporteEntrega !== null) {
-            $transporteEntrega->update(['chofer' => $chofer->id]);
+            $transporteEntrega->update([
+                'chofer' => $chofer->id,
+                'direccion' => $this->direccion
+            ]);
         } else {
             $transporteEntrega = Transporte::create([
                 'chofer' => $chofer->id,
                 'pedido_id' => $this->pedido->id,
-                'ruta' => Transporte::RUTA[0]
+                'ruta' => Transporte::RUTA[0],
+                'direccion' => $this->direccion
             ]);
         }
 
@@ -99,7 +110,11 @@ class Pedido extends Component
 
     public function render()
     {
-        $pedidos = ModelsPedido::orderBy('id', 'desc')->paginate(8);
+        $pedidos = ModelsPedido::buscarPedido($this->nroPedido)
+            ->buscarCliente($this->cliente)
+            ->filtrarEstadoPedido($this->estado)
+            ->orderBy('id', 'desc')
+            ->paginate(8);
         
         return view('livewire.pedido.pedido', compact('pedidos'))
         ->extends('layouts.app')

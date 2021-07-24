@@ -9,6 +9,9 @@ use Livewire\Component;
 class Taller extends Component
 {
     public $view = 'table';
+    public $estado;
+    public $nroPedido;
+    public $cliente;
 
     public function diagnostico(){
         //create diagnostico
@@ -27,7 +30,10 @@ class Taller extends Component
             ->orWhere('nombre', '=', 'CORREGIR')
             ->orWhere('nombre', '=', 'TERMINADO');
 
-        })->orderBy('id', 'desc')->paginate(6);
+        })->buscarPedido($this->nroPedido)
+        ->buscarCliente($this->cliente)
+        ->filtrarEstadoPedido($this->estado)
+        ->orderBy('id', 'desc')->paginate(6);
 
         return view('livewire.taller.taller',$data)
         ->extends('layouts.app')

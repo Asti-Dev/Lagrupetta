@@ -28,12 +28,8 @@
             @method('PUT')
             <div class="row">
                 <div class="col form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control item" name="nombre" id="nombre" value="{{$cliente->nombre}}">
-                </div>
-                <div class="col form-group">
-                    <label for="apellido">Apellido</label>
-                    <input type="text" class="form-control item" name="apellido" id="apellido" value="{{$cliente->apellido}}">
+                    <label for="nombre_apellido">Nombre Completo</label>
+                    <input type="text" class="form-control item" name="nombre_apellido" id="nombre_apellido" value="{{$cliente->nombre_apellido}}">
                 </div>
             </div>
             <div class="row">
@@ -43,7 +39,7 @@
             </div>
             <div class="col form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control item" name="email" id="email" value="{{$cliente->user->email}}">
+                <input type="email" class="form-control item" name="email" id="email" value="{{$cliente->email}}">
             </div>
             </div>
             <div class="form-group">

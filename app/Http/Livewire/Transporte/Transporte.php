@@ -21,6 +21,9 @@ class Transporte extends Component
         'TERMINADO' => 'ENTREGADO',
         'SOLICITADO' => 'RECOGIDO',
     ];
+    public $ruta;
+    public $cliente;
+    public $nroPedido;
 
 
     public function rules()
@@ -73,7 +76,11 @@ class Transporte extends Component
 
     public function render()
     {
-        $transportes = ModelsTransporte::choferSession()->whereHas('pedido', function($q){
+        $transportes = ModelsTransporte::buscarCliente($this->cliente)
+            ->buscarPedido($this->nroPedido)
+            ->filtrarRuta($this->ruta)
+            ->choferSession()
+            ->whereHas('pedido', function($q){
 
                 $q->where('confirmacion', '=', 'ACEPTADO');
     

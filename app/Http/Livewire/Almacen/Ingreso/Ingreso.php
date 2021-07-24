@@ -13,6 +13,8 @@ class Ingreso extends Component
     
     public $view = 'table';
     public Pedido $pedido;
+    public $cliente;
+    public $nroPedido;
 
     public function enTaller($id)
     {
@@ -33,7 +35,9 @@ class Ingreso extends Component
 
             $q->where('nombre', '=', 'RECOGIDO');
         
-        })->orderBy('id', 'desc')->paginate(3);
+        })->buscarPedido($this->nroPedido)
+        ->buscarCliente($this->cliente)
+        ->orderBy('id', 'desc')->paginate(3);
 
         return view('livewire.almacen.ingreso.ingreso', $data);
     }

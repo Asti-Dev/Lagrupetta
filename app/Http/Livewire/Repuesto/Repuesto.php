@@ -15,6 +15,9 @@ class Repuesto extends Component
     public $nombre;
     public $precio;
     public $activo = 0;
+    public $nombreRepuesto;
+    public $precioRepuesto;
+
 
 
     public $repuestoId;
@@ -29,7 +32,9 @@ class Repuesto extends Component
     public function render()
     {
         
-        $repuestos = ModelsRepuesto::orderBy('id', 'desc')->paginate(8);
+        $repuestos = ModelsRepuesto::buscarNombre($this->nombreRepuesto)
+        ->buscarPrecio($this->precioRepuesto)
+        ->orderBy('id', 'desc')->paginate(8);
 
         return view('livewire.repuesto.repuesto', compact('repuestos'))
         ->extends('layouts.app')

@@ -23,6 +23,7 @@
 
         </div>
         <div class="row">
+            @if (count($paquetes)) 
             <div class="col-md py-3 d-flex justify-content-center">
                 <div class="card w-100">
                     <div class="card-header">
@@ -92,6 +93,8 @@
                     </ul>
                 </div>
             </div>
+            @endif
+            @if (count($servicios))   
             <div class="col-md py-3 d-flex justify-content-center">
                 <div class="card w-100">
                     <div class="card-header">
@@ -139,6 +142,8 @@
                     </ul>
                 </div>
             </div>
+            @endif
+            @if (count($repuestos))   
             <div class="col-md py-3 d-flex justify-content-center">
                 <div class="card w-100">
                     <div class="card-header">
@@ -186,6 +191,7 @@
                     </ul>
                 </div>
             </div>
+            @endif
         </div>
 
         <div class="row m-3">

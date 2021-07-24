@@ -15,9 +15,11 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clientes = Cliente::orderBy('id', 'desc')->paginate(5);
+        $nombre = $request->get('nombre');
+
+        $clientes = Cliente::buscarNombre($nombre)->orderBy('id', 'desc')->paginate(5);
 
         return view('pages.clientes.index', compact('clientes'));
     }
@@ -52,19 +54,13 @@ class ClienteController extends Controller
                 'string',
                 'email',
                 'max:255',
-                Rule::unique(User::class),
+                Rule::unique(Cliente::class),
             ]
         ]);
 
-        $user =  User::create([
-            'name' => $request['nombre'],
-            'email' => $request['email'],
-            'password' => Hash::make('password'),
-        ])->assignRole('cliente');
-
-        Cliente::create($request->all()+
+        Cliente::create($request->all() +
         [
-            'user_id' => $user->id
+            'nombre_apellido' => $request['nombre'] . " " . $request['apellido']
         ]);
 
         return redirect()->route('clientes.index')
@@ -111,23 +107,22 @@ class ClienteController extends Controller
     public function update(Request $request, Cliente $cliente)
     {
         $request->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
+            'nombre_apellido' => 'required',
             'telefono' => 'required',
             'direccion' => 'required',
         ]);
 
-        if ($request['email'] != $cliente->user->email) {
+        if ($request['email'] != $cliente->email) {
             $request->validate([
                 'email' =>  [
                     'required',
                     'string',
                     'email',
                     'max:255',
-                    Rule::unique(User::class),
+                    Rule::unique(Cliente::class),
                 ]
             ]);
-            $cliente->user->update([
+            $cliente->update([
                 'email' => $request['email'],
             ]);
         }

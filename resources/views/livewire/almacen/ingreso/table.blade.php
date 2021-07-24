@@ -1,5 +1,26 @@
 <div>
     <div class="d-flex align-items-start my-1">
+          <div class="form-group row ml-3">
+            <label class="col-sm-2 col-form-label" for="cliente">Cliente</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="cliente" wire:model="cliente">
+            </div>
+          </div>
+          <div class="form-group row ml-3">
+            <label class="col-sm-2 col-form-label" for="nroPedido">Nro Pedido</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="nroPedido" wire:model="nroPedido">
+            </div>
+          </div>
+    </div>
+    <div class="d-flex align-items-start my-1">
+        @if (count($pedidos) == 0)
+        <div class="w-100 alert alert-primary" role="alert">
+            NO TIENES PEDIDOS POR INGRESAR
+        </div>
+        @endif
+    </div>
+    <div class="d-flex align-items-start my-1">
         <div class="mx-3 d-flex">
             {{ $pedidos->links() }} 
         </div>
@@ -18,7 +39,7 @@
                     <div class="my-2 mx-3">
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Cliente:</label>
-                            <label class="text-right"> {{$pedido->cliente->nombre .' '. $pedido->cliente->apellido}} </label>
+                            <label class="text-right"> {{$pedido->cliente->nombre_apellido}} </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Bicicleta:</label>

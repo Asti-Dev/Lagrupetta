@@ -61,4 +61,24 @@ class Transporte extends Model
         }
     }
 
+    public function scopeFiltrarRuta($query, $ruta){
+        if($ruta != ''){
+            return $query->where('ruta', 'like', "%{$ruta}%");
+        }
+    }
+    public function scopeBuscarCliente($query, $cliente){
+        if($cliente != ''){
+            return $query->whereHas('pedido.cliente', function($query2) use ($cliente){
+                $query2->where('nombre_apellido', 'like', "%{$cliente}%");
+            });
+        }
+    }
+    public function scopeBuscarPedido($query, $nroPedido){
+        if($nroPedido != ''){
+            return $query->whereHas('pedido', function($query2) use ($nroPedido){
+                $query2->where('id', 'like', "%{$nroPedido}%");
+            });
+        }
+    }
+    
 }

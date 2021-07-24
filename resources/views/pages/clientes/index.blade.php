@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-lg-12 margin-tb">
+        <div class="col-lg-12 margin-tb mb-2">
             <div class="my-3">
                 <h2>Clientes </h2>
             </div>
@@ -13,6 +13,15 @@
                 <a class="btn btn-success" href="{{ route('clientes.index') }}">
                     Limpiar
                 </a>
+                <form class="form-inline" action="{{route('clientes.index')}}" method="GET">
+                    <div class="form-group row mx-2">
+                      <label class="col-sm-5 col-form-label" for="nombre">Nombre Completo</label>
+                      <div class="col-sm-5">
+                          <input type="text" name="nombre" class="form-control" id="nombre">
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-search"></i></button>
+                  </form>
             </div>
         </div>
     </div>
@@ -67,12 +76,12 @@
                             </form>
                     </td>
                     <td>{{ $cliente->id }}</td>
-                    <td>{{ $cliente->nombre . ' ' . $cliente->apellido }}</td>
+                    <td>{{ $cliente->nombre_apellido }}</td>
                     <td>{{ $cliente->telefono }}</td>
                     <td>{{ $cliente->direccion }}</td>
                     <td>{{ $cliente->tipo_doc }}</td>
                     <td>{{ $cliente->nro_doc }}</td>
-                    <td>{{ $cliente->user->email }}</td>
+                    <td>{{ $cliente->email }}</td>
                     <td>{{ $cliente->fecha_cumpleanos }}</td>
 
                 </tr>

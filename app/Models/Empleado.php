@@ -56,4 +56,17 @@ class Empleado extends Model
             $model->updated_by = Auth::id();
         });
     }
+
+    public function scopeBuscarEmpleado($query, $empleado){
+        if($empleado != ''){
+            return $query->where('nombre_apellido', 'like', "%{$empleado}%");
+        }
+    }
+    public function scopeFiltrarRol($query, $rol){
+        if($rol != ''){
+            return $query->whereHas('user', function($query2) use ($rol){
+                $query2->role($rol);
+            });
+        }
+    }
 }

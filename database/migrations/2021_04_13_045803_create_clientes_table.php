@@ -16,14 +16,13 @@ class CreateClientesTable extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre','100')->nullable();
-            $table->string('apellido','100')->nullable();
+            $table->string('nombre_apellido','100')->nullable();
             $table->string('telefono', '20')->nullable();
             $table->string('direccion','200')->nullable();
+            $table->string('email')->nullable();
             $table->enum('tipo_doc',Cliente::TIPODOC)->nullable();
             $table->string('nro_doc')->nullable();
             $table->date('fecha_cumpleanos')->nullable();
-            $table->foreignId('user_id')->unique()->constrained();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->foreign('created_by')->references('id')->on('users');
             $table->bigInteger('updated_by')->nullable()->unsigned();

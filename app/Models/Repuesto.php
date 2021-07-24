@@ -43,4 +43,14 @@ class Repuesto extends Model
             $model->updated_by = Auth::id();
         });
     }
+    public function scopeBuscarNombre($query, $nombre){
+        if($nombre != ''){
+            return $query->where('nombre', 'like', "%{$nombre}%");
+        }
+    }
+    public function scopeBuscarPrecio($query, $precio){
+        if($precio != ''){
+            return $query->where('precio', 'like', "%{$precio}%");
+        }
+    }
 }

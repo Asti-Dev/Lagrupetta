@@ -1,3 +1,18 @@
+<div>
+    <div class="d-flex align-items-start my-1">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label" for="nombreRepuesto">Nombre</label>
+          <div class="col-sm-8">
+              <input type="text" class="form-control" id="nombreRepuesto" wire:model="nombreRepuesto">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label" for="precioRepuesto">Precio</label>
+          <div class="col-sm-8">
+              <input type="number" class="form-control" id="precioRepuesto" wire:model="precioRepuesto">
+          </div>
+        </div>
+    </div>
 <table class="table table-bordered table-responsive-lg">
     <thead class="thead-dark">
         <tr class="">
@@ -32,3 +47,4 @@
 </table>
 
 {{ $repuestos->links('pagination::bootstrap-4') }} 
+</div>

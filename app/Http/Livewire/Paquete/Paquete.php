@@ -19,6 +19,8 @@ class Paquete extends Component
     public $descripcion;
     public $precio;
     public $paqueteId;
+    public $nombrePaquete;
+    public $precioPaquete;
 
     protected $rules = [
         'nombre' => 'required',
@@ -28,15 +30,12 @@ class Paquete extends Component
 
     ];
 
-    public function mount()
-    {
-        
-    }
-
 
     public function render()
     {
-        $data['paquetes'] = ModelsPaquete::orderBy('id', 'desc')->paginate(8);
+        $data['paquetes'] = ModelsPaquete::buscarNombre($this->nombrePaquete)
+            ->buscarPrecio($this->precioPaquete)
+            ->orderBy('id', 'desc')->paginate(8);
         $data['serviciosSelect'] = Servicio::all();
 
         return view('livewire.paquete.paquete', $data )

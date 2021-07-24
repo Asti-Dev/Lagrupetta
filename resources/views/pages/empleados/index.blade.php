@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-lg-12 margin-tb">
+        <div class="col-lg-12 margin-tb mb-2">
             <div class="my-3">
                 <h2>Empleados </h2>
             </div>
@@ -13,6 +13,24 @@
                 <a class="btn btn-success" href="{{ route('empleados.index') }}">
                     Limpiar
                 </a>
+                <form class="form-inline mx-2" action="{{route('empleados.index')}}" method="GET">
+                    <div class="form-group">
+                        <select class="form-control" id="estados" name="rol">
+                          <option value=''>Todos los roles</option>
+                          <option value='administrador'>Administrador  </option>
+                          <option value='chofer'>Chofer </option>
+                          <option value='mecanico'>Mecanico </option>
+                          <option value='jefe mecanicos'> Jefe de mecanicos  </option>
+                        </select>
+                      </div>
+                    <div class="form-group row ml-3">
+                      <label class="col-sm-2 col-form-label" for="empleado">Empleado</label>
+                      <div class="col-sm-10">
+                          <input type="text" name="empleado" class="form-control" id="empleado">
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-search"></i></button>
+                  </form>
             </div>
         </div>
     </div>

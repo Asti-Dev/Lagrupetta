@@ -6,6 +6,7 @@ use App\Http\Controllers\ConfirmationsController;
 use App\Http\Controllers\CotizacionController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\WhatsappController;
 use App\Http\Livewire\Cliente\CreateClientForm;
 use App\Http\Livewire\Diagnostico\Diagnostico;
@@ -37,6 +38,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/importR', [ImportController::class, 'importRepuesto'])->name('importRepuesto')->middleware(['role:super-admin']);
+Route::post('/importC', [ImportController::class, 'importCliente'])->name('importCliente')->middleware(['role:super-admin']);
+
+Route::view('/importViewR', 'pages.imports.importR')->middleware(['role:super-admin']);
+Route::view('/importViewC', 'pages.imports.importC')->middleware(['role:super-admin']);
+
 Route::get('/aceptarSolicitud/{pedido}', [ConfirmationsController::class, 'aceptarSolicitud'])->name('pedido.aceptarSolicitud');
 
 Route::get('/rechazarSolicitud/{pedido}', [ConfirmationsController::class, 'rechazarSolicitud'])->name('pedido.rechazarSolicitud');
@@ -49,7 +56,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', Test::class)->middleware(['role:super-admin']);;
+Route::get('/test', Test::class)->middleware(['role:super-admin']);
 
 Route::get('/detallePDF', [ConfirmationsController::class, 'generatePDF'])->name('pdf')->middleware('auth');
 

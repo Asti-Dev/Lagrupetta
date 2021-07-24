@@ -50,4 +50,11 @@ class Cliente extends Model
             $model->bicicletas()->delete();
             $model->pedidos()->delete();
         });
-    }}
+    }
+
+    public function scopeBuscarNombre($query, $nombre){
+        if($nombre != ''){
+            return $query->where('nombre_apellido', 'like', "%{$nombre}%");
+        }
+    }
+}

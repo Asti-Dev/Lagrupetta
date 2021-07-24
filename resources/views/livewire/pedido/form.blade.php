@@ -3,9 +3,9 @@
         <label for="cliente">Cliente</label>
         <input autocomplete="off" list="clientes" wire:model="cliente" wire:change="$emit('updatedCliente')" type="text"
             name="cliente" id="cliente" class="form-control">
-        <datalist id="clientes">
+        <datalist class="w-100" id="clientes">
             @foreach ($clientes as $cliente)
-            <option value="{{ $cliente->user->email }}">
+            <option value="{{ $cliente->nombre_apellido }}">{{ $cliente->tipo_doc . ' :     ' . $cliente->nro_doc}}</option>
                 @endforeach
         </datalist>
     </div>
@@ -17,6 +17,10 @@
             <option value="{{$bicicleta->id}}">{{$bicicleta->marca . ' ' . $bicicleta->modelo}}</option>
             @endforeach
         </select>
+    </div>
+    <div class="form-group">
+        <label for="direccion">Dirección</label>
+        <input type="text" class="form-control item" name="direccion" id="direccion" wire:model="direccion">
     </div>
     <div class="form-group">
         <label for="chofer">Chofer</label>

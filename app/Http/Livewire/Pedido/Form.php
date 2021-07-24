@@ -25,6 +25,7 @@ class Form extends Component
     public $bicicletas = [];
     public $fechaRecojoAprox;
     public $observacion;
+    public $direccion;
 
     protected $rules = [
         'cliente' => 'required',
@@ -36,9 +37,7 @@ class Form extends Component
     
     public function store()
     {
-        $cliente = Cliente::whereHas('user', function (Builder $query){
-            $query->where('email', '=', $this->cliente);
-            })->first();
+        $cliente = Cliente::where('nombre_apellido', '=', $this->cliente)->first();
         
         $chofer = Empleado::where('nombre_apellido','=', $this->chofer)->first();
 
@@ -54,7 +53,8 @@ class Form extends Component
         $transporte = Transporte::create([
             'chofer' => $chofer->id,
             'pedido_id' => $pedido->id,
-            'ruta' => Transporte::RUTA[1]
+            'ruta' => Transporte::RUTA[1],
+            'direccion' => $this->direccion
         ]);
 
         $url['aceptar'] = URL::temporarySignedRoute(
@@ -66,7 +66,7 @@ class Form extends Component
         );
 
         try{
-            Mail::to($pedido->cliente->user->email)
+            Mail::to($pedido->cliente->email)
             ->send(new MailSolicitud($pedido, $url));
         }
         catch(\Exception $e){ // Using a generic exception
@@ -97,19 +97,18 @@ class Form extends Component
     public function updatedCliente()
     {
         if($this->cliente != ""){
-        $this->clientes = Cliente::whereHas('user', function (Builder $query) {
-            $query->where('email', 'like', "%" . trim($this->cliente) . "%");
-            })->take(10)
+        $this->clientes = Cliente::where('nombre_apellido', 'like', "%" . trim($this->cliente) . "%")
+            ->take(10)
             ->get();
 
-        $this->check = Cliente::whereHas('user', function (Builder $query) {
-            $query->where('email', '=', $this->cliente);
-            })->first();
-
+        $this->check = Cliente::where('nombre_apellido', '=', $this->cliente)->first();
+        
         }else{
             $this->clientes = [];
         }
-
+        if(!empty($this->check)) {
+        $this->direccion = $this->check->direccion;
+        }
     }
 
      
@@ -118,6 +117,7 @@ class Form extends Component
         if(!empty($this->check)) {
             // dd(Cliente::where('id','=',10)->first()->bicicletas()->get());
             $this->bicicletas =  Bicicleta::where('cliente_id','=',$this->check->id)->get();
+            
         }
         return view('livewire.pedido.form');
     }

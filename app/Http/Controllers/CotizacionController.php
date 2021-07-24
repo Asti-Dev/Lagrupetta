@@ -55,7 +55,7 @@ class CotizacionController extends Controller
         );
 
         try{
-            Mail::to($pedido->cliente->user->email)
+            Mail::to($pedido->cliente->email)
             ->send(new MailCotizacion($pedido, $url, $diagnostico->serial));
         }
         catch(\Exception $e){ // Using a generic exception
@@ -118,7 +118,7 @@ class CotizacionController extends Controller
         );
 
             try{
-                Mail::to($pedido->cliente->user->email)
+                Mail::to($pedido->cliente->email)
             ->send(new MailCotizacion($pedido, $url, $diagnostico->serial));
             }
             catch(\Exception $e){ // Using a generic exception
@@ -172,7 +172,7 @@ class CotizacionController extends Controller
         );
 
         try{
-            Mail::to($pedido->cliente->user->email)
+            Mail::to($pedido->cliente->email)
             ->send(new MailCotizacion($pedido, $url, $pedido->pedidoDetalle->diagnostico->serial));
         }
         catch(\Exception $e){ // Using a generic exception
@@ -206,7 +206,7 @@ class CotizacionController extends Controller
         ]);
 
         try{
-            Mail::to($pedido->cliente->user->email)
+            Mail::to($pedido->cliente->email)
             ->send(new ServicioTerminado($pedido, $pedido->revision->diagnostico->serial, $nombre = 'Informe Final #'));
         }
         catch(\Exception $e){ // Using a generic exception
@@ -263,7 +263,7 @@ class CotizacionController extends Controller
         }
 
         $data = array(
-            'cliente' =>  ($cliente->nombre ?? '') . ' ' . ($cliente->apellido ?? ''),
+            'cliente' =>  ($cliente->nombre_apellido ?? ''),
             'bicicleta'=> ($bicicleta->marca ?? '') . ' ' . ($bicicleta->modelo ?? '') . ' ' . ($bicicleta->codigo ?? ''),
             'mecanico' => ($mecanico->nombre_apellido ?? ''),
             'color' => ($color ?? ''),

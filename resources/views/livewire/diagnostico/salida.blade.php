@@ -109,6 +109,12 @@
             </tbody>
         </table>
         <div class="form-group row">
+            <label for="inventario" class="col-sm-4 font-weight-bold">Inventario</label>
+            <div class="form-group col-sm-8">
+                <input class="form-control" name="inventario" id="inventario">
+            </div>
+        </div>
+        <div class="form-group row">
             <label for="comentarioMecanicoDiag" class="col-sm-4 font-weight-bold">Comentario General Mecanico</label>
             <div class="form-group col-sm-8">
                 <textarea class="form-control"

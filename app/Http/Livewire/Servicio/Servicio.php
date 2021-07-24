@@ -15,6 +15,8 @@ class Servicio extends Component
     public $nombre;
     public $precio;
     public $activo = 0;
+    public $nombreServicio;
+    public $precioServicio;
 
 
     public $servicioId;
@@ -28,7 +30,10 @@ class Servicio extends Component
 
     public function render()
     {
-        $servicios = ModelsServicio::orderBy('id', 'desc')->paginate(8);
+        $servicios = ModelsServicio::buscarNombre($this->nombreServicio)
+            ->buscarPrecio($this->precioServicio)
+            ->orderBy('id', 'desc')
+            ->paginate(8);
 
         return view('livewire.servicio.servicio', compact('servicios'))
         ->extends('layouts.app')

@@ -1,3 +1,18 @@
+<div>
+<div class="d-flex align-items-start my-1">
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label" for="nombrePaquete">Nombre</label>
+      <div class="col-sm-8">
+          <input type="text" class="form-control" id="nombrePaquete" wire:model="nombrePaquete">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label" for="precioPaquete">Precio</label>
+      <div class="col-sm-8">
+          <input type="number" class="form-control" id="precioPaquete" wire:model="precioPaquete">
+      </div>
+    </div>
+</div>
 <table class="table table-bordered table-responsive-lg">
     <thead class="thead-dark">
         <tr class="">
@@ -38,3 +53,4 @@
 </table>
 
 {{ $paquetes->links('pagination::bootstrap-4') }} 
+</div>

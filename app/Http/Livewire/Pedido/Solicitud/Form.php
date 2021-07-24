@@ -28,18 +28,20 @@ class Form extends Component
     public $observacion;
     public $confirmacion;
     public $estados = [];
+    public $direccion;
 
 
 
     public function mount()
     {
-        $this->cliente = $this->pedido->cliente->user->email;
+        $this->cliente = $this->pedido->cliente->nombre_apellido;
         $this->chofer = $this->pedido->transporteRecojo()->choferTransporte->nombre_apellido;
         $this->bicicleta = $this->pedido->bicicleta;
         $this->fechaRecojoAprox = date('Y-m-d',strtotime($this->pedido->fecha_recojo_aprox)) ;
         $this->observacion = $this->pedido->observacion_cliente;
         $this->confirmacion = $this->pedido->confirmacion;
         $this->estados = Pedido::ESTADOS;
+        $this->direccion = $this->pedido->transporteRecojo()->direccion;
     }
     public function rules()
     {
@@ -53,9 +55,7 @@ class Form extends Component
 
     public function update()
     {
-        $cliente = Cliente::whereHas('user', function (Builder $query) {
-            $query->where('email', '=', $this->cliente);
-        })->first();
+        $cliente = Cliente::where('nombre_apellido', '=', $this->cliente)->first();
 
         $chofer = Empleado::where('nombre_apellido', '=', $this->chofer)->first();
 
@@ -88,7 +88,7 @@ class Form extends Component
         );
 
         try{
-            Mail::to($this->pedido->cliente->user->email)
+            Mail::to($this->pedido->cliente->email)
             ->send(new MailSolicitud($this->pedido, $url));
         }
         catch(\Exception $e){ // Using a generic exception
@@ -117,16 +117,15 @@ class Form extends Component
     public function updatedCliente()
     {
         if ($this->cliente != "") {
-            $this->clientes = Cliente::whereHas('user', function (Builder $query) {
-                $query->where('email', 'like', "%" . trim($this->cliente) . "%");
-            })->take(10)
+            $this->clientes = Cliente::where('nombre_apellido', 'like', "%" . trim($this->cliente) . "%")->take(10)
                 ->get();
 
-            $this->check = Cliente::whereHas('user', function (Builder $query) {
-                $query->where('email', '=', $this->cliente);
-            })->first();
+            $this->check = Cliente::where('nombre_apellido', '=', $this->cliente)->first();
         } else {
             $this->clientes = [];
+        }
+        if (!empty($this->check)) {
+            $this->direccion = $this->check->direccion;
         }
     }
 

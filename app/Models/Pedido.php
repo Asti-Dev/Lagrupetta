@@ -82,4 +82,24 @@ class Pedido extends Model
         });
         
     }
+
+    public function scopeFiltrarEstadoPedido($query, $estado){
+        if($estado != ''){
+            return $query->whereHas('pedidoEstado', function($query2) use ($estado){
+                $query2->where('nombre', 'like', "%{$estado}%");
+            });
+        }
+    }
+    public function scopeBuscarCliente($query, $cliente){
+        if($cliente != ''){
+            return $query->whereHas('cliente', function($query2) use ($cliente){
+                $query2->where('nombre_apellido', 'like', "%{$cliente}%");
+            });
+        }
+    }
+    public function scopeBuscarPedido($query, $nroPedido){
+        if($nroPedido != ''){
+            return $query->where('id', 'like', "%{$nroPedido}%");
+        }
+    }
 }

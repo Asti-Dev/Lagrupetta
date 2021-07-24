@@ -101,4 +101,27 @@ class PedidoDetalle extends Model
             }
         }
     }
+    public function scopeFiltrarEstadoPedido($query, $estado){
+        if($estado != ''){
+            return $query->whereHas('pedido.pedidoEstado', function($query2) use ($estado){
+                $query2->where('nombre', 'like', "%{$estado}%");
+            });
+        }
+    }
+
+    public function scopeBuscarCliente($query, $cliente){
+        if($cliente != ''){
+            return $query->whereHas('pedido.cliente', function($query2) use ($cliente){
+                $query2->where('nombre', 'like', "%{$cliente}%")
+                ->orWhere('apellido', 'like', "%{$cliente}%");
+            });
+        }
+    }
+    public function scopeBuscarPedido($query, $nroPedido){
+        if($nroPedido != ''){
+            return $query->whereHas('pedido', function($query2) use ($nroPedido){
+                $query2->where('id', 'like', "%{$nroPedido}%");
+            });
+        }
+    }
 }

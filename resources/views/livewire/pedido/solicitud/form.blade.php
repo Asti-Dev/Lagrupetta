@@ -5,10 +5,10 @@
             <label for="cliente" class="col-sm-4 col-form-label">Cliente</label>
             <div class="col-sm-8">
             <input autocomplete="off" list="clientes" wire:model="cliente" wire:change="$emit('updatedCliente')"
-                type="email" name="cliente" id="cliente" class="form-control">
+                type="text" name="cliente" id="cliente" class="form-control">
             <datalist id="clientes">
                 @foreach ($clientes as $cliente)
-                    <option value="{{ $cliente->user->email }}">
+                <option value="{{ $cliente->nombre_apellido }}">{{ $cliente->tipo_doc . ' :     ' . $cliente->nro_doc}}</option>
                 @endforeach
             </datalist>  
             </div>      
@@ -26,6 +26,12 @@
                     @endforeach
                 @endif
             </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label" for="direccion">Dirección</label>
+            <div class="col-sm-8">
+            <input type="text" class="form-control item" name="direccion" id="direccion" wire:model="direccion">
             </div>
         </div>
         <div class="form-group row">

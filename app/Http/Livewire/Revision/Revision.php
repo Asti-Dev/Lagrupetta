@@ -17,6 +17,8 @@ class Revision extends Component
     public $pruebas2 = [];
     public $pruebasR = [];
     public $checkC;
+    public $cliente;
+    public $nroPedido;
 
     protected $rules = [
 
@@ -98,7 +100,9 @@ class Revision extends Component
 
             $q->where('nombre', '=', 'REVISAR');
 
-        })->orderBy('id', 'desc')->get();
+        })->buscarPedido($this->nroPedido)
+        ->buscarCliente($this->cliente)
+        ->orderBy('id', 'desc')->get();
 
         return view('livewire.revision.revision', $data)
         ->extends('layouts.app')

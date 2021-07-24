@@ -14,7 +14,7 @@
             <div class="col px-5 py-3" style="background: lightblue">
                 <div class="form-group d-flex justify-content-between">
                     <strong>Cliente:</strong>
-                    <p class="text-right">{{ ($pedido->cliente->nombre .' '. $pedido->cliente->apellido) ?? '' }}</p>
+                    <p class="text-right">{{ ($pedido->cliente->nombre_apellido) ?? '' }}</p>
                 </div>
                 <div class="form-group d-flex justify-content-between">
                     <strong>Bicicleta:</strong>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="form-group d-flex justify-content-between">
                     <strong>Direccion:</strong>
-                    <p class="text-right">{{ $pedido->cliente->direccion ?? ''  }}</p>
+                    <p class="text-right">{{ $pedido->transporteRecojo()->first()->direccion ?? ''  }}</p>
                 </div>
                 <div class="form-group d-flex justify-content-between">
                     <strong>Fecha de Recojo:</strong>

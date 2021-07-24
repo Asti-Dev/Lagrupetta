@@ -16,9 +16,12 @@ class EmpleadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $empleados = Empleado::orderBy('id', 'desc')->paginate(5);
+        $empleado = $request->get('empleado');
+        $rol = $request->get('rol');
+
+        $empleados = Empleado::buscarEmpleado($empleado)->filtrarRol($rol)->orderBy('id', 'desc')->paginate(5);
 
         return view('pages.empleados.index', compact('empleados'));
     }

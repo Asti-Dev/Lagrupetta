@@ -20,4 +20,8 @@
     <a wire:click.prevent="pdf()" class="btn btn-primary">
         PDF
     </a>
+    <div class="row mt-5">
+    <input wire:ignore class="form-control my-5 w-100" placeholder="Escribe direccion .." id="buscador" />
+    </div>
 </div>
+

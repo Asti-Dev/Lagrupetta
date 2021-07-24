@@ -1,5 +1,26 @@
 <div>
     <div class="d-flex align-items-start my-1">
+        <div class="form-group">
+            <select class="form-control" id="estados" wire:model='ruta'>
+              <option value=''>Todas las rutas</option>
+              <option value='RECOJO'> RECOJO  </option>
+              <option value='ENTREGA'>ENTREGA </option>
+            </select>
+          </div>
+          <div class="form-group row ml-3">
+            <label class="col-sm-2 col-form-label" for="cliente">Cliente</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="cliente" wire:model="cliente">
+            </div>
+          </div>
+          <div class="form-group row ml-3">
+            <label class="col-sm-2 col-form-label" for="nroPedido">Nro Pedido</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="nroPedido" wire:model="nroPedido">
+            </div>
+          </div>
+    </div>
+    <div class="d-flex align-items-start my-1">
         @if (count($transportes) == 0)
         <div class="w-100 alert alert-primary" role="alert">
             NO TIENES PEDIDOS ASIGNADOS
@@ -24,7 +45,7 @@
                         <div class="d-flex w-100 justify-content-between">
                             <b class="mb-1">Cliente:</b>
                             <label class="text-right">
-                                {{$transporte->pedido->cliente->nombre .' '. $transporte->pedido->cliente->apellido}}
+                                {{$transporte->pedido->cliente->nombre_apellido}}
                             </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
@@ -35,7 +56,7 @@
                         </div>
                         <div class="d-flex flex-column w-100 justify-content-between">
                             <b class="mb-1">Direccion:</b>
-                            <label class="text-right"> {{$transporte->pedido->cliente->direccion}} </label>
+                            <label class="text-right"> {{$transporte->direccion}} </label>
                         </div>
                         <div class="d-flex flex-column w-100 justify-content-between">
                             <b class="mb-1">Observacion Cliente:</b>
