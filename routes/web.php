@@ -80,6 +80,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'administracion'], function() 
 
     Route::resource('empleados', EmpleadoController::class)->middleware(['role:super-admin|administrador']);
 
+    Route::get('/empleado/reset/{empleado}',  [EmpleadoController::class, 'restorePassword'])->name('empleado.reset');
+
     Route::get('/whatsapp/{pedido}', [WhatsappController::class, 'sendMessage'])->name('whatsapp.sendMessage')->middleware(['role:super-admin|administrador']);
 
     Route::get('/servicios', Servicio::class)->name('servicios.index')->middleware(['role:super-admin|administrador']);

@@ -67,7 +67,8 @@
         <tbody>
             @foreach ($empleados as $empleado)
                 <tr>
-                    <td class="d-flex justify-content-center" style="height: 100px" scope="row">
+                    <td class="d-flex flex-column justify-content-between align-items-center" style="height: 100px" scope="row">
+                        <div class="d-flex">
                             <a class="mx-1" href="{{ route('empleados.show', $empleado->id) }}" title="show">
                                 <i class="fas fa-eye text-success  fa-lg"></i>
                             </a>
@@ -84,6 +85,17 @@
                                     <i class="fas fa-trash fa-lg text-danger"></i>
                                 </button>
                             </form>
+                        </div>
+
+                            <div>
+                                <form class="mx-1" style="width: min-content"
+                                    action="{{ route('empleado.reset', $empleado->id) }}" method="GET">
+                                    <button type="submit" class="btn btn-warning" onclick="return confirm('¿Estas seguro que deseas resetear la contraseña?')"
+                                        title="resetear contraseña" style="font-size:0.8rem; border: none;">
+                                        <i class="fas fa-key"></i>
+                                    </button>
+                                </form>
+                            </div>
                     </td>
                     <td>{{ $empleado->id }}</td>
                     <td>{{ $empleado->nombre_apellido }}</td>

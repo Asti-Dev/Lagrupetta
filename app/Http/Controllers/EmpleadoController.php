@@ -152,4 +152,16 @@ class EmpleadoController extends Controller
         return redirect()->route('empleados.index')
         ->with('success', 'Empleado eliminado!');
     }
+
+    public function restorePassword(Empleado $empleado)
+    {
+        $user = User::find($empleado->user->id);
+
+        $user->update([
+            'password' => Hash::make('password'),
+        ]);
+
+        return redirect()->route('empleados.index')
+        ->with('success', 'Contraseña reseteada!');
+    }
 }

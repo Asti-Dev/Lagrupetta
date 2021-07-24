@@ -18,5 +18,12 @@
             </div>
         </div>
     </div>
+    <div class="row mt-3">
+        <div class="col-6">
+            @hasanyrole('super-admin|administrador|chofer|jefe mecanicos')
+            <livewire:widget.mecanicos />
+            @endhasanyrole
+        </div>
+    </div>
 </div>
 @endsection
