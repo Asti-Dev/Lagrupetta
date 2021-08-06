@@ -30,7 +30,7 @@
                 </div>
                 <div class="form-group d-flex justify-content-between">
                     <strong>Direccion:</strong>
-                    <p class="text-right">{{ $pedido->transporteRecojo()->first()->direccion ?? ''  }}</p>
+                    <p class="text-right">{{ $pedido->transporteRecojo()->direccion ?? ''  }}</p>
                 </div>
                 <div class="form-group d-flex justify-content-between">
                     <strong>Fecha de Recojo:</strong>

@@ -22,7 +22,8 @@ class CreateEmpleadosTable extends Migration
             $table->string('nro_doc')->nullable();
             $table->date('fecha_cumpleanos')->nullable();
             $table->string('cargo');
-            $table->foreignId('user_id')->unique()->constrained();
+            $table->bigInteger('user_id')->nullable()->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->foreign('created_by')->references('id')->on('users');
             $table->bigInteger('updated_by')->nullable()->unsigned();

@@ -28,6 +28,35 @@ class DetalleRepuestos extends Component
 
     public function encontrarRepuesto()
     {
+        if ($this->repuesto['nombre'] != "") {
+            $this->listaRepuestos = Repuesto::where('nombre', 'like', "%" . trim($this->repuesto['nombre']) . "%")->take(10)
+                ->get();
+
+            $this->check = Repuesto::where('nombre', '=', $this->repuesto['nombre'])->first();
+        } else {
+            $this->listaRepuestos = [];
+        }
+        if (!empty($this->check)) {
+            $this->repuesto = [
+                'id' => $this->check->id,
+                'nombre' => $this->check->nombre,
+                'cantidad' => 1,
+                'precio_unitario' => $this->check->precio,
+                'precio' => $this->check->precio,
+            ];
+        } else{
+            $this->repuesto = [
+                'id' => '',
+                'nombre' => $this->repuesto['nombre'],
+                'cantidad' => 1,
+                'precio_unitario' => '',
+                'precio' => '',
+            ];
+        };
+    }
+
+    public function encontrarRepuesto2()
+    {
         $repuesto = Repuesto::where("nombre", "=", trim($this->repuesto['nombre']))
         ->first();
         if ($repuesto) {
@@ -76,7 +105,7 @@ class DetalleRepuestos extends Component
 
     public function render()
     {
-        $this->listaRepuestos = Repuesto::where('activo','=',0)->get();
+        //$this->listaRepuestos = Repuesto::where('activo','=',0)->get();
         return view('livewire.pedido.pedido-detalle.cotizacion.detalle-repuestos');
     }
 }

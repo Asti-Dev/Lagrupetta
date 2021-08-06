@@ -46,5 +46,5 @@
     </tbody>
 </table>
 
-{{ $servicios->links('pagination::bootstrap-4') }} 
+{{ $servicios->links() }} 
 </div>

@@ -16,7 +16,7 @@
         <div class="col px-5 py-3" style="background: lightblue">
             <div class="form-group d-flex justify-content-between">
                 <strong>Cliente:</strong>
-                <p class="text-right">{{ ($pedido->cliente->nombre .' '. $pedido->cliente->apellido) ?? '' }}</p>
+                <p class="text-right">{{ ($pedido->cliente->nombre_apellido) ?? '' }}</p>
             </div>
             <div class="form-group d-flex justify-content-between">
                 <strong>Bicicleta:</strong>
@@ -32,7 +32,7 @@
             </div>
             <div class="form-group d-flex justify-content-between">
                 <strong>Direccion:</strong>
-                <p class="text-right">{{ $pedido->cliente->direccion ?? ''  }}</p>
+                <p class="text-right">{{ $pedido->transporteRecojo()->direccion ?? ''  }}</p>
             </div>
             <div class="form-group d-flex justify-content-between">
                 <strong>Fecha de Recojo:</strong>
@@ -47,17 +47,14 @@
                 <p class="text-right"> {{ $pedido->pedidoDetalle->mecanicoUno->nombre_apellido ?? ''  }} </p>
             </div>
             <div class="form-group d-flex justify-content-between">
-                <strong>Direccion:</strong>
-                <p class="text-right">{{ $pedido->cliente->direccion ?? ''  }}</p>
-            </div>
-            <div class="form-group d-flex justify-content-between">
                 <strong>Fecha de Entrega:</strong>
-                <p class="text-right">{{ $pedido->pedidoDetalle->fecha_entrega_aprox ?? ''  }}</p>
+                <p class="text-right">{{ $pedido->transporteEntrega()->fecha_hora_completado ?? $pedido->pedidoDetalle->fecha_entrega_aprox  }}</p>
             </div>
         </div>
     </div>
     <div class="col-sm-6">
         <div class="d-flex flex-column">
+            @if ($pedido->pedidoEstado->nombre == 'COTIZADO')
             <a href="{{route('pedido.aceptarCotizacionManual', ['pedido' => $pedido->id])}}"
                 class="mx-4 mb-1 btn btn-success btn-sm">Aceptar Cotizacion</a>
 
@@ -66,19 +63,20 @@
 
             <a href="{{route('cotizacion.edit', $pedido->pedidoDetalle->id)}}"
                 class="mx-4 mb-1 btn btn-primary btn-sm">Reenviar Cotizacion</a>
-
+            @endif
             <a target="_blank" href="{{route('whatsapp.sendMessage', ['pedido' => $pedido->id])}}"
                     class="mx-4 mb-1 btn btn-success btn-sm">Enviar Whatsapp</a>
             
         </div>
+        <div class="px-3 pt-3"><h5> Precio total : S/. {{$pedido->pedidoDetalle->precio_total}}</h3></div>
         @if ($pedido->pedidoDetalle->paquetes)
         <div class="card w-100">
             <div class="card-header">
-                Paquetes
+                Paquetes 
             </div>
             <ul class="list-group list-group-flush">
                 @foreach ($pedido->pedidoDetalle->paquetes->unique() as $paquete)
-                <li class="list-group-item"> {{$paquete->nombre}}
+                <li class="list-group-item"> {{$paquete->nombre}} x {{$paquete->pivot->cantidad}} <b>Precio: S/. {{$paquete->pivot->precio_total}}</b>
                     <ul class="list-group list-group-flush">
                         @foreach ($paquete->servicios as $paquete_servicio)
                         <li class="list-group-item">
@@ -111,7 +109,7 @@
                 <li class="list-group-item">
                     <div class="d-flex w-100 justify-content-between align-items-center">
                         <div class="col-9">
-                            <label class="m-1">{{ $servicio->nombre }} x {{$servicio->pivot->cantidad}}
+                            <label class="m-1">{{ $servicio->nombre }} x {{$servicio->pivot->cantidad}} <b>Precio: S/. {{$servicio->pivot->precio_total}}</b>
                             </label>
                         </div>
                     </div>
@@ -130,7 +128,7 @@
                 <li class="list-group-item">
                     <div class="d-flex w-100 justify-content-between align-items-center">
                         <div class="col-9">
-                            <label class="m-1">{{ $repuesto->nombre }} x {{$repuesto->pivot->cantidad}}
+                            <label class="m-1">{{ $repuesto->nombre }} x {{$repuesto->pivot->cantidad}} <b>Precio: S/. {{$repuesto->pivot->precio_total}}</b>
                             </label>
                         </div>
                     </div>

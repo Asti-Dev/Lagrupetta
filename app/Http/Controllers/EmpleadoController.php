@@ -147,6 +147,11 @@ class EmpleadoController extends Controller
      */
     public function destroy(Empleado $empleado)
     {
+        $user = User::find($empleado->user->id);
+        $empleado->update([
+            'user_id' => NULL,
+        ]);
+        $user->delete();
         $empleado->delete();
 
         return redirect()->route('empleados.index')

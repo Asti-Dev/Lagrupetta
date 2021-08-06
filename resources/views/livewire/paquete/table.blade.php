@@ -52,5 +52,5 @@
     </tbody>
 </table>
 
-{{ $paquetes->links('pagination::bootstrap-4') }} 
+{{ $paquetes->links() }} 
 </div>

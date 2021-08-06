@@ -110,8 +110,7 @@
                             </a>
                             @endif
 
-                            @if($pedido->pedidoEstado->nombre === 'COTIZADO' &&
-                            $pedido->pedidoDetalle->confirmacion != 'ACEPTADO')
+                            @if($pedido->pedidoEstado->id >= 5)
                             <a class="mx-2" href="{{route('cotizacion.show', $pedido->id)}}" style="width: min-content" title="show">
                                 <i class="fas fa-eye text-success"></i>
                             </a>

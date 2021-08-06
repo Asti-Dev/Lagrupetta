@@ -19,7 +19,7 @@ class CreateDiagnosticosTable extends Migration
             $table->bigInteger('mecanico')->unsigned();
             $table->foreign('mecanico')->references('id')->on('empleados')->constrained();
             $table->foreignId('bicicleta_id')->constrained();
-            $table->string('comentario');
+            $table->longText('comentario')->nullable();
             $table->longText('data')->nullable();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->foreign('created_by')->references('id')->on('users');

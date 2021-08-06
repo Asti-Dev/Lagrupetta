@@ -15,7 +15,7 @@ class Repuesto extends Component
     public $nombre;
     public $precio;
     public $activo = 0;
-    public $nombreRepuesto;
+    public $nombreRepuesto = '';
     public $precioRepuesto;
 
 
@@ -28,6 +28,15 @@ class Repuesto extends Component
         'activo' => 'required',
 
     ];
+
+    public function updatingNombreRepuesto()
+    {
+        $this->resetPage();
+    }
+    public function updatingPrecioRepuesto()
+    {
+        $this->resetPage();
+    }
 
     public function render()
     {

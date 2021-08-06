@@ -30,6 +30,14 @@ class Paquete extends Component
 
     ];
 
+    public function updatingNombrePaquete()
+    {
+        $this->resetPage();
+    }
+    public function updatingPrecioPaquete()
+    {
+        $this->resetPage();
+    }
 
     public function render()
     {

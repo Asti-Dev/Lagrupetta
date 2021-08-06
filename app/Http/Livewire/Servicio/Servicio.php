@@ -28,6 +28,15 @@ class Servicio extends Component
 
     ];
 
+    public function updatingNombreServicio()
+    {
+        $this->resetPage();
+    }
+    public function updatingPrecioServicio()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $servicios = ModelsServicio::buscarNombre($this->nombreServicio)
