@@ -44,13 +44,13 @@ class CotizacionController extends Controller
 
         $url['aceptar'] = URL::temporarySignedRoute(
             'pedido.aceptarCotizacion',
-            now()->addMinutes(60),
+            now()->addMinutes(300),
             ['pedido' => $pedido->id]
         );
 
         $url['rechazar'] = URL::temporarySignedRoute(
             'pedido.rechazarCotizacion',
-            now()->addMinutes(60),
+            now()->addMinutes(300),
             ['pedido' => $pedido->id]
         );
 
@@ -107,13 +107,13 @@ class CotizacionController extends Controller
 
         $url['aceptar'] = URL::temporarySignedRoute(
             'pedido.aceptarCotizacion',
-            now()->addMinutes(60),
+            now()->addMinutes(300),
             ['pedido' => $pedido->id]
         );
 
         $url['rechazar'] = URL::temporarySignedRoute(
             'pedido.rechazarCotizacion',
-            now()->addMinutes(60),
+            now()->addMinutes(300),
             ['pedido' => $pedido->id]
         );
 
@@ -161,13 +161,13 @@ class CotizacionController extends Controller
 
         $url['aceptar'] = URL::temporarySignedRoute(
             'pedido.aceptarCotizacion',
-            now()->addMinutes(60),
+            now()->addMinutes(300),
             ['pedido' => $pedido->id]
         );
 
         $url['rechazar'] = URL::temporarySignedRoute(
             'pedido.rechazarCotizacion',
-            now()->addMinutes(60),
+            now()->addMinutes(300),
             ['pedido' => $pedido->id]
         );
 

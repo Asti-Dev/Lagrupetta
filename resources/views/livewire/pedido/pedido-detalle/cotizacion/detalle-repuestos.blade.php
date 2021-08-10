@@ -4,13 +4,12 @@
     </div>
     <div class="col form-group d-flex flex-column justify-content-end ">
         <strong>Nombre:</strong>
-        <input autocomplete="off" list="repuestos" wire:model="repuesto.nombre" wire:keyup="encontrarRepuesto()"
-                type="text" name="nombrerepuesto[]" class="form-control">
-            <datalist id="repuestos">
+            <select class="form-control" wire:model="repuesto.nombre" wire:change="encontrarRepuesto()" name="nombrerepuesto[]">
+                <option value=""> Selecciona un Repuesto</option>
                 @foreach ($listaRepuestos as $listaRepuesto)
-                <option value="{{$listaRepuesto->nombre}}">
+                <option value="{{$listaRepuesto->nombre}}">{{ $listaRepuesto->nombre }}</option>
                 @endforeach
-            </datalist>  
+            </select>
             
     </div>
     <div class="col form-group d-flex flex-column justify-content-end ">

@@ -58,11 +58,11 @@ class Form extends Component
         ]);
 
         $url['aceptar'] = URL::temporarySignedRoute(
-            'pedido.aceptarSolicitud', now()->addMinutes(60), ['pedido' => $pedido->id]
+            'pedido.aceptarSolicitud', now()->addMinutes(300), ['pedido' => $pedido->id]
         );
 
         $url['rechazar'] = URL::temporarySignedRoute(
-            'pedido.rechazarSolicitud', now()->addMinutes(60), ['pedido' => $pedido->id]
+            'pedido.rechazarSolicitud', now()->addMinutes(300), ['pedido' => $pedido->id]
         );
 
         try{
