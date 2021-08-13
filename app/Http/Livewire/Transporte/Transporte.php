@@ -88,12 +88,12 @@ class Transporte extends Component
             
             case 'SEMANA':
                 $this->fecha = today()->subDays(3);
-                $this->fecha2 = today()->addDays(3);
+                $this->fecha2 = today()->addDays(7);
                 break;
 
             case 'MES':
-                $this->fecha = today()->subDays(15);
-                $this->fecha2 = today()->addDays(15);
+                $this->fecha = today()->subDays(7);
+                $this->fecha2 = today()->addDays(30);
                 break;
 
             default:
