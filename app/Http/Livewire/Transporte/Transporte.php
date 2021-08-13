@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Transporte;
 use App\Models\Pedido;
 use App\Models\PedidoEstado;
 use App\Models\Transporte as ModelsTransporte;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -21,9 +22,13 @@ class Transporte extends Component
         'TERMINADO' => 'ENTREGADO',
         'SOLICITADO' => 'RECOGIDO',
     ];
+    public $fecha;
+    public $fecha2;
+    public $selectFecha;
     public $ruta;
     public $cliente;
     public $nroPedido;
+
 
 
     public function rules()
@@ -73,18 +78,43 @@ class Transporte extends Component
         $this->view = 'table';
     }
 
+    public function updatedSelectFecha($value)
+    {
+        switch ($value) {
+            case 'HOY':
+                $this->fecha = today();
+                $this->fecha2 = '';
+                break;
+            
+            case 'SEMANA':
+                $this->fecha = today()->subDays(3);
+                $this->fecha2 = today()->addDays(3);
+                break;
+
+            case 'MES':
+                $this->fecha = today()->subDays(15);
+                $this->fecha2 = today()->addDays(15);
+                break;
+
+            default:
+                $this->fecha = '';
+                $this->fecha2 = '';
+                break;
+        }
+    }
 
     public function render()
     {
         $transportes = ModelsTransporte::buscarCliente($this->cliente)
             ->buscarPedido($this->nroPedido)
             ->filtrarRuta($this->ruta)
+            ->filtrarFecha($this->fecha , $this->fecha2)
             ->choferSession()
             ->whereHas('pedido', function($q){
 
                 $q->where('confirmacion', '=', 'ACEPTADO');
     
-            })->orderBy('id', 'desc')->get();
+            })->orderBy('id', 'asc')->get();
 
         $this->transportes = $transportes->whereIn('ruta', ['RECOJO','ENTREGA'])->
         whereNotIn('completado', ['COMPLETADO']);

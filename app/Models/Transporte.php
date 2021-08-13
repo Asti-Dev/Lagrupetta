@@ -66,6 +66,25 @@ class Transporte extends Model
             return $query->where('ruta', 'like', "%{$ruta}%");
         }
     }
+
+    public function scopeFiltrarFecha($query, $fecha , $fecha2){
+        if($fecha != ''){
+                if($fecha2 != ''){
+                    return $query->whereHas('pedido', function($query2) use ($fecha , $fecha2){
+                        $query2->whereBetween('fecha_recojo_aprox', [$fecha , $fecha2]);
+                    })->orWhereHas('pedido.pedidoDetalle', function( $query3 ) use ($fecha , $fecha2){
+                        $query3->whereBetween('fecha_entrega_aprox', [$fecha , $fecha2]);
+                    });;
+                } else{
+                    return $query->whereHas('pedido', function($query2) use ($fecha){
+                        $query2->where('fecha_recojo_aprox', $fecha);
+                    })->orWhereHas('pedido.pedidoDetalle', function($query2) use ($fecha){
+                        $query2->where('fecha_entrega_aprox', $fecha);
+                    });
+                }
+        }
+    }
+
     public function scopeBuscarCliente($query, $cliente){
         if($cliente != ''){
             return $query->whereHas('pedido.cliente', function($query2) use ($cliente){

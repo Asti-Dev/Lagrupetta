@@ -1,32 +1,42 @@
 <div>
-    <div class="d-flex align-items-start my-1">
-        <div class="form-group">
+    <div class="row row-cols-1 row-cols-lg-4 d-flex align-items-start my-1">
+          <div class="col form-group">
+            <select class="form-control" wire:model='selectFecha'>
+              <option value=''>Todas las Fechas</option>
+              <option value='HOY'> HOY </option>
+              <option value='SEMANA'>SEMANA </option>
+              <option value='MES'> MES </option>
+            </select>
+          </div>
+          <div class="col form-group">
             <select class="form-control" id="estados" wire:model='ruta'>
               <option value=''>Todas las rutas</option>
               <option value='RECOJO'> RECOJO  </option>
               <option value='ENTREGA'>ENTREGA </option>
             </select>
           </div>
-          <div class="form-group row ml-3">
+          <div class="col d-flex justify-content-between form-group row">
             <label class="col-sm-2 col-form-label" for="cliente">Cliente</label>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 <input type="text" class="form-control" id="cliente" wire:model="cliente">
             </div>
           </div>
-          <div class="form-group row ml-3">
+          <div class="col d-flex justify-content-between form-group row">
             <label class="col-sm-2 col-form-label" for="nroPedido">Nro Pedido</label>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 <input type="number" class="form-control" id="nroPedido" wire:model="nroPedido">
             </div>
           </div>
     </div>
+    @if (count($transportes) == 0)
     <div class="d-flex align-items-start my-1">
-        @if (count($transportes) == 0)
+        
         <div class="w-100 alert alert-primary" role="alert">
             NO TIENES PEDIDOS ASIGNADOS
         </div>
-        @endif
     </div>
+    @endif
+
     <div wire:poll.10s.keep-alive class="container-fluid" style="background: lightskyblue">
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 d-flex justify-content-left">
             @foreach ($transportes as $transporte)
@@ -62,6 +72,17 @@
                             <b class="mb-1">Observacion Cliente:</b>
                             <label class="text-right"> {{$transporte->pedido->observacion_cliente}} </label>
                         </div>
+                        @if (!empty($transporte->pedido->pedidoDetalle->fecha_entrega_aprox))
+                        <div class="d-flex w-100 justify-content-between">
+                            <b class="mb-1">Fecha Entrega:</b>
+                            <label class="text-right"> {{ date('d/m/Y' ,strtotime($transporte->pedido->pedidoDetalle->fecha_entrega_aprox))}} </label>
+                        </div>
+                        @else
+                        <div class="d-flex w-100 justify-content-between">
+                            <b class="mb-1">Fecha Recojo:</b>
+                            <label class="text-right"> {{ date('d/m/Y' ,strtotime($transporte->pedido->fecha_recojo_aprox))}} </label>
+                        </div>
+                        @endif
                         <div class="d-flex w-100 justify-content-between">
                             <b class="mb-1">Codigo:</b>
                             <label class="text-right"> {{$transporte->pedido->codigo}} </label>
