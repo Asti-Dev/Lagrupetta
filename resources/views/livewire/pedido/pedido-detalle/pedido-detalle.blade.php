@@ -13,14 +13,12 @@
 
     <div wire:poll.10s.keep-alive>
         <div class="row  m-3">
-            <div class="form-check">
-                <input class="form-check-input" wire:model="status" {{$status == true ? 'checked' : '' }}
-                    type="checkbox" />
-                <label class="form-check-label" for="defaultCheck1">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="customSwitch1"  wire:model="status" {{$status == true ? 'checked' : '' }}>
+                <label class="custom-control-label" for="customSwitch1">
                     {{$status == true ? 'EN PROCESO' : 'EN ESPERA' }}
                 </label>
             </div>
-
         </div>
         <div class="row">
             @if (count($paquetes)) 
