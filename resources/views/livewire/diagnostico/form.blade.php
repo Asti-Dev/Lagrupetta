@@ -16,7 +16,8 @@
                 @if ($parte->parteModelo->tag == false)
                 <tr wire:key='{{$key}}'>
                     <th scope="row" width="40%">
-                        {{$parte->parteModelo->nombre}}
+                        <b>{{$parte->parteModelo->nombre}}</b>
+                        @error('porcentajes.' . $key) <span class="text-danger">Porcentaje Requerido</span> @enderror
                         <div class="col form-group" style="display: none">
                             <input type="text" name="parteId[]" class="form-control" value="{{$parte->id}}">
                             <input type="text" name="parteNombre[]" class="form-control" value="{{$parte->parteModelo->nombre}}">
@@ -24,37 +25,33 @@
                     </th>
                     <td>
                         <label for="porcentaje{{$key}}1" class="input-group-prepend">
-                            <div class="input-group-text">
+                            <div class="input-group-text @error('porcentajes.' . $key) border-danger @enderror">
                                 <input type="radio" 
-                                    name="porcentaje[{{$key}}]" id="porcentaje{{$key}}1" value="0%"
-                                    aria-label="Radio button for following text input">
+                                    name="porcentaje[{{$key}}]" wire:model='porcentajes.{{$key}}.{{$key}}' id="porcentaje{{$key}}1" value="0%">
                             </div>
                         </label>
                     </td>
                     <td>
                         <label for="porcentaje{{$key}}2" class="input-group-prepend">
-                            <div class="input-group-text">
+                            <div class="input-group-text @error('porcentajes.' . $key) border-danger @enderror">
                                 <input type="radio" 
-                                    name="porcentaje[{{$key}}]" id="porcentaje{{$key}}2" value="25%"
-                                    aria-label="Radio button for following text input">
+                                    name="porcentaje[{{$key}}]"  wire:model='porcentajes.{{$key}}.{{$key}}' id="porcentaje{{$key}}2" value="25%">
                             </div>
                         </label>
                     </td>
                     <td>
-                        <label for="porcentaje{{$key}}3" class="input-group-prepend">
-                            <div class="input-group-text">
+                        <label for="porcentaje{{$key}}3"  wire:model='porcentajes.{{$key}}.{{$key}}' class="input-group-prepend">
+                            <div class="input-group-text @error('porcentajes.' . $key) border-danger @enderror">
                                 <input type="radio" 
-                                    name="porcentaje[{{$key}}]" id="porcentaje{{$key}}3" value="50%"
-                                    aria-label="Radio button for following text input">
+                                    name="porcentaje[{{$key}}]" id="porcentaje{{$key}}3" value="50%">
                             </div>
                         </label>
                     </td>
                     <td>
-                        <label for="porcentaje{{$key}}4" class="input-group-prepend">
-                            <div class="input-group-text">
+                        <label for="porcentaje{{$key}}4" wire:model='porcentajes.{{$key}}.{{$key}}' class="input-group-prepend">
+                            <div class="input-group-text @error('porcentajes.' . $key) border-danger @enderror">
                                 <input type="radio" 
-                                    name="porcentaje[{{$key}}]" id="porcentaje{{$key}}4" value="75%"
-                                    aria-label="Radio button for following text input">
+                                    name="porcentaje[{{$key}}]" id="porcentaje{{$key}}4" value="75%">
                             </div>
                         </label>
                     </td>

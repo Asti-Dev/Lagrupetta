@@ -13,9 +13,8 @@
     <div class="alert alert-danger">
         <strong>Whoops!</strong> Hubo un problema con los datos ingresados<br><br>
         <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
+            @error('explicacion') <li class="error">Explicacion Requerida</li> @enderror
+            @error('fecha_entrega') <li class="error">Fecha de Entrega Requerida</li> @enderror
         </ul>
     </div>
     @endif

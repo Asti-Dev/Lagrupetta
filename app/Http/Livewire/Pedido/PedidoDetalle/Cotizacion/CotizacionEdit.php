@@ -12,6 +12,19 @@ class CotizacionEdit extends Component
     public $explicacion;
     public $precioTotal;
 
+    protected function rules()
+    {
+        return [
+            'fechaEntrega' => 'required',
+            'explicacion' => 'required',
+        ];
+    }
+
+    public function updated()
+    {
+        $this->validate();
+    }
+
     public function mount(Pedido $pedido){
         $this->pedido = $pedido;
         $this->fechaEntrega =  date('Y-m-d',strtotime($pedido->pedidoDetalle->fecha_entrega_aprox));        
