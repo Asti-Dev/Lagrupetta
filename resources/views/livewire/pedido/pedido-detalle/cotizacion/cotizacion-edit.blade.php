@@ -21,11 +21,15 @@
 
     <div class="form-group">
         <label for="fecha_entrega">Fecha de Entrega</label>
-        <input wire:model='fechaEntrega' type="date" id="fecha_entrega" name="fecha_entrega" min="2021-01-00" class="form-control">
+        <input wire:model='fechaEntrega' type="date" id="fecha_entrega" name="fecha_entrega" min="2021-01-00" class="form-control
+        @error('fechaEntrega') is-invalid @enderror">
+        @error('fechaEntrega') <span class="text-danger">Campo Obligatorio</span> @enderror
     </div>
     <div class="form-group">
         <label for="explicacion" class="form-label">Explicacion</label>
-        <textarea wire:model='explicacion' class="form-control" name="explicacion" id="explicacion" rows="3">{{$explicacion}}</textarea>
+        <textarea wire:model='explicacion' name="explicacion" id="explicacion" rows="3" class="form-control
+        @error('explicacion') is-invalid @enderror">{{$explicacion}}</textarea>
+        @error('explicacion') <span class="text-danger">Campo Obligatorio</span> @enderror
     </div>
     <div class="form-group">
         <strong>Precio Total:</strong>

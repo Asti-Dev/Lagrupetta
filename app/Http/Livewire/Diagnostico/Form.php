@@ -12,40 +12,25 @@ class Form extends Component
     public $pedidoDetalleId;
     public $pedidoDetalle;
     public $partes = [];
-    public $test = [];
-    // public $partesRenderizado = [];
-
-    // public $comentarioMecanico;
-
-    // protected $listeners = ['requestData'];
+    public $porcentajes = [];
 
     protected function rules()
     {
-        return [
-            'test.*' => 'required',
-        ];
+        $array = [];
+        foreach ($this->partes as $key => $parte) {
+            $array['porcentajes.' . $key] ='required';
+        }
+        return $array;
     }
 
-    protected $rules = [
-        // 'partes.*.porcentaje' => 'required',
-        // 'partes.*.comentario' => 'required',
-        // 'partes.*.detalle' => 'required',
-        // 'comentarioMecanico' => 'required'
-    ];
-
-    // public function requestData(){
-    //     $data = [];
-    //     $data['partes'] = $this->partes;
-    //     $data['comentarioMecanico'] = $this->comentarioMecanico;
-    //     $this->emitUp('sendData', $data);
-    // }
+    public function updated()
+    {
+        $this->validate();
+    }
 
     public function mount(){
         $this->pedidoDetalle = PedidoDetalle::find($this->pedidoDetalleId);
-        // $this->partesRenderizado =$this->pedidoDetalle->pedido->bicicleta->partes;
         $this->partes = $this->pedidoDetalle->pedido->bicicleta->partes;
-
-        // $this->validate();
 
     }
 

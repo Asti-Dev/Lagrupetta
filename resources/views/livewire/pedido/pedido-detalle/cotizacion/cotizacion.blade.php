@@ -4,16 +4,19 @@
     <livewire:pedido.pedido-detalle.cotizacion.form-repuestos>
     <div class="form-group">
         <label for="fecha_entrega">Fecha de Entrega</label>
-        <input type="date" id="fecha_entrega" name="fecha_entrega" min="2021-01-00" class="form-control">
+        <input type="date" wire:model='fecha' id="fecha_entrega" name="fecha_entrega" min="2021-01-00" class="form-control
+        @error('fecha') is-invalid @enderror">
+        @error('fecha') <span class="text-danger">Campo Obligatorio</span> @enderror
     </div>
     <div class="form-group">
         <label for="explicacion" class="form-label">Explicacion</label>
-        <textarea class="form-control" name="explicacion" id="explicacion" rows="3"></textarea>
+        <textarea wire:model='explicacion' name="explicacion" id="explicacion" rows="3" class="form-control
+        @error('explicacion') is-invalid @enderror"></textarea>
+        @error('explicacion') <span class="text-danger">Campo Obligatorio</span> @enderror
     </div>
     <div class="form-group">
         <strong>Precio Total:</strong>
         <input readonly type="number" min="0" step="0.01" name="total_precio" class="form-control">
-        @error('total_precio') <span>{{$message}}</span> @enderror
     </div>
 </div>
 
