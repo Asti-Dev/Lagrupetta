@@ -12,11 +12,19 @@ class Form extends Component
     public $pedidoDetalleId;
     public $pedidoDetalle;
     public $partes = [];
+    public $test = [];
     // public $partesRenderizado = [];
 
     // public $comentarioMecanico;
 
     // protected $listeners = ['requestData'];
+
+    protected function rules()
+    {
+        return [
+            'test.*' => 'required',
+        ];
+    }
 
     protected $rules = [
         // 'partes.*.porcentaje' => 'required',

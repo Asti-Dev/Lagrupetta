@@ -26,7 +26,7 @@
                         <label for="porcentaje{{$key}}1" class="input-group-prepend">
                             <div class="input-group-text">
                                 <input type="radio" 
-                                    name="porcentaje[{{$key}}]" id="porcentaje{{$key}}1" value="0%"
+                                    name="porcentaje[{{$key}}]" wire:model='test.{{$key}}.{{$key}}' id="porcentaje{{$key}}1" value="0%"
                                     aria-label="Radio button for following text input">
                             </div>
                         </label>
@@ -35,13 +35,13 @@
                         <label for="porcentaje{{$key}}2" class="input-group-prepend">
                             <div class="input-group-text">
                                 <input type="radio" 
-                                    name="porcentaje[{{$key}}]" id="porcentaje{{$key}}2" value="25%"
+                                    name="porcentaje[{{$key}}]"  wire:model='test.{{$key}}.{{$key}}' id="porcentaje{{$key}}2" value="25%"
                                     aria-label="Radio button for following text input">
                             </div>
                         </label>
                     </td>
                     <td>
-                        <label for="porcentaje{{$key}}3" class="input-group-prepend">
+                        <label for="porcentaje{{$key}}3"  wire:model='test.{{$key}}.{{$key}}' class="input-group-prepend">
                             <div class="input-group-text">
                                 <input type="radio" 
                                     name="porcentaje[{{$key}}]" id="porcentaje{{$key}}3" value="50%"
@@ -50,7 +50,7 @@
                         </label>
                     </td>
                     <td>
-                        <label for="porcentaje{{$key}}4" class="input-group-prepend">
+                        <label for="porcentaje{{$key}}4" wire:model='test.{{$key}}.{{$key}}' class="input-group-prepend">
                             <div class="input-group-text">
                                 <input type="radio" 
                                     name="porcentaje[{{$key}}]" id="porcentaje{{$key}}4" value="75%"

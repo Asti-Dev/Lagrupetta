@@ -10,6 +10,8 @@
     </div>
 
     @if ($errors->any())
+    @error('explicacion')
+    <span class="error">Explicacion Requerida</span> @enderror
     <div class="alert alert-danger">
         <strong>Whoops!</strong> Hubo un problema con los datos ingresados<br><br>
         <ul>
