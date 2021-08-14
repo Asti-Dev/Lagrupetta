@@ -31,4 +31,4 @@
     </tbody>
 </table>
 
-{{ $parteModelos->links('pagination::bootstrap-4') }} 
+{{ $parteModelos->links() }} 

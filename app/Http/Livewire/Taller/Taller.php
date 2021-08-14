@@ -12,6 +12,13 @@ class Taller extends Component
     public $estado;
     public $nroPedido;
     public $cliente;
+    public $nroOrden;
+    public $orden = [
+        '1' => [
+            'TERMINO' => 'fecha_entrega_aprox',
+            'SENTIDO' => 'desc'
+        ],
+    ];
 
     public function diagnostico(){
         //create diagnostico
@@ -33,7 +40,8 @@ class Taller extends Component
         })->buscarPedido($this->nroPedido)
         ->buscarCliente($this->cliente)
         ->filtrarEstadoPedido($this->estado)
-        ->orderBy('id', 'desc')->paginate(6);
+        ->orderBy($this->orden[$this->nroOrden]['TERMINO'] ?? 'id' , $this->orden[$this->nroOrden]['SENTIDO'] ?? 'desc')
+        ->paginate(6);
 
         return view('livewire.taller.taller',$data)
         ->extends('layouts.app')

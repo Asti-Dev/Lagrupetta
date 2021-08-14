@@ -75,7 +75,7 @@
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Bicicleta:</label>
-                            <label class="text-right">{{$pedido->bicicleta->marca .' '. $pedido->bicicleta->modelo}} </label>
+                            <label class="text-right">{{$pedido->bicicleta->marca .' '. $pedido->bicicleta->modelo}} {{$pedido->bicicleta->parteModelos()->count()}}</label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Codigo:</label>

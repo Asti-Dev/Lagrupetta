@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Models\Bicicleta;
 use App\Models\Cliente;
 use App\Models\Empleado;
+use App\Models\ParteModelo;
 use App\Models\Pedido;
 use App\Models\PedidoEstado;
 use App\Models\Transporte;
@@ -40,6 +41,19 @@ class Form extends Component
         $cliente = Cliente::where('nombre_apellido', '=', $this->cliente)->first();
         
         $chofer = Empleado::where('nombre_apellido','=', $this->chofer)->first();
+
+        $bicicleta = Bicicleta::find($this->bicicleta);
+
+        $parteModelos = ParteModelo::all();
+
+        if(
+            $bicicleta->parteModelos()->count() != $parteModelos->count()
+        ){
+            foreach ($parteModelos as $parteModelo ) {
+                $bicicleta->parteModelos()->sync( $parteModelo->id, false);
+            }
+            
+        }
 
         $pedido = Pedido::create([
             'pedido_estado_id' => PedidoEstado::where('nombre','SOLICITADO')->first()->id,

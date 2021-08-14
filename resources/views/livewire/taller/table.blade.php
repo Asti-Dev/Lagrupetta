@@ -1,6 +1,12 @@
 <div>
     <div class="row row-cols-1 row-cols-lg-4 d-flex align-items-start my-1">
         <div class="col form-group">
+            <select class="form-control" id="orden" wire:model='nroOrden'>
+                <option value=''>Ordenar por ... </option>
+                <option value='1'> PEDIDOS POR VENCER</option>
+              </select>
+        </div>
+        <div class="col form-group">
             <select class="form-control" id="estados" wire:model='estado'>
                 <option value=''>Todos los Estados</option>
                 <option value='EN TALLER'>EN TALLER  </option>
@@ -69,6 +75,10 @@
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Observacion Chofer:</label>
                             <label class="text-right"> {{$pedidoDetalle->pedido->transporteRecojo()->observacion_chofer}} </label>
+                        </div>
+                        <div class="d-flex w-100 justify-content-between">
+                            <label class="mb-1">Fecha Entrega:</label>
+                            <label class="text-right"> {{ date('d/m/Y' ,strtotime($pedidoDetalle->fecha_entrega_aprox))}} </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Codigo:</label>
