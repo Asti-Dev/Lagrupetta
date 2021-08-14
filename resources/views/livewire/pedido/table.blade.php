@@ -53,9 +53,9 @@
   </div>
     <div wire:poll.10s.keep-alive class="container-fluid" style="background: lightskyblue">
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 d-flex justify-content-left">
-            @foreach ($pedidos as $pedido)
+            @foreach ($pedidos as $key => $pedido)
             <div class="col">
-                <div class="mx-1 my-3 list-group-item list-group-item-action flex-column align-items-start">
+                <div class=" my-3 list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="">Pedido #{{$pedido->id}}</h5>
                         <div class="d-flex flex-column">
@@ -68,18 +68,139 @@
                             @endif            
                         </div>
                     </div>
-                    <div class="my-2 mx-3">
-                        <div class="d-flex w-100 justify-content-between">
-                            <label class="mb-1">Cliente:</label>
-                            <label class="text-right"> {{$pedido->cliente->nombre_apellido}} </label>
-                        </div>
-                        <div class="d-flex w-100 justify-content-between">
-                            <label class="mb-1">Bicicleta:</label>
-                            <label class="text-right">{{$pedido->bicicleta->marca .' '. $pedido->bicicleta->modelo}} {{$pedido->bicicleta->parteModelos()->count()}}</label>
-                        </div>
-                        <div class="d-flex w-100 justify-content-between">
-                            <label class="mb-1">Codigo:</label>
-                            <label class="text-right"> {{$pedido->codigo}} </label>
+                    <div class="my-2">
+                        <div class="accordion">
+                            <div class="card" x-data="{ text_openOne{{$key}}:false }">
+                              <div class="card-header" >
+                                <h2 class="mb-0">
+                                  <button class="btn btn-link btn-block text-left" type="button" @click = "text_openOne{{$key}} = true">
+                                    General
+                                  </button>
+                                </h2>
+                              </div>
+                              <div class="collapse show" x-show="text_openOne{{$key}}" @click.away="text_openOne{{$key}} = false">
+                                <div class="card-body">
+                                    <div class="form-group d-flex justify-content-between">
+                                        <strong>Cliente:</strong>
+                                        <p class="text-right">{{ ($pedido->cliente->nombre_apellido) ?? '' }}</p>
+                                    </div>
+                                    <div class="form-group d-flex justify-content-between">
+                                        <strong>Bicicleta:</strong>
+                                        <p class="text-right">{{ ($pedido->bicicleta->marca . ' ' . $pedido->bicicleta->modelo) ?? ''}}</p>
+                                    </div>
+                                    <div class="form-group d-flex justify-content-between">
+                                        <strong>Telefono:</strong>
+                                        <p class="text-right">{{ $pedido->cliente->telefono ?? ''  }}</p>
+                                    </div>
+                                    <div class="form-group d-flex justify-content-between">
+                                        <strong>Observacion Cliente:</strong>
+                                        <p class="text-right">{{ $pedido->observacion_cliente ?? ''  }}</p>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <label class="mb-1">Codigo:</label>
+                                        <label class="text-right"> {{$pedido->codigo}} </label>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card"  x-data="{ text_openTwo{{$key}}:false }">
+                              <div class="card-header">
+                                <h2 class="mb-0">
+                                  <button class="btn btn-link btn-block text-left collapsed" type="button"  @click = "text_openTwo{{$key}} = true">
+                                    Recojo del pedido
+                                  </button>
+                                </h2>
+                              </div>
+                              <div class="collapse show"  x-show="text_openTwo{{$key}}" @click.away="text_openTwo{{$key}} = false">
+                                <div class="card-body">
+                                    <div class="form-group d-flex justify-content-between">
+                                        <strong>Chofer Recojo:</strong>
+                                        <p class="text-right">{{$pedido->transporteRecojo()->choferTransporte->nombre_apellido ?? ''}}</p>
+                                    </div>
+                                    <div class="form-group d-flex justify-content-between">
+                                        <strong>Direccion de Recojo:</strong>
+                                        <p class="text-right">{{ $pedido->transporteRecojo()->direccion ?? ''  }}</p>
+                                    </div>
+                                    <div class="form-group d-flex justify-content-between">
+                                        <strong>Fecha de Recojo:</strong>
+                                        <p class="text-right">{{
+                                            isset($pedido->transporteRecojo()->fecha_hora_completado) ?
+                                            date('d/m/Y h:i A' ,strtotime( $pedido->transporteRecojo()->fecha_hora_completado) ) :
+                                            date('d/m/Y',strtotime( $pedido->fecha_recojo_aprox) )
+                                        }}</p>
+                                    </div>
+                                    <div class="form-group d-flex justify-content-between">
+                                        <strong>Observacion Chofer Recojo:</strong>
+                                        <p class="text-right">{{ $pedido->transporteRecojo()->observacion_chofer ?? ''  }}</p>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                            @if (isset($pedido->pedidoDetalle))
+                            <div class="card"  x-data="{ text_openThree{{$key}}:false }">
+                                <div class="card-header">
+                                  <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left collapsed" type="button"  @click = "text_openThree{{$key}} = true">
+                                      Taller
+                                    </button>
+                                  </h2>
+                                </div>
+                                <div class="collapse show"  x-show="text_openThree{{$key}}" @click.away="text_openThree{{$key}} = false">
+                                  <div class="card-body">
+                                      <div class="form-group d-flex justify-content-between">
+                                          <strong>LLegada al Taller:</strong>
+                                          <p class="text-right">{{ $pedido->transporteRecojo()->fecha_hora_local ?? ''  }}</p>
+                                      </div>
+                                      <div class="form-group d-flex justify-content-between">
+                                          <strong>Mecanico:</strong>
+                                          <p class="text-right"> {{ $pedido->pedidoDetalle->mecanicoUno->nombre_apellido ?? ''  }} </p>
+                                      </div>
+                                      <div class="form-group d-flex justify-content-between">
+                                          <strong>Comentario del Diagnostico:</strong>
+                                          <p class="text-right"> {{ $pedido->pedidoDetalle->diagnostico->comentario ?? ''  }} </p>
+                                      </div>
+                                      <div class="form-group d-flex justify-content-between">
+                                          <strong>Explicacion de Servicios:</strong>
+                                          <p class="text-right"> {{ $pedido->pedidoDetalle->explicacion ?? ''  }} </p>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="card"  x-data="{ text_openFour{{$key}}:false }">
+                                  <div class="card-header">
+                                    <h2 class="mb-0">
+                                      <button class="btn btn-link btn-block text-left collapsed" type="button"  @click = "text_openFour{{$key}} = true">
+                                        Entrega del Pedido
+                                      </button>
+                                    </h2>
+                                  </div>
+                                  <div class="collapse show"  x-show="text_openFour{{$key}}" @click.away="text_openFour{{$key}} = false">
+                                    <div class="card-body">
+                                      <div class="form-group d-flex justify-content-between">
+                                          <strong>Chofer Entrega:</strong>
+                                          <p class="text-right">{{$pedido->transporteEntrega()->choferTransporte->nombre_apellido ?? ''}}</p>
+                                      </div>
+                                      <div class="form-group d-flex justify-content-between">
+                                          <strong>Direccion de Entrega:</strong>
+                                          <p class="text-right">{{ $pedido->transporteEntrega()->direccion ?? ''  }}</p>
+                                      </div>
+                                      <div class="form-group d-flex justify-content-between">
+                                          <strong>Fecha de Entrega:</strong>
+                                          <p class="text-right">{{
+                                              isset($pedido->transporteEntrega()->fecha_hora_completado) ?
+                                              date('d/m/Y h:i A' ,strtotime( $pedido->transporteEntrega()->fecha_hora_completado) ) :
+                                              date('d/m/Y',strtotime( $pedido->pedidoDetalle->fecha_entrega_aprox) )
+                                          }}</p>
+                                      </div>
+                                      <div class="form-group d-flex justify-content-between">
+                                          <strong>Observacion Chofer Entrega:</strong>
+                                          <p class="text-right">{{ $pedido->transporteEntrega()->observacion_chofer ?? ''  }}</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                           
+                            @endif
                         </div>
                     </div>
 
