@@ -4,6 +4,7 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Parte</th>
+                    <th scope="col"> N/A </th>
                     <th scope="col" class="text-success"> 0 % </th>
                     <th scope="col" class="text-success"> 25 % </th>
                     <th scope="col" class="text-warning"> 50 % </th>
@@ -23,6 +24,14 @@
                             <input type="text" name="parteNombre[]" class="form-control" value="{{$parte->parteModelo->nombre}}">
                         </div>
                     </th>
+                    <td>
+                        <label for="porcentaje{{$key}}0" class="input-group-prepend">
+                            <div class="input-group-text @error('porcentajes.' . $key) border-danger @enderror">
+                                <input type="radio" 
+                                    name="porcentaje[{{$key}}]" wire:model='porcentajes.{{$key}}.{{$key}}' id="porcentaje{{$key}}0" value="N/A">
+                            </div>
+                        </label>
+                    </td>
                     <td>
                         <label for="porcentaje{{$key}}1" class="input-group-prepend">
                             <div class="input-group-text @error('porcentajes.' . $key) border-danger @enderror">

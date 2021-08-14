@@ -6,6 +6,7 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Parte</th>
+                    <th scope="col"> N/A </th>
                     <th scope="col" class="text-success"> 0 % </th>
                     <th scope="col" class="text-success"> 25 % </th>
                     <th scope="col" class="text-warning"> 50 % </th>
@@ -25,6 +26,14 @@
                                 value="{{$parte->parteModelo->nombre}}">
                         </div>
                     </th>
+                    <td>
+                        <label for="porcentaje{{$key}}0" class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="radio" name="porcentaje[{{$key}}]" id="porcentaje{{$key}}0" value="N/A" 
+                                @if ($partesD1[$key]->porcentaje == 'N/A') checked @endif>
+                            </div>
+                        </label>
+                    </td>
                     <td>
                         <label for="porcentaje{{$key}}1" class="input-group-prepend">
                             <div class="input-group-text">
