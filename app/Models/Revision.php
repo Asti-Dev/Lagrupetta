@@ -12,6 +12,7 @@ class Revision extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'revisiones';
+    protected $touches = ['pedido'];
     protected $guarded = [
         'id',
     ];

@@ -1,30 +1,30 @@
 <div>
-    <div class="d-flex align-items-start my-1">
-        <div class="form-group">
+    <div class="row row-cols-1 row-cols-lg-4 d-flex align-items-start my-1">
+        <div class="col form-group">
             <select class="form-control" id="estados" wire:model='estado'>
-              <option value=''>Todos los Estados</option>
-              <option value='EN TALLER'>EN TALLER  </option>
-              <option value='COTIZADO'>COTIZADO  </option>
-              <option value='EN PROCESO'>EN PROCESO  </option>
-              <option value='REVISAR'>REVISAR  </option>
-              <option value='CORREGIR'>CORREGIR  </option>
-              <option value='TERMINADO'>TERMINADO  </option>
-              <option value='EN ESPERA'>EN ESPERA  </option>
-            </select>
+                <option value=''>Todos los Estados</option>
+                <option value='EN TALLER'>EN TALLER  </option>
+                <option value='COTIZADO'>COTIZADO  </option>
+                <option value='EN PROCESO'>EN PROCESO  </option>
+                <option value='REVISAR'>REVISAR  </option>
+                <option value='CORREGIR'>CORREGIR  </option>
+                <option value='TERMINADO'>TERMINADO  </option>
+                <option value='EN ESPERA'>EN ESPERA  </option>
+              </select>
+        </div>
+        <div class="col d-flex justify-content-between form-group row">
+          <label class="col-sm-2 col-form-label" for="cliente">Cliente</label>
+          <div class="col-sm-9">
+              <input type="text" class="form-control" id="cliente" wire:model="cliente">
           </div>
-          <div class="form-group row ml-3">
-            <label class="col-sm-2 col-form-label" for="cliente">Cliente</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="cliente" wire:model="cliente">
-            </div>
+        </div>
+        <div class="col d-flex justify-content-between form-group row">
+          <label class="col-sm-2 col-form-label" for="nroPedido">Nro Pedido</label>
+          <div class="col-sm-9">
+              <input type="number" class="form-control" id="nroPedido" wire:model="nroPedido">
           </div>
-          <div class="form-group row ml-3">
-            <label class="col-sm-2 col-form-label" for="nroPedido">Nro Pedido</label>
-            <div class="col-sm-10">
-                <input type="number" class="form-control" id="nroPedido" wire:model="nroPedido">
-            </div>
-          </div>
-    </div>
+        </div>
+  </div>
     <div class="d-flex align-items-start my-1">
         @if (count($pedidoDetalles) == 0)
         <div class="w-100 alert alert-primary" role="alert">

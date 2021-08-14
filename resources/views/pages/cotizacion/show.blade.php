@@ -13,44 +13,7 @@
 
 <div class="row p-3 my-3">
     <div class="col-sm-6">
-        <div class="col px-5 py-3" style="background: lightblue">
-            <div class="form-group d-flex justify-content-between">
-                <strong>Cliente:</strong>
-                <p class="text-right">{{ ($pedido->cliente->nombre_apellido) ?? '' }}</p>
-            </div>
-            <div class="form-group d-flex justify-content-between">
-                <strong>Bicicleta:</strong>
-                <p class="text-right">{{ ($pedido->bicicleta->marca . ' ' . $pedido->bicicleta->modelo) ?? ''}}</p>
-            </div>
-            <div class="form-group d-flex justify-content-between">
-                <strong>Chofer:</strong>
-                <p class="text-right">{{$pedido->transporteRecojo()->choferTransporte->nombre_apellido ?? ''}}</p>
-            </div>
-            <div class="form-group d-flex justify-content-between">
-                <strong>Telefono:</strong>
-                <p class="text-right">{{ $pedido->cliente->telefono ?? ''  }}</p>
-            </div>
-            <div class="form-group d-flex justify-content-between">
-                <strong>Direccion:</strong>
-                <p class="text-right">{{ $pedido->transporteRecojo()->direccion ?? ''  }}</p>
-            </div>
-            <div class="form-group d-flex justify-content-between">
-                <strong>Fecha de Recojo:</strong>
-                <p class="text-right">{{ $pedido->transporteRecojo()->fecha_hora_completado ?? ''  }}</p>
-            </div>
-            <div class="form-group d-flex justify-content-between">
-                <strong>LLegada al Taller:</strong>
-                <p class="text-right">{{ $pedido->transporteRecojo()->fecha_hora_local ?? ''  }}</p>
-            </div>
-            <div class="form-group d-flex justify-content-between">
-                <strong>Mecanico:</strong>
-                <p class="text-right"> {{ $pedido->pedidoDetalle->mecanicoUno->nombre_apellido ?? ''  }} </p>
-            </div>
-            <div class="form-group d-flex justify-content-between">
-                <strong>Fecha de Entrega:</strong>
-                <p class="text-right">{{ $pedido->transporteEntrega()->fecha_hora_completado ?? $pedido->pedidoDetalle->fecha_entrega_aprox  }}</p>
-            </div>
-        </div>
+        <x-show-pedido :pedido="$pedido" />
     </div>
     <div class="col-sm-6">
         <div class="d-flex flex-column">

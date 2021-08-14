@@ -45,7 +45,13 @@
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="">Pedido #{{$transporte->pedido->id}} </h5>
                         <div class="d-flex flex-column">
-                            <span style="font-size: 100%" class="mb-1 badge badge-primary"> {{$transporte->ruta}}</span>
+                            <span style="font-size: 100%" class="mb-1 badge 
+                            @if ($transporte->ruta == 'RECOJO')
+                            badge-warning 
+                                @else
+                                badge-primary 
+
+                            @endif"> {{$transporte->ruta}}</span>
                             @if (!is_null($transporte->completado))
                             <x-test :estado="$transporte->completado" />                        
                             @endif

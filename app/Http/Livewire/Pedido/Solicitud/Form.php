@@ -73,6 +73,7 @@ class Form extends Component
 
         $transporte->update([
             'chofer' => $chofer->id,
+            'direccion' => $this->direccion,
         ]);
 
         $url['aceptar'] = URL::temporarySignedRoute(

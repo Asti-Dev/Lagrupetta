@@ -19,6 +19,7 @@ class PedidoDetalle extends Model
     ];
 
     protected $table = 'pedido_detalles';
+    protected $touches = ['pedido'];
     protected $guarded = [
         'id',
     ];

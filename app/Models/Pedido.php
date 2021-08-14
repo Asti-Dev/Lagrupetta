@@ -40,11 +40,11 @@ class Pedido extends Model
     }
 
     public function pedidoDetalle(){
-        return $this->belongsTo(PedidoDetalle::class, 'pedido_detalle_id', 'id');
+        return $this->belongsTo(PedidoDetalle::class, 'pedido_detalle_id', 'id')->withTrashed();
     }
 
     public function revision(){
-        return $this->belongsTo(Revision::class, 'revision_id', 'id');
+        return $this->belongsTo(Revision::class, 'revision_id', 'id')->withTrashed();
     }
 
     public function transportes()
@@ -54,12 +54,12 @@ class Pedido extends Model
 
     public function transporteRecojo()
     {
-        return $this->hasMany(Transporte::class)->where('ruta', 'RECOJO')->first();
+        return $this->hasMany(Transporte::class)->where('ruta', 'RECOJO')->withTrashed()->first();
     }
 
     public function transporteEntrega()
     {
-        return $this->hasMany(Transporte::class)->where('ruta', 'ENTREGA')->first();
+        return $this->hasMany(Transporte::class)->where('ruta', 'ENTREGA')->withTrashed()->first();
     }
 
     protected static function boot()
@@ -75,6 +75,12 @@ class Pedido extends Model
             $model->updated_by = Auth::id();
         });
         
+        static::restoring(function($model) {
+            $model->transportes()->restore();
+            $model->revision()->restore();
+            $model->pedidoDetalle()->restore();
+        });
+
         static::deleting(function($model) {
             $model->transportes()->delete();
             $model->revision()->delete();
@@ -85,9 +91,14 @@ class Pedido extends Model
 
     public function scopeFiltrarEstadoPedido($query, $estado){
         if($estado != ''){
-            return $query->whereHas('pedidoEstado', function($query2) use ($estado){
-                $query2->where('nombre', 'like', "%{$estado}%");
-            });
+            if ($estado == 'ANULADO') {
+                return $query->onlyTrashed();
+            } else {
+                return $query->whereHas('pedidoEstado', function($query2) use ($estado){
+                    $query2->where('nombre', 'like', "%{$estado}%");
+                });
+            }
+            
         }
     }
     public function scopeBuscarCliente($query, $cliente){
