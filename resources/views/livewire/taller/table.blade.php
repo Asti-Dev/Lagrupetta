@@ -76,10 +76,13 @@
                             <label class="mb-1">Observacion Chofer:</label>
                             <label class="text-right"> {{$pedidoDetalle->pedido->transporteRecojo()->observacion_chofer}} </label>
                         </div>
+                        @if (isset($pedidoDetalle->fecha_entrega_aprox))
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Fecha Entrega:</label>
                             <label class="text-right"> {{ date('d/m/Y' ,strtotime($pedidoDetalle->fecha_entrega_aprox))}} </label>
                         </div>
+                        @endif
+                        
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Codigo:</label>
                             <label class="text-right"> {{$pedidoDetalle->pedido->codigo}} </label>
