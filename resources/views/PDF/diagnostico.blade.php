@@ -28,9 +28,7 @@
             <div>Cliente : {{$cliente ?? ''}}</div>
             <div>Bicicleta : {{$bicicleta ?? ''}}</div>
             @foreach ( $partes2 as $parte)
-            @if ($parte['nombre'] != 'Inventario')
             <div>Nª serie de {{$parte['nombre'] ?? ''}} : {{$parte['detalle'] ?? ''}}</div>
-            @endif
             @endforeach
         </td>
         <td style="padding-bottom: 5px" width="50%" colspan="6">
@@ -52,13 +50,15 @@
                 </thead>
                 <tbody>
                     @foreach ($partes as $parte )
+                    @if ($parte['porcentaje'] != 'N/A')
                     <tr>
-                         <td>
-                            {{$parte['nombre'] ?? ''}}
-                        </td>
-                        <td> {{$parte['porcentaje'] ?? ''}} </td>
-                        <td> {{$parte['comentario'] ?? ''}} </td>
-                     </tr>
+                        <td>
+                           {{$parte['nombre'] ?? ''}}
+                       </td>
+                       <td> {{$parte['porcentaje'] ?? ''}} </td>
+                       <td> {{$parte['comentario'] ?? ''}} </td>
+                    </tr>
+                    @endif
                      @endforeach
                      @foreach ( $partes2 as $parte)
                      <tr>

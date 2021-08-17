@@ -15,8 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($partes->take(25) as $key => $parte)
-                @if ($parte->parteModelo->tag == false)
+                @foreach ($partes as $key => $parte)
                 <tr wire:key='{{$key}}'>
                     <th scope="row" width="40%">
                         <b>{{$parte->parteModelo->nombre}}</b>
@@ -30,7 +29,7 @@
                         <label for="porcentaje{{$key}}0" class="input-group-prepend">
                             <div class="input-group-text">
                                 <input type="radio" name="porcentaje[{{$key}}]" id="porcentaje{{$key}}0" value="N/A" 
-                                @if ($partesD1[$key]->porcentaje == 'N/A') checked @endif>
+                                @if (isset($partesD1[$key]))@if ($partesD1[$key]->porcentaje == 'N/A') checked @endif @endif>
                             </div>
                         </label>
                     </td>
@@ -38,7 +37,7 @@
                         <label for="porcentaje{{$key}}1" class="input-group-prepend">
                             <div class="input-group-text">
                                 <input type="radio" name="porcentaje[{{$key}}]" id="porcentaje{{$key}}1" value="0%" 
-                                @if ($partesD1[$key]->porcentaje == '0%') checked @endif>
+                                @if (isset($partesD1[$key]))@if ($partesD1[$key]->porcentaje == '0%') checked @endif @endif>
                             </div>
                         </label>
                     </td>
@@ -46,7 +45,7 @@
                         <label for="porcentaje{{$key}}2" class="input-group-prepend">
                             <div class="input-group-text">
                                 <input type="radio" name="porcentaje[{{$key}}]" id="porcentaje{{$key}}2" value="25%"
-                                @if ($partesD1[$key]->porcentaje == '25%') checked @endif>
+                                @if (isset($partesD1[$key]))@if ($partesD1[$key]->porcentaje == '25%') checked @endif @endif>
                             </div>
                         </label>
                     </td>
@@ -54,7 +53,7 @@
                         <label for="porcentaje{{$key}}3" class="input-group-prepend">
                             <div class="input-group-text">
                                 <input type="radio" name="porcentaje[{{$key}}]" id="porcentaje{{$key}}3" value="50%"
-                                @if ($partesD1[$key]->porcentaje == '50%') checked @endif>
+                                @if (isset($partesD1[$key]))@if ($partesD1[$key]->porcentaje == '50%') checked @endif @endif>
                             </div>
                         </label>
                     </td>
@@ -62,7 +61,7 @@
                         <label for="porcentaje{{$key}}4" class="input-group-prepend">
                             <div class="input-group-text">
                                 <input type="radio" name="porcentaje[{{$key}}]" id="porcentaje{{$key}}4" value="75%"
-                                @if ($partesD1[$key]->porcentaje == '75%') checked @endif>
+                                @if (isset($partesD1[$key]))@if ($partesD1[$key]->porcentaje == '75%') checked @endif @endif>
                             </div>
                         </label>
                     </td>
@@ -72,7 +71,6 @@
                         </div>
                     </td>
                 </tr>
-                @endif
                 @endforeach
             </tbody>
         </table>
@@ -86,8 +84,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($partes->take(-3) as $key => $parte)
-                @if ($parte->parteModelo->tag == true)
+                @foreach ($partes2 as $key => $parte)
                 <tr>
                     <th scope="row">{{$parte->parteModelo->nombre}}
                         <div class="col form-group" style="display: none">
@@ -107,7 +104,6 @@
                         </div>
                     </td>
                 </tr>
-                @endif
                 @endforeach
             </tbody>
         </table>

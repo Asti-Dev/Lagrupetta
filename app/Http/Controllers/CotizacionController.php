@@ -76,6 +76,7 @@ class CotizacionController extends Controller
      */
     public function update(Request $request, $pedidoDetalleId)
     {
+
         $pedidoDetalle = PedidoDetalle::find($pedidoDetalleId);
 
         $request->validate([
@@ -131,6 +132,7 @@ class CotizacionController extends Controller
 
     public function updateCotizacion(Request $request, $pedidoDetalleId)
     {
+
         $pedidoDetalle = PedidoDetalle::find($pedidoDetalleId);
 
         $request->validate([

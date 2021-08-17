@@ -14,7 +14,6 @@
             </thead>
             <tbody>
                 @foreach ($partes as $key => $parte)
-                @if ($parte->parteModelo->tag == false)
                 <tr wire:key='{{$key}}'>
                     <th scope="row" width="40%">
                         <b>{{$parte->parteModelo->nombre}}</b>
@@ -71,7 +70,6 @@
                         </div>
                     </td>
                 </tr>
-                @endif
                 @endforeach
             </tbody>
         </table>
@@ -85,8 +83,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($partes as $key => $parte)
-                @if ($parte->parteModelo->tag == true)
+                @foreach ($partes2 as $key => $parte)
                 <tr>
                     <th scope="row">{{$parte->parteModelo->nombre}}
                         <div class="col form-group" style="display: none">
@@ -107,7 +104,6 @@
                         </div>
                     </td>
                 </tr>
-                @endif
                 @endforeach
             </tbody>
         </table>
