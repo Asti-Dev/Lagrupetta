@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="my-3">
-                <h2>Ingreso </h2>
+                <h2>Asignar Mecanico </h2>
             </div>
         </div>
     </div>
@@ -14,6 +14,6 @@
         </div>
     @endif
 
-    @include("livewire.almacen.ingreso.$view")
+    @include("livewire.taller.ingreso.$view")
 
 </div>

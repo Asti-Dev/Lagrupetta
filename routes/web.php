@@ -8,6 +8,7 @@ use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\WhatsappController;
+use App\Http\Livewire\Almacen\Almacen;
 use App\Http\Livewire\Cliente\CreateClientForm;
 use App\Http\Livewire\Diagnostico\Diagnostico;
 use App\Http\Livewire\Paquete\Paquete;
@@ -103,6 +104,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'administracion'], function() 
 Route::group(['middleware' => 'auth', 'prefix' => 'logistica'], function() {
 
     Route::get('/transportes', Transporte::class)->name('transportes.index')->middleware(['role:super-admin|administrador|chofer|jefe mecanicos']);
+
+    Route::get('/almacen', Almacen::class)->name('almacen.index')->middleware(['role:super-admin|administrador|chofer|jefe mecanicos|mecanico']);
 
     Route::get('/taller', Taller::class)->name('taller.index')->middleware(['role:super-admin|administrador|chofer|jefe mecanicos|mecanico']);
 

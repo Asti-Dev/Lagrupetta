@@ -1,5 +1,11 @@
 <div>
-
+    <div class="row mb-2">
+        <div class="col-lg-12 margin-tb">
+            <div class="pull-right">
+                <a class="btn btn-primary" wire:click='index()'> <i class="fas fa-backward "></i> </a>
+            </div>
+        </div>
+    </div>
     <table class="table table-borderless table-hover">
         <thead class="thead-dark">
             <tr>

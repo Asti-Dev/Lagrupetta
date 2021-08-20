@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Almacen\Ingreso;
+namespace App\Http\Livewire\Taller\Ingreso;
 
 use App\Models\Pedido;
 use Livewire\Component;
@@ -31,14 +31,14 @@ class Ingreso extends Component
 
     public function render()
     {
-        $data['pedidos'] = Pedido::whereHas('pedidoEstado', function($q){
+        $data['pedidos'] = Pedido::doesntHave('pedidoDetalle')->whereHas('pedidoEstado', function($q){
 
-            $q->where('nombre', '=', 'RECOGIDO');
+            $q->where('nombre', '!=', 'SOLICITADO');
         
         })->buscarPedido($this->nroPedido)
         ->buscarCliente($this->cliente)
         ->orderBy('id', 'desc')->paginate(3);
 
-        return view('livewire.almacen.ingreso.ingreso', $data);
+        return view('livewire.taller.ingreso.ingreso', $data);
     }
 }

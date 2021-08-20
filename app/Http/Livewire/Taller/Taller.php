@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Taller;
 
 use App\Models\Pedido;
 use App\Models\PedidoDetalle;
+use App\Models\PedidoEstado;
 use Livewire\Component;
 
 class Taller extends Component
@@ -20,9 +21,15 @@ class Taller extends Component
         ],
     ];
 
-    public function diagnostico(){
-        //create diagnostico
-        //update pedidoDetalle
+    public function depositar($id)
+    {
+        $pedido = Pedido::find($id);
+
+        $estado = PedidoEstado::where('nombre', '=', 'DEPOSITADO')->first();
+
+        $pedido->update([
+            'pedido_estado_id' => $estado->id,
+        ]);
     }
 
     public function render()
@@ -30,6 +37,7 @@ class Taller extends Component
         $data['pedidoDetalles'] = PedidoDetalle::mecanicoSession()->whereHas('pedido.pedidoEstado', function($q){
 
             $q->where('nombre', '=', 'EN TALLER')
+            ->orWhere('nombre', '=', 'EN ALMACEN')
             ->orWhere('nombre', '=', 'COTIZADO')
             ->orWhere('nombre', '=', 'EN PROCESO')
             ->orWhere('nombre', '=', 'EN ESPERA')

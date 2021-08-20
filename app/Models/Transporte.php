@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Scopes\ChoferScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,6 +10,11 @@ use Illuminate\Support\Facades\Auth;
 class Transporte extends Model
 {
     use HasFactory, SoftDeletes;
+
+    const RESPUESTAS = [
+        'ACEPTADO',
+        'RECHAZADO'
+    ];
 
     const CUMPLIMIENTO = [
         'COMPLETADO',

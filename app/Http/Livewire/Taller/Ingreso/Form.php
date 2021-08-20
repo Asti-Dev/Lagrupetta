@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Almacen\Ingreso;
+namespace App\Http\Livewire\Taller\Ingreso;
 
 use App\Models\Empleado;
 use App\Models\Pedido;
@@ -36,11 +36,11 @@ class Form extends Component
     public function asignar(){
         $mecanico = Empleado::where('nombre_apellido','=', $this->mecanico)->first();
 
-        $transporte = Transporte::find($this->pedido->transporteRecojo()->id); 
+        // $transporte = Transporte::find($this->pedido->transporteRecojo()->id); 
 
-        $transporte->update(
-            ['fecha_hora_local' => now()]
-            );
+        // $transporte->update(
+        //     ['fecha_hora_local' => now()]
+        //     );
 
         $pedidoDetalle = PedidoDetalle::create([
             'mecanico' => $mecanico->id
@@ -48,7 +48,7 @@ class Form extends Component
 
         $this->pedido->update([
             'pedido_detalle_id' => $pedidoDetalle->id,
-            'pedido_estado_id' => PedidoEstado::where('nombre','EN TALLER')->first()->id
+            // 'pedido_estado_id' => PedidoEstado::where('nombre','EN TALLER')->first()->id
         ]);
 
         session()->flash('success', 'Mecanico asignado!');
@@ -58,6 +58,6 @@ class Form extends Component
     
     public function render()
     {
-        return view('livewire.almacen.ingreso.form');
+        return view('livewire.taller.ingreso.form');
     }
 }

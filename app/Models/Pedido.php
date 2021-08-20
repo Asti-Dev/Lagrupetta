@@ -25,7 +25,7 @@ class Pedido extends Model
         'fecha_recojo_aprox' => 'date',
     ];
 
-    public $timestamps = true;
+    public $timestamps = true; 
 
     public function cliente(){
         return $this->belongsTo(Cliente::class)->withTrashed();

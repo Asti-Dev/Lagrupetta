@@ -96,6 +96,18 @@
                     </div>
                     <div class="d-flex w-100 justify-content-between">
                         @hasanyrole('super-admin|chofer')
+                        @if ($transporte->aceptar_chofer != 'ACEPTADO')
+                        <div class="d-flex flex-column">
+                            <button wire:click.prevent="aceptarChofer({{$transporte->id}})" class="btn btn-success">
+                                Aceptar
+                            </button>
+                            <button wire:click.prevent="rechazarChofer({{$transporte->id}})" class="btn btn-danger">
+                                Rechazar
+                            </button>
+                        </div>
+                        @endif
+                        @if ($transporte->aceptar_chofer === 'ACEPTADO' && $transporte->completado != 'COMPLETADO' 
+                        && (in_array($transporte->pedido->pedidoEstado->nombre,['EN RUTA RECOJO','EN RUTA ENTREGA'])))
                         <a class="shadow-lg p-3 btn btn-primary" wire:click.prevent="edit({{$transporte->id}})">
                             @if ($transporte->ruta === 'RECOJO')
                             Realizar Recojo
@@ -103,6 +115,12 @@
                             Realizar Entrega
                             @endif
                         </a>
+                        @endif
+                        @if ($transporte->completado === 'COMPLETADO' && $transporte->ruta === 'RECOJO')
+                        <a class="shadow-lg p-3 btn btn-primary" wire:click.prevent="depositar({{$transporte->id}})">
+                            Depositar
+                        </a>
+                        @endif
                         @endhasanyrole
                         <small class="">{{$transporte->created_at->diffForHumans()}} </small>
                     </div>

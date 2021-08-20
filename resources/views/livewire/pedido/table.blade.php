@@ -23,7 +23,8 @@
             <select class="form-control" id="estados" wire:model='estado'>
                 <option value=''>Todos los Estados</option>
                 <option value='SOLICITADO'> SOLICITADO  </option>
-                <option value='EN RUTA'>EN RUTA </option>
+                <option value='EN RUTA RECOJO'>EN RUTA RECOJO </option>
+                <option value='EN RUTA ENTREGA'>EN RUTA ENTREGA </option>
                 <option value='RECOGIDO'> RECOGIDO </option>
                 <option value='EN TALLER'>EN TALLER  </option>
                 <option value='COTIZADO'>COTIZADO  </option>
@@ -63,9 +64,16 @@
                             @if($pedido->pedidoEstado->nombre === 'SOLICITADO')
                             <x-test :estado="$pedido->confirmacion" />    
                             @endif         
+                            @if ($pedido->pedidoEstado->nombre === 'EN RUTA RECOJO' && isset($pedido->transporteRecojo()->completado))
+                            <x-test :estado="$pedido->transporteRecojo()->completado" />                        
+                            @endif    
+                            @if ($pedido->pedidoEstado->nombre === 'EN RUTA ENTREGA' && isset($pedido->transporteEntrega()->completado))
+                            <x-test :estado="$pedido->transporteEntrega()->completado" />                        
+                            @endif       
                             @if($pedido->pedidoEstado->nombre === 'COTIZADO')
                             <x-test :estado="$pedido->pedidoDetalle->confirmacion" />    
-                            @endif            
+                            @endif  
+                            
                         </div>
                     </div>
                     <div class="my-2">
@@ -104,12 +112,15 @@
                               </div>
                             </div>
                             <div class="card"  x-data="{ text_openTwo{{$key}}:false }">
-                              <div class="card-header">
+                              <div class="card-header  @if ($pedido->transporteRecojo()->aceptar_chofer === 'RECHAZADO') d-flex justify-content-around align-items-center @endif">
                                 <h2 class="mb-0">
                                   <button class="btn btn-link btn-block text-left collapsed" type="button"  @click = "text_openTwo{{$key}} = true">
                                     Recojo del pedido
                                   </button>
                                 </h2>
+                                @if ($pedido->transporteRecojo()->aceptar_chofer === 'RECHAZADO')
+                                <span class="text-danger"><i class="fas fa-exclamation-circle"></i></span>    
+                                @endif
                               </div>
                               <div class="collapse show"  x-show="text_openTwo{{$key}}" @click.away="text_openTwo{{$key}} = false">
                                 <div class="card-body">
@@ -117,6 +128,12 @@
                                         <strong>Chofer Recojo:</strong>
                                         <p class="text-right">{{$pedido->transporteRecojo()->choferTransporte->nombre_apellido ?? ''}}</p>
                                     </div>
+                                    @if (isset($pedido->transporteRecojo()->aceptar_chofer))
+                                    <div class="form-group d-flex justify-content-between">
+                                        <strong>Chofer Respuesta:</strong>
+                                        <p class="text-right">{{$pedido->transporteRecojo()->aceptar_chofer ?? ''}}</p>
+                                    </div>
+                                    @endif
                                     <div class="form-group d-flex justify-content-between">
                                         <strong>Direccion de Recojo:</strong>
                                         <p class="text-right">{{ $pedido->transporteRecojo()->direccion ?? ''  }}</p>
@@ -136,7 +153,7 @@
                                 </div>
                               </div>
                             </div>
-                            @if (isset($pedido->pedidoDetalle))
+                            @if (isset($pedido->pedidoDetalle) || isset($pedido->transporteRecojo()->fecha_hora_local))
                             <div class="card"  x-data="{ text_openThree{{$key}}:false }">
                                 <div class="card-header">
                                   <h2 class="mb-0">
@@ -148,7 +165,7 @@
                                 <div class="collapse show"  x-show="text_openThree{{$key}}" @click.away="text_openThree{{$key}} = false">
                                   <div class="card-body">
                                       <div class="form-group d-flex justify-content-between">
-                                          <strong>LLegada al Taller:</strong>
+                                          <strong>LLegada al Local:</strong>
                                           <p class="text-right">{{ $pedido->transporteRecojo()->fecha_hora_local ?? ''  }}</p>
                                       </div>
                                       <div class="form-group d-flex justify-content-between">
@@ -166,13 +183,24 @@
                                   </div>
                                 </div>
                               </div>
+                              @endif
+                              @if (isset($pedido->pedidoDetalle))
                               <div class="card"  x-data="{ text_openFour{{$key}}:false }">
-                                  <div class="card-header">
+                                  <div class="card-header @if ($pedido->transporteEntrega()) d-flex justify-content-around align-items-center @endif">
                                     <h2 class="mb-0">
                                       <button class="btn btn-link btn-block text-left collapsed" type="button"  @click = "text_openFour{{$key}} = true">
                                         Entrega del Pedido
                                       </button>
                                     </h2>
+                                    @if ($pedido->transporteEntrega())
+                                        @if ($pedido->transporteEntrega()->aceptar_chofer === 'RECHAZADO')
+                                            <span class="text-danger"><i class="fas fa-exclamation-circle"></i></span>    
+                                        @elseif ($pedido->transporteEntrega()->aceptar_chofer === 'ACEPTADO')
+                                            <span class="text-success"><i class="fas fa-exclamation-circle"></i></span>
+                                        @else    
+                                            <span class="text-primary"><i class="fas fa-exclamation-circle"></i></span>
+                                        @endif
+                                    @endif
                                   </div>
                                   <div class="collapse show"  x-show="text_openFour{{$key}}" @click.away="text_openFour{{$key}} = false">
                                     <div class="card-body">
@@ -180,6 +208,12 @@
                                           <strong>Chofer Entrega:</strong>
                                           <p class="text-right">{{$pedido->transporteEntrega()->choferTransporte->nombre_apellido ?? ''}}</p>
                                       </div>
+                                      @if (isset($pedido->transporteEntrega()->aceptar_chofer))
+                                        <div class="form-group d-flex justify-content-between">
+                                            <strong>Chofer Respuesta:</strong>
+                                            <p class="text-right">{{$pedido->transporteEntrega()->aceptar_chofer ?? ''}}</p>
+                                        </div>
+                                      @endif
                                       <div class="form-group d-flex justify-content-between">
                                           <strong>Direccion de Entrega:</strong>
                                           <p class="text-right">{{ $pedido->transporteEntrega()->direccion ?? ''  }}</p>
@@ -209,13 +243,13 @@
                        
                         <div class="d-flex flex-row-reverse">
                             @hasanyrole('super-admin|administrador')
-                            @if($pedido->pedidoEstado->id <= 4)
+                            @if(in_array($pedido->pedidoEstado->nombre, ['SOLICITADO', 'EN RUTA RECOJO', 'DEPOSITADO', 'EN ALMACEN', 'EN TALLER']) )
                             <a class="mx-2" href="{{route('pedido.show', ['pedido' => $pedido->id])}}" style="width: min-content" title="show">
                                 <i class="fas fa-eye text-success"></i>
                             </a>
                             @endif
 
-                            @if($pedido->pedidoEstado->id >= 5)
+                            @if(!in_array($pedido->pedidoEstado->nombre, ['SOLICITADO', 'EN RUTA RECOJO', 'DEPOSITADO', 'EN ALMACEN', 'EN TALLER']))
                             <a class="mx-2" href="{{route('cotizacion.show', $pedido->id)}}" style="width: min-content" title="show">
                                 <i class="fas fa-eye text-success"></i>
                             </a>
@@ -257,11 +291,11 @@
                         <button wire:click.prevent="completado({{$pedido->id}})" 
                             class=" mx-4 btn btn-primary btn-sm">Completado</button>
                         @endif
-                        @if ($pedido->pedidoEstado->nombre === 'ENTREGADO')
+                        @if ($pedido->pedidoEstado->nombre === 'EN RUTA ENTREGA' && $pedido->transporteEntrega()->completado === 'COMPLETADO' )
                         <button wire:click.prevent="pago({{$pedido->id}})" 
                             class="mx-4 btn btn-primary btn-sm">Pago pendiente</button>
                         @endif
-                        @if ($pedido->pedidoEstado->nombre === 'TERMINADO')
+                        @if ($pedido->pedidoEstado->nombre === 'TERMINADO' || $pedido->pedidoEstado->nombre === 'EN ALMACEN TERMINADO')
                         <button wire:click.prevent="asignarChofer({{$pedido->id}})" 
                             class="mx-4 btn btn-primary btn-sm">Asignar Entrega</button>
                         @endif

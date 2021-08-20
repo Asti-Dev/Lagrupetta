@@ -1,12 +1,12 @@
 @component('mail::message')
-# Diagnostico {{$pedido->id}}
+# Pedido {{$pedido->id}}
 Estos son los servicios sugeridos.
 Se adjunta un pdf con el diagnostico
 
 <table width="100%" cellpadding="0" cellspacing="0">
 <tr>
 <td colspan="4" style="padding: 10px" width="33%" align="center">
-{{$pedido->cliente->nombre . ' ' . $pedido->cliente->apellido}}
+{{$pedido->cliente->nombre_apellido}}
 </td>
 <td colspan="4" style="padding: 10px" width="33%" align="center">
 {{$pedido->cliente->tipo_doc}} {{$pedido->cliente->nro_doc}}
@@ -95,7 +95,7 @@ Explicacion
 </tr>
 </table>
 <b>
-Caso se rechace la cotizacion, se cobrara el Diagnostico de forma obligatoria
+Caso se rechace la cotizacion, se cobrara el Diagnostico de forma obligatoria (Costo: S/.50.00)
 </b>
 <table>
 <tr>

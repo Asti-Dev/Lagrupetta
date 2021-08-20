@@ -16,7 +16,7 @@
     <div class="d-flex align-items-start my-1">
         @if (count($pedidos) == 0)
         <div class="w-100 alert alert-primary" role="alert">
-            NO TIENES PEDIDOS POR INGRESAR
+            NO TIENES PEDIDOS EN ALMACEN
         </div>
         @endif
     </div>
@@ -50,10 +50,6 @@
                             <label class="text-right"> {{$pedido->transporteRecojo()->choferTransporte->nombre_apellido}} </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
-                            <label class="mb-1">Fecha de Recojo:</label>
-                            <label class="text-right"> {{date('d/m/Y h:i A' ,strtotime( $pedido->transporteRecojo()->fecha_hora_completado) )}} </label>
-                        </div>
-                        <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Observacion Chofer:</label>
                             <label class="text-right"> {{$pedido->transporteRecojo()->observacion_chofer}} </label>
                         </div>
@@ -62,10 +58,21 @@
                             <label class="text-right"> {{$pedido->codigo}} </label>
                         </div>
                     </div>
-
+                    
                     <div class="d-flex w-100 justify-content-between">
+                        
+                        @if ($pedido->pedidoEstado->nombre === 'DEPOSITADO')
+                        <a  wire:click.prevent="enAlmacen({{$pedido->id}})"class="btn btn-primary">Marcar Ingreso</a>
+                        @endif
+                        @if ($pedido->pedidoEstado->nombre === 'EN ALMACEN' && isset($pedido->pedidoDetalle))
                         <a  wire:click.prevent="enTaller({{$pedido->id}})"class="btn btn-primary">En Taller</a>
-
+                        @endif
+                        @if ($pedido->pedidoEstado->nombre === 'EN ALMACEN TERMINADO' && 
+                            isset($pedido->transporteEntrega()->aceptar_chofer))
+                            @if ($pedido->transporteEntrega()->aceptar_chofer === 'ACEPTADO')
+                            <a  wire:click.prevent="retirar({{$pedido->id}})"class="btn btn-primary">Retirar</a>
+                            @endif
+                        @endif
                         <small class="">{{$pedido->created_at->diffForHumans()}} </small>
                     </div>
                 </div>

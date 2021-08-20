@@ -60,6 +60,7 @@ class CotizacionController extends Controller
         }
         catch(\Exception $e){ // Using a generic exception
             session()->flash('danger', 'Email no enviado!');
+            return redirect()->route('pedidos.index');
         }
 
 

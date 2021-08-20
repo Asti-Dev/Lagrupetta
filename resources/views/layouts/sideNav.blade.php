@@ -88,6 +88,13 @@
               </a>
             </li>
             @endhasanyrole
+            @hasanyrole('super-admin|administrador|chofer|jefe mecanicos')
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{{ route('almacen.index') }}">
+                {{ __('Almacen') }}
+              </a>
+            </li>
+            @endhasanyrole
             @hasanyrole('super-admin|administrador|chofer|jefe mecanicos|mecanico')
             <li class="nav-item">
               <a class="nav-link text-light" href="{{ route('taller.index') }}">

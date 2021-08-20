@@ -90,6 +90,12 @@ class Revision extends Component
         return Redirect::route('diagnostico.salida', $pedidoDetalleId );
 
     }
+
+    public function index(){
+
+        $this->view = 'table';
+
+    }
     public function render()
     {
         if($this->revision){

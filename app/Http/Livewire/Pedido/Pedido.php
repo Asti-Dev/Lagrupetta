@@ -84,7 +84,9 @@ class Pedido extends Component
         if ($transporteEntrega !== null) {
             $transporteEntrega->update([
                 'chofer' => $chofer->id,
-                'direccion' => $this->direccion
+                'direccion' => $this->direccion,
+                'aceptar_chofer' => NULL,
+                'fecha_hora_aceptar_chofer' => NULL
             ]);
         } else {
             $transporteEntrega = Transporte::create([
@@ -142,7 +144,7 @@ class Pedido extends Component
 
     public function render()
     {
-        $pedidos = ModelsPedido::buscarPedido($this->nroPedido)
+        $pedidos = ModelsPedido::with(['cliente', 'bicicleta', 'pedidoEstado','pedidoDetalle','revision', 'transportes'])->buscarPedido($this->nroPedido)
             ->buscarCliente($this->cliente)
             ->filtrarEstadoPedido($this->estado)
             ->orderBy($this->orden[$this->nroOrden]['TERMINO'] ?? 'id' , $this->orden[$this->nroOrden]['SENTIDO'] ?? 'desc')

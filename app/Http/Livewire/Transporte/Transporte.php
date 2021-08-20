@@ -19,8 +19,7 @@ class Transporte extends Component
     public $observacion;
     public Collection $transportes;
     public $estados = [
-        'TERMINADO' => 'ENTREGADO',
-        'SOLICITADO' => 'RECOGIDO',
+        'SOLICITADO' => 'EN RUTA RECOJO',
     ];
     public $fecha;
     public $fecha2;
@@ -38,6 +37,49 @@ class Transporte extends Component
         ];
     }
 
+    public function aceptarChofer($id){
+        $this->transporte = ModelsTransporte::find($id);
+        $estado = $this->transporte->pedido->pedidoEstado->nombre;
+
+        $this->transporte->update([
+            'aceptar_chofer' => ModelsTransporte::RESPUESTAS[0],
+            'fecha_hora_aceptar_chofer' => now(),
+        ]);
+        if ($this->transporte->ruta === 'RECOJO') {
+            $this->transporte->pedido->update([
+                'pedido_estado_id' => PedidoEstado::where('nombre',$this->estados[$estado])->first()->id,
+            ]);
+        }
+        
+    }
+
+    public function rechazarChofer($id){
+        $this->transporte = ModelsTransporte::find($id);
+
+        $this->transporte->update([
+            'aceptar_chofer' => ModelsTransporte::RESPUESTAS[1],
+            'fecha_hora_aceptar_chofer' => now(),
+        ]);
+
+        if ($this->transporte->ruta === 'RECOJO') {
+            $this->transporte->pedido->update([
+                'confirmacion' => Pedido::ESTADOS[1],
+                'fecha_hora_confirmacion' => NULL,
+            ]);
+        } 
+    }
+
+    public function depositar($id)
+    {
+        $this->transporte = ModelsTransporte::find($id);
+
+        $estado = PedidoEstado::where('nombre', '=', 'DEPOSITADO')->first();
+
+        $this->transporte->pedido->update([
+            'pedido_estado_id' => $estado->id,
+        ]);
+    }
+
     /** Mostrar los pedido que tengan una instancia en transporte y poder separarlos en recojo y entrega
      * poder ingresar a la instancia y poner observaciones marcar como completado o fallido
      * los estados del pedido seran 
@@ -51,17 +93,18 @@ class Transporte extends Component
         $this->view = 'completar';
     }
 
+    public function index()
+    {
+     
+        $this->view = 'table';
+    }
+
     public function completado()
     {
-        $estado = $this->transporte->pedido->pedidoEstado->nombre;
         $this->transporte->update([
             'observacion_chofer' => $this->observacion,
             'completado' => ModelsTransporte::CUMPLIMIENTO[0] ,
             'fecha_hora_completado' => now(),
-        ]);
-
-        $this->transporte->pedido->update([
-            'pedido_estado_id' => PedidoEstado::where('nombre',$this->estados[$estado])->first()->id,
         ]);
 
         $this->view = 'table';
@@ -105,19 +148,33 @@ class Transporte extends Component
 
     public function render()
     {
-        $transportes = ModelsTransporte::buscarCliente($this->cliente)
+        $transportesIdList = collect(Pedido::with('transportes')->get())->map(function($pedido){
+            return isset($pedido->transportes[1]) ? $pedido->transportes[1]['id'] : $pedido->transportes[0]['id'];
+        })->toArray();
+
+
+        $transportes = ModelsTransporte::whereIn('id', $transportesIdList)->buscarCliente($this->cliente)
             ->buscarPedido($this->nroPedido)
             ->filtrarRuta($this->ruta)
             ->filtrarFecha($this->fecha , $this->fecha2)
             ->choferSession()
+            ->whereHas('pedido.pedidoEstado', function($q){
+
+                $q->where('nombre', '=', 'SOLICITADO')
+                ->orWhere('nombre', '=', 'EN RUTA RECOJO')
+                ->orWhere('nombre', '=', 'EN RUTA ENTREGA')
+                ->orWhere('nombre', '=', 'EN ALMACEN TERMINADO');
+    
+            })
             ->whereHas('pedido', function($q){
 
                 $q->where('confirmacion', '=', 'ACEPTADO');
     
-            })->orderBy('id', 'asc')->get();
+            })
+            ->orderBy('created_at', 'asc')->get();
 
-        $this->transportes = $transportes->whereIn('ruta', ['RECOJO','ENTREGA'])->
-        whereNotIn('completado', ['COMPLETADO']);
+            $this->transportes = $transportes->whereIn('aceptar_chofer',['ACEPTADO', NULL])
+            ->whereNotIn('aceptar_chofer',['RECHAZADO']);
         
         return view('livewire.transporte.transporte')
         ->extends('layouts.app')

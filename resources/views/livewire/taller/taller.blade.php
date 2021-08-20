@@ -1,7 +1,7 @@
 <div>
     @hasanyrole('jefe mecanicos|super-admin')
 
-    <livewire:almacen.ingreso.ingreso />
+    <livewire:taller.ingreso.ingreso />
 
     @endhasanyrole
     
