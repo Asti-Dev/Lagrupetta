@@ -25,14 +25,14 @@
                 <option value='SOLICITADO'> SOLICITADO  </option>
                 <option value='EN RUTA RECOJO'>EN RUTA RECOJO </option>
                 <option value='EN RUTA ENTREGA'>EN RUTA ENTREGA </option>
-                <option value='RECOGIDO'> RECOGIDO </option>
+                <option value='DEPOSITADO'> DEPOSITADO </option>
                 <option value='EN TALLER'>EN TALLER  </option>
                 <option value='COTIZADO'>COTIZADO  </option>
                 <option value='EN PROCESO'>EN PROCESO  </option>
                 <option value='REVISAR'>REVISAR  </option>
                 <option value='CORREGIR'>CORREGIR  </option>
                 <option value='TERMINADO'>TERMINADO  </option>
-                <option value='ENTREGADO'>ENTREGADO  </option>
+                <option value='DEPOSITADO MECANICO'>DEPOSITADO MECANICO</option>
                 <option value='PAGO PENDIENTE'>PAGO PENDIENTE  </option>
                 <option value='COMPLETADO'>COMPLETADO  </option>
                 <option value='ANULADO'>ANULADO</option>
@@ -78,15 +78,15 @@
                     </div>
                     <div class="my-2">
                         <div class="accordion">
-                            <div class="card" x-data="{ text_openOne{{$key}}:false }">
+                            <div class="card" x-data="{ text_openOne{{$key}}:true }">
                               <div class="card-header" >
                                 <h2 class="mb-0">
-                                  <button class="btn btn-link btn-block text-left" type="button" @click = "text_openOne{{$key}} = true">
+                                  <button class="btn btn-link btn-block text-left" type="button" @click = "text_openOne{{$key}} == true ? text_openOne{{$key}} = false : text_openOne{{$key}} = true" >
                                     General
                                   </button>
                                 </h2>
                               </div>
-                              <div class="collapse show" x-show="text_openOne{{$key}}" @click.away="text_openOne{{$key}} = false">
+                              <div class="collapse show" x-show="text_openOne{{$key}}">
                                 <div class="card-body">
                                     <div class="form-group d-flex justify-content-between">
                                         <strong>Cliente:</strong>
@@ -295,7 +295,9 @@
                         <button wire:click.prevent="pago({{$pedido->id}})" 
                             class="mx-4 btn btn-primary btn-sm">Pago pendiente</button>
                         @endif
-                        @if ($pedido->pedidoEstado->nombre === 'TERMINADO' || $pedido->pedidoEstado->nombre === 'EN ALMACEN TERMINADO')
+                        @if ($pedido->pedidoEstado->nombre === 'TERMINADO'
+                         || $pedido->pedidoEstado->nombre === 'DEPOSITADO MECANICO'
+                         || $pedido->pedidoEstado->nombre === 'EN ALMACEN TERMINADO')
                         <button wire:click.prevent="asignarChofer({{$pedido->id}})" 
                             class="mx-4 btn btn-primary btn-sm">Asignar Entrega</button>
                         @endif

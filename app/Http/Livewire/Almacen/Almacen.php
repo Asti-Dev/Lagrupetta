@@ -78,11 +78,12 @@ class Almacen extends Component
 
             $q->where('nombre', '=', 'DEPOSITADO')
             ->orWhere('nombre', '=', 'EN ALMACEN')
+            ->orWhere('nombre', '=', 'DEPOSITADO MECANICO')
             ->orWhere('nombre', '=', 'EN ALMACEN TERMINADO');
         
         })->buscarPedido($this->nroPedido)
         ->buscarCliente($this->cliente)
-        ->orderBy('id', 'desc')->paginate(3);
+        ->orderBy('id', 'desc')->paginate(8);
 
         return view('livewire.almacen.almacen', $data)
         ->extends('layouts.app')

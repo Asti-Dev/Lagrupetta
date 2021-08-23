@@ -30,7 +30,7 @@
               <input type="number" class="form-control" id="nroPedido" wire:model="nroPedido">
           </div>
         </div>
-  </div>
+    </div>
     <div class="d-flex align-items-start my-1">
         @if (count($pedidoDetalles) == 0)
         <div class="w-100 alert alert-primary" role="alert">

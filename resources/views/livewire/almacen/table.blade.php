@@ -53,6 +53,12 @@
                             <label class="mb-1">Observacion Chofer:</label>
                             <label class="text-right"> {{$pedido->transporteRecojo()->observacion_chofer}} </label>
                         </div>
+                        @if (isset($pedido->pedidoDetalle))
+                        <div class="d-flex w-100 justify-content-between">
+                            <strong>Mecanico:</strong>
+                            <p class="text-right"> {{ $pedido->pedidoDetalle->mecanicoUno->nombre_apellido ?? ''  }} </p>
+                        </div>
+                        @endif
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Codigo:</label>
                             <label class="text-right"> {{$pedido->codigo}} </label>
@@ -61,7 +67,8 @@
                     
                     <div class="d-flex w-100 justify-content-between">
                         
-                        @if ($pedido->pedidoEstado->nombre === 'DEPOSITADO')
+                        @if ($pedido->pedidoEstado->nombre === 'DEPOSITADO' 
+                        || $pedido->pedidoEstado->nombre === 'DEPOSITADO MECANICO')
                         <a  wire:click.prevent="enAlmacen({{$pedido->id}})"class="btn btn-primary">Marcar Ingreso</a>
                         @endif
                         @if ($pedido->pedidoEstado->nombre === 'EN ALMACEN' && isset($pedido->pedidoDetalle))

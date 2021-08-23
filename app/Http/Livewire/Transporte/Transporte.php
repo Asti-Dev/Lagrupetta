@@ -163,6 +163,8 @@ class Transporte extends Component
                 $q->where('nombre', '=', 'SOLICITADO')
                 ->orWhere('nombre', '=', 'EN RUTA RECOJO')
                 ->orWhere('nombre', '=', 'EN RUTA ENTREGA')
+                ->orWhere('nombre', '=', 'TERMINADO')
+                ->orWhere('nombre', '=', 'DEPOSITADO MECANICO')
                 ->orWhere('nombre', '=', 'EN ALMACEN TERMINADO');
     
             })
