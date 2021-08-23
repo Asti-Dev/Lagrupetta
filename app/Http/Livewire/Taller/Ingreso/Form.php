@@ -36,7 +36,7 @@ class Form extends Component
     public function asignar(){
         $mecanico = Empleado::where('nombre_apellido','=', $this->mecanico)->first();
 
-        // $transporte = Transporte::find($this->pedido->transporteRecojo()->id); 
+        // $transporte = Transporte::find($this->pedido->transporteRecojo->id); 
 
         // $transporte->update(
         //     ['fecha_hora_local' => now()]

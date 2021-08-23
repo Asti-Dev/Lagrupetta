@@ -35,13 +35,13 @@ class Form extends Component
     public function mount()
     {
         $this->cliente = $this->pedido->cliente->nombre_apellido;
-        $this->chofer = $this->pedido->transporteRecojo()->choferTransporte->nombre_apellido;
+        $this->chofer = $this->pedido->transporteRecojo->choferTransporte->nombre_apellido;
         $this->bicicleta = $this->pedido->bicicleta;
         $this->fechaRecojoAprox = date('Y-m-d',strtotime($this->pedido->fecha_recojo_aprox)) ;
         $this->observacion = $this->pedido->observacion_cliente;
         $this->confirmacion = $this->pedido->confirmacion;
         $this->estados = Pedido::ESTADOS;
-        $this->direccion = $this->pedido->transporteRecojo()->direccion;
+        $this->direccion = $this->pedido->transporteRecojo->direccion;
     }
     public function rules()
     {
@@ -69,7 +69,7 @@ class Form extends Component
             'confirmacion' => $this->confirmacion,
         ]);
 
-        $transporte = Transporte::find($this->pedido->transporteRecojo()->id);
+        $transporte = Transporte::find($this->pedido->transporteRecojo->id);
 
         $transporte->update([
             'chofer' => $chofer->id,

@@ -54,12 +54,12 @@ class Pedido extends Model
 
     public function transporteRecojo()
     {
-        return $this->hasMany(Transporte::class)->where('ruta', 'RECOJO')->withTrashed()->first();
+        return $this->hasOne(Transporte::class)->where('ruta', 'RECOJO')->withTrashed();
     }
 
     public function transporteEntrega()
     {
-        return $this->hasMany(Transporte::class)->where('ruta', 'ENTREGA')->withTrashed()->first();
+        return $this->hasOne(Transporte::class)->where('ruta', 'ENTREGA')->withTrashed();
     }
 
     protected static function boot()

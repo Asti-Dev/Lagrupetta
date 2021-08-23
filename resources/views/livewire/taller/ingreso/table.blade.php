@@ -47,15 +47,15 @@
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Chofer:</label>
-                            <label class="text-right"> {{$pedido->transporteRecojo()->choferTransporte->nombre_apellido}} </label>
+                            <label class="text-right"> {{$pedido->transporteRecojo->choferTransporte->nombre_apellido}} </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Fecha de Recojo:</label>
-                            <label class="text-right"> {{date('d/m/Y h:i A' ,strtotime( $pedido->transporteRecojo()->fecha_hora_completado) )}} </label>
+                            <label class="text-right"> {{date('d/m/Y h:i A' ,strtotime( $pedido->transporteRecojo->fecha_hora_completado) )}} </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Observacion Chofer:</label>
-                            <label class="text-right"> {{$pedido->transporteRecojo()->observacion_chofer}} </label>
+                            <label class="text-right"> {{$pedido->transporteRecojo->observacion_chofer}} </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Codigo:</label>

@@ -42,12 +42,12 @@
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Chofer:</label>
-                            <label class="text-right"> {{$revision->pedido->transporteRecojo()->choferTransporte->nombre_apellido}} </label>
+                            <label class="text-right"> {{$revision->pedido->transporteRecojo->choferTransporte->nombre_apellido}} </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Fecha de Recojo:</label>
                             <label class="text-right">
-                                 {{date('d/m/Y h:i A' ,strtotime( $revision->pedido->transporteRecojo()->fecha_hora_completado) )}} 
+                                 {{date('d/m/Y h:i A' ,strtotime( $revision->pedido->transporteRecojo->fecha_hora_completado) )}} 
                             </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
@@ -57,7 +57,7 @@
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">LLegada al Taller:</label>
                             <label class="text-right">{{
-                                date('d/m/Y h:i A' ,strtotime( $revision->pedido->transporteRecojo()->fecha_hora_local) )
+                                date('d/m/Y h:i A' ,strtotime( $revision->pedido->transporteRecojo->fecha_hora_local) )
                                 }}  </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">

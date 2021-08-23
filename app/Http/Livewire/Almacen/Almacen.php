@@ -34,7 +34,7 @@ class Almacen extends Component
                 'pedido_estado_id' => $estado->id,
             ]);
         
-            $this->pedido->transporteRecojo()->update([
+            $this->pedido->transporteRecojo->update([
                 'fecha_hora_local' => now(),
             ]);
         }
