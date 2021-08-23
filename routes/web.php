@@ -11,6 +11,7 @@ use App\Http\Controllers\WhatsappController;
 use App\Http\Livewire\Almacen\Almacen;
 use App\Http\Livewire\Cliente\CreateClientForm;
 use App\Http\Livewire\Diagnostico\Diagnostico;
+use App\Http\Livewire\Export\Pedidos;
 use App\Http\Livewire\Paquete\Paquete;
 use App\Http\Livewire\ParteModelo\ParteModelo;
 use App\Http\Livewire\Pedido\Pedido;
@@ -128,4 +129,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'logistica'], function() {
     Route::get('/rechazarCotizacionManual/{pedido}', [ConfirmationsController::class, 'rechazarCotizacionManual'])->name('pedido.rechazarCotizacionManual')->middleware(['role:super-admin|administrador']);
 
     Route::get('/cotizacion/edit/{pedido}', CotizacionEdit::class)->name('cotizacion.edit2')->middleware(['role:super-admin|jefe mecanicos|mecanico']);
+});
+Route::group(['middleware' => 'auth', 'prefix' => 'exportar'], function() {
+
+    Route::get('/pedidosXls', Pedidos::class)->name('pedidos.export')->middleware(['role:super-admin|administrador']);
+
 });

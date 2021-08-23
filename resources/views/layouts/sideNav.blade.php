@@ -113,6 +113,25 @@
         </div>
         {{-- Etiqueta nivel 2  --}}
       </li>
+      <li class="nav-item">
+        <a style="cursor: pointer" class="nav-link text-light" data-toggle="collapse" data-target="#exportar"
+          aria-controls="exportar">
+          Exportar
+        </a>
+        {{-- Etiqueta nivel 2  --}}
+        <div id="exportar" class="nav-link text-dark collapse py-0">
+          <ul class="ml-5 nav-item navbar-nav">
+            @hasanyrole('super-admin|administrador')
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{{ route('pedidos.export') }}">
+                {{ __('Pedidos') }}
+              </a>
+            </li>
+            @endhasanyrole
+          </ul>
+        </div>
+        {{-- Etiqueta nivel 2  --}}
+      </li>
     </ul>
   </div>
 </nav>
