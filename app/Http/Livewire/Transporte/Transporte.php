@@ -75,6 +75,10 @@ class Transporte extends Component
 
         $estado = PedidoEstado::where('nombre', '=', 'DEPOSITADO')->first();
 
+        $this->transporte->update([
+            'check' => true,
+        ]);
+
         $this->transporte->pedido->update([
             'pedido_estado_id' => $estado->id,
         ]);
@@ -176,7 +180,7 @@ class Transporte extends Component
             ->orderBy('created_at', 'asc')->get();
 
             $this->transportes = $transportes->whereIn('aceptar_chofer',['ACEPTADO', NULL])
-            ->whereNotIn('aceptar_chofer',['RECHAZADO']);
+            ->whereNotIn('aceptar_chofer',['RECHAZADO'])->where('check', false);
         
         return view('livewire.transporte.transporte')
         ->extends('layouts.app')
