@@ -105,11 +105,21 @@ class Transporte extends Component
 
     public function completado()
     {
-        $this->transporte->update([
-            'observacion_chofer' => $this->observacion,
-            'completado' => ModelsTransporte::CUMPLIMIENTO[0] ,
-            'fecha_hora_completado' => now(),
-        ]);
+        if( $this->transporte->pedido->pedidoEstado->nombre == 'EN RUTA ENTREGA'){
+            $this->transporte->update([
+                'observacion_chofer' => $this->observacion,
+                'completado' => ModelsTransporte::CUMPLIMIENTO[0] ,
+                'fecha_hora_completado' => now(),
+                'check' => true,
+            ]);
+        }else {
+            $this->transporte->update([
+                'observacion_chofer' => $this->observacion,
+                'completado' => ModelsTransporte::CUMPLIMIENTO[0] ,
+                'fecha_hora_completado' => now(),
+            ]);
+        }
+        
 
         $this->view = 'table';
     }
@@ -162,16 +172,6 @@ class Transporte extends Component
             ->filtrarRuta($this->ruta)
             ->filtrarFecha($this->fecha , $this->fecha2)
             ->choferSession()
-            ->whereHas('pedido.pedidoEstado', function($q){
-
-                $q->where('nombre', '=', 'SOLICITADO')
-                ->orWhere('nombre', '=', 'EN RUTA RECOJO')
-                ->orWhere('nombre', '=', 'EN RUTA ENTREGA')
-                ->orWhere('nombre', '=', 'TERMINADO')
-                ->orWhere('nombre', '=', 'DEPOSITADO MECANICO')
-                ->orWhere('nombre', '=', 'EN ALMACEN TERMINADO');
-    
-            })
             ->whereHas('pedido', function($q){
 
                 $q->where('confirmacion', '=', 'ACEPTADO');
