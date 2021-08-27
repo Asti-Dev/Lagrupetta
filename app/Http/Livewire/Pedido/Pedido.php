@@ -67,7 +67,7 @@ class Pedido extends Component
     {
         $this->pedido = ModelsPedido::find($id);
 
-        $this->direccion = $this->pedido->transporteRecojo()->direccion;
+        $this->direccion = $this->pedido->transporteRecojo->direccion;
 
         $this->view = 'asignarChofer';
     }
@@ -144,7 +144,7 @@ class Pedido extends Component
 
     public function render()
     {
-        $pedidos = ModelsPedido::with(['cliente', 'bicicleta', 'pedidoEstado','pedidoDetalle','revision', 'transportes'])->buscarPedido($this->nroPedido)
+        $pedidos = ModelsPedido::with(['cliente', 'bicicleta', 'pedidoEstado','pedidoDetalle','revision', 'transportes','transporteEntrega','transporteRecojo'])->buscarPedido($this->nroPedido)
             ->buscarCliente($this->cliente)
             ->filtrarEstadoPedido($this->estado)
             ->orderBy($this->orden[$this->nroOrden]['TERMINO'] ?? 'id' , $this->orden[$this->nroOrden]['SENTIDO'] ?? 'desc')

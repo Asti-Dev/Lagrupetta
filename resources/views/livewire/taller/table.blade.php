@@ -30,7 +30,7 @@
               <input type="number" class="form-control" id="nroPedido" wire:model="nroPedido">
           </div>
         </div>
-  </div>
+    </div>
     <div class="d-flex align-items-start my-1">
         @if (count($pedidoDetalles) == 0)
         <div class="w-100 alert alert-primary" role="alert">
@@ -66,7 +66,7 @@
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Chofer:</label>
-                            <label class="text-right"> {{$pedidoDetalle->pedido->transporteRecojo()->choferTransporte->nombre_apellido}} </label>
+                            <label class="text-right"> {{$pedidoDetalle->pedido->transporteRecojo->choferTransporte->nombre_apellido}} </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Observacion Cliente:</label>
@@ -74,7 +74,7 @@
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Observacion Chofer:</label>
-                            <label class="text-right"> {{$pedidoDetalle->pedido->transporteRecojo()->observacion_chofer}} </label>
+                            <label class="text-right"> {{$pedidoDetalle->pedido->transporteRecojo->observacion_chofer}} </label>
                         </div>
                         @if (isset($pedidoDetalle->fecha_entrega_aprox))
                         <div class="d-flex w-100 justify-content-between">

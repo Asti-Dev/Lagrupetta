@@ -35,19 +35,11 @@ class PedidoDetalle extends Component
     public function mount()
     {
         $this->pedido = Pedido::find($this->pedidoDetalleId->pedido->id);
-        if (
-            $this->pedido->pedidoEstado->nombre === 'EN PROCESO'
-            || $this->pedido->pedidoEstado->nombre === 'EN ESPERA'
-            || $this->pedido->pedidoEstado->nombre === 'COTIZADO'
-        ) {
             if ($this->pedido->pedidoEstado->nombre === 'EN PROCESO') {
                 $this->status = true;
             } else {
                 $this->status = false;
             }
-        } else {
-            return redirect()->route('taller.index');
-        }
     }
 
     public function revisar(Pedido $pedido)
@@ -273,14 +265,22 @@ class PedidoDetalle extends Component
     }
     public function render()
     {
-        if ($this->status) {
-            $this->pedido->update([
-                'pedido_estado_id' => PedidoEstado::where('nombre', '=', 'EN PROCESO')->first()->id,
-            ]);
+        if (
+            $this->pedido->pedidoEstado->nombre === 'EN PROCESO'
+            || $this->pedido->pedidoEstado->nombre === 'EN ESPERA'
+            || $this->pedido->pedidoEstado->nombre === 'COTIZADO'
+        ) {
+            if ($this->status) {
+                $this->pedido->update([
+                    'pedido_estado_id' => PedidoEstado::where('nombre', '=', 'EN PROCESO')->first()->id,
+                ]);
+            } else {
+                $this->pedido->update([
+                    'pedido_estado_id' => PedidoEstado::where('nombre', '=', 'EN ESPERA')->first()->id,
+                ]);
+            }
         } else {
-            $this->pedido->update([
-                'pedido_estado_id' => PedidoEstado::where('nombre', '=', 'EN ESPERA')->first()->id,
-            ]);
+             redirect()->route('taller.index');
         }
 
         $this->servicios = $this->pedido->pedidoDetalle->servicios()

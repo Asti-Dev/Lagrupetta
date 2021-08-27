@@ -47,12 +47,18 @@
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Chofer:</label>
-                            <label class="text-right"> {{$pedido->transporteRecojo()->choferTransporte->nombre_apellido}} </label>
+                            <label class="text-right"> {{$pedido->transporteRecojo->choferTransporte->nombre_apellido}} </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Observacion Chofer:</label>
-                            <label class="text-right"> {{$pedido->transporteRecojo()->observacion_chofer}} </label>
+                            <label class="text-right"> {{$pedido->transporteRecojo->observacion_chofer}} </label>
                         </div>
+                        @if (isset($pedido->pedidoDetalle))
+                        <div class="d-flex w-100 justify-content-between">
+                            <strong>Mecanico:</strong>
+                            <p class="text-right"> {{ $pedido->pedidoDetalle->mecanicoUno->nombre_apellido ?? ''  }} </p>
+                        </div>
+                        @endif
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Codigo:</label>
                             <label class="text-right"> {{$pedido->codigo}} </label>
@@ -61,15 +67,16 @@
                     
                     <div class="d-flex w-100 justify-content-between">
                         
-                        @if ($pedido->pedidoEstado->nombre === 'DEPOSITADO')
+                        @if ($pedido->pedidoEstado->nombre === 'DEPOSITADO' 
+                        || $pedido->pedidoEstado->nombre === 'DEPOSITADO MECANICO')
                         <a  wire:click.prevent="enAlmacen({{$pedido->id}})"class="btn btn-primary">Marcar Ingreso</a>
                         @endif
                         @if ($pedido->pedidoEstado->nombre === 'EN ALMACEN' && isset($pedido->pedidoDetalle))
                         <a  wire:click.prevent="enTaller({{$pedido->id}})"class="btn btn-primary">En Taller</a>
                         @endif
                         @if ($pedido->pedidoEstado->nombre === 'EN ALMACEN TERMINADO' && 
-                            isset($pedido->transporteEntrega()->aceptar_chofer))
-                            @if ($pedido->transporteEntrega()->aceptar_chofer === 'ACEPTADO')
+                            isset($pedido->transporteEntrega->aceptar_chofer))
+                            @if ($pedido->transporteEntrega->aceptar_chofer === 'ACEPTADO')
                             <a  wire:click.prevent="retirar({{$pedido->id}})"class="btn btn-primary">Retirar</a>
                             @endif
                         @endif

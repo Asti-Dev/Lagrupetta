@@ -25,14 +25,14 @@
                 <option value='SOLICITADO'> SOLICITADO  </option>
                 <option value='EN RUTA RECOJO'>EN RUTA RECOJO </option>
                 <option value='EN RUTA ENTREGA'>EN RUTA ENTREGA </option>
-                <option value='RECOGIDO'> RECOGIDO </option>
+                <option value='DEPOSITADO'> DEPOSITADO </option>
                 <option value='EN TALLER'>EN TALLER  </option>
                 <option value='COTIZADO'>COTIZADO  </option>
                 <option value='EN PROCESO'>EN PROCESO  </option>
                 <option value='REVISAR'>REVISAR  </option>
                 <option value='CORREGIR'>CORREGIR  </option>
                 <option value='TERMINADO'>TERMINADO  </option>
-                <option value='ENTREGADO'>ENTREGADO  </option>
+                <option value='DEPOSITADO MECANICO'>DEPOSITADO MECANICO</option>
                 <option value='PAGO PENDIENTE'>PAGO PENDIENTE  </option>
                 <option value='COMPLETADO'>COMPLETADO  </option>
                 <option value='ANULADO'>ANULADO</option>
@@ -64,11 +64,11 @@
                             @if($pedido->pedidoEstado->nombre === 'SOLICITADO')
                             <x-test :estado="$pedido->confirmacion" />    
                             @endif         
-                            @if ($pedido->pedidoEstado->nombre === 'EN RUTA RECOJO' && isset($pedido->transporteRecojo()->completado))
-                            <x-test :estado="$pedido->transporteRecojo()->completado" />                        
+                            @if ($pedido->pedidoEstado->nombre === 'EN RUTA RECOJO' && isset($pedido->transporteRecojo->completado))
+                            <x-test :estado="$pedido->transporteRecojo->completado" />                        
                             @endif    
-                            @if ($pedido->pedidoEstado->nombre === 'EN RUTA ENTREGA' && isset($pedido->transporteEntrega()->completado))
-                            <x-test :estado="$pedido->transporteEntrega()->completado" />                        
+                            @if ($pedido->pedidoEstado->nombre === 'EN RUTA ENTREGA' && isset($pedido->transporteEntrega->completado))
+                            <x-test :estado="$pedido->transporteEntrega->completado" />                        
                             @endif       
                             @if($pedido->pedidoEstado->nombre === 'COTIZADO')
                             <x-test :estado="$pedido->pedidoDetalle->confirmacion" />    
@@ -78,15 +78,15 @@
                     </div>
                     <div class="my-2">
                         <div class="accordion">
-                            <div class="card" x-data="{ text_openOne{{$key}}:false }">
+                            <div class="card" x-data="{ text_openOne{{$key}}:true }">
                               <div class="card-header" >
                                 <h2 class="mb-0">
-                                  <button class="btn btn-link btn-block text-left" type="button" @click = "text_openOne{{$key}} = true">
+                                  <button class="btn btn-link btn-block text-left" type="button" @click = "text_openOne{{$key}} == true ? text_openOne{{$key}} = false : text_openOne{{$key}} = true" >
                                     General
                                   </button>
                                 </h2>
                               </div>
-                              <div class="collapse show" x-show="text_openOne{{$key}}" @click.away="text_openOne{{$key}} = false">
+                              <div class="collapse show" x-show="text_openOne{{$key}}">
                                 <div class="card-body">
                                     <div class="form-group d-flex justify-content-between">
                                         <strong>Cliente:</strong>
@@ -112,13 +112,13 @@
                               </div>
                             </div>
                             <div class="card"  x-data="{ text_openTwo{{$key}}:false }">
-                              <div class="card-header  @if ($pedido->transporteRecojo()->aceptar_chofer === 'RECHAZADO') d-flex justify-content-around align-items-center @endif">
+                              <div class="card-header  @if ($pedido->transporteRecojo->aceptar_chofer === 'RECHAZADO') d-flex justify-content-around align-items-center @endif">
                                 <h2 class="mb-0">
                                   <button class="btn btn-link btn-block text-left collapsed" type="button"  @click = "text_openTwo{{$key}} = true">
                                     Recojo del pedido
                                   </button>
                                 </h2>
-                                @if ($pedido->transporteRecojo()->aceptar_chofer === 'RECHAZADO')
+                                @if ($pedido->transporteRecojo->aceptar_chofer === 'RECHAZADO')
                                 <span class="text-danger"><i class="fas fa-exclamation-circle"></i></span>    
                                 @endif
                               </div>
@@ -126,34 +126,34 @@
                                 <div class="card-body">
                                     <div class="form-group d-flex justify-content-between">
                                         <strong>Chofer Recojo:</strong>
-                                        <p class="text-right">{{$pedido->transporteRecojo()->choferTransporte->nombre_apellido ?? ''}}</p>
+                                        <p class="text-right">{{$pedido->transporteRecojo->choferTransporte->nombre_apellido ?? ''}}</p>
                                     </div>
-                                    @if (isset($pedido->transporteRecojo()->aceptar_chofer))
+                                    @if (isset($pedido->transporteRecojo->aceptar_chofer))
                                     <div class="form-group d-flex justify-content-between">
                                         <strong>Chofer Respuesta:</strong>
-                                        <p class="text-right">{{$pedido->transporteRecojo()->aceptar_chofer ?? ''}}</p>
+                                        <p class="text-right">{{$pedido->transporteRecojo->aceptar_chofer ?? ''}}</p>
                                     </div>
                                     @endif
                                     <div class="form-group d-flex justify-content-between">
                                         <strong>Direccion de Recojo:</strong>
-                                        <p class="text-right">{{ $pedido->transporteRecojo()->direccion ?? ''  }}</p>
+                                        <p class="text-right">{{ $pedido->transporteRecojo->direccion ?? ''  }}</p>
                                     </div>
                                     <div class="form-group d-flex justify-content-between">
                                         <strong>Fecha de Recojo:</strong>
                                         <p class="text-right">{{
-                                            isset($pedido->transporteRecojo()->fecha_hora_completado) ?
-                                            date('d/m/Y h:i A' ,strtotime( $pedido->transporteRecojo()->fecha_hora_completado) ) :
+                                            isset($pedido->transporteRecojo->fecha_hora_completado) ?
+                                            date('d/m/Y h:i A' ,strtotime( $pedido->transporteRecojo->fecha_hora_completado) ) :
                                             date('d/m/Y',strtotime( $pedido->fecha_recojo_aprox) )
                                         }}</p>
                                     </div>
                                     <div class="form-group d-flex justify-content-between">
                                         <strong>Observacion Chofer Recojo:</strong>
-                                        <p class="text-right">{{ $pedido->transporteRecojo()->observacion_chofer ?? ''  }}</p>
+                                        <p class="text-right">{{ $pedido->transporteRecojo->observacion_chofer ?? ''  }}</p>
                                     </div>
                                 </div>
                               </div>
                             </div>
-                            @if (isset($pedido->pedidoDetalle) || isset($pedido->transporteRecojo()->fecha_hora_local))
+                            @if (isset($pedido->pedidoDetalle) || isset($pedido->transporteRecojo->fecha_hora_local))
                             <div class="card"  x-data="{ text_openThree{{$key}}:false }">
                                 <div class="card-header">
                                   <h2 class="mb-0">
@@ -166,7 +166,7 @@
                                   <div class="card-body">
                                       <div class="form-group d-flex justify-content-between">
                                           <strong>LLegada al Local:</strong>
-                                          <p class="text-right">{{ $pedido->transporteRecojo()->fecha_hora_local ?? ''  }}</p>
+                                          <p class="text-right">{{ $pedido->transporteRecojo->fecha_hora_local ?? ''  }}</p>
                                       </div>
                                       <div class="form-group d-flex justify-content-between">
                                           <strong>Mecanico:</strong>
@@ -186,16 +186,16 @@
                               @endif
                               @if (isset($pedido->pedidoDetalle))
                               <div class="card"  x-data="{ text_openFour{{$key}}:false }">
-                                  <div class="card-header @if ($pedido->transporteEntrega()) d-flex justify-content-around align-items-center @endif">
+                                  <div class="card-header @if ($pedido->transporteEntrega) d-flex justify-content-around align-items-center @endif">
                                     <h2 class="mb-0">
                                       <button class="btn btn-link btn-block text-left collapsed" type="button"  @click = "text_openFour{{$key}} = true">
                                         Entrega del Pedido
                                       </button>
                                     </h2>
-                                    @if ($pedido->transporteEntrega())
-                                        @if ($pedido->transporteEntrega()->aceptar_chofer === 'RECHAZADO')
+                                    @if ($pedido->transporteEntrega)
+                                        @if ($pedido->transporteEntrega->aceptar_chofer === 'RECHAZADO')
                                             <span class="text-danger"><i class="fas fa-exclamation-circle"></i></span>    
-                                        @elseif ($pedido->transporteEntrega()->aceptar_chofer === 'ACEPTADO')
+                                        @elseif ($pedido->transporteEntrega->aceptar_chofer === 'ACEPTADO')
                                             <span class="text-success"><i class="fas fa-exclamation-circle"></i></span>
                                         @else    
                                             <span class="text-primary"><i class="fas fa-exclamation-circle"></i></span>
@@ -206,29 +206,29 @@
                                     <div class="card-body">
                                       <div class="form-group d-flex justify-content-between">
                                           <strong>Chofer Entrega:</strong>
-                                          <p class="text-right">{{$pedido->transporteEntrega()->choferTransporte->nombre_apellido ?? ''}}</p>
+                                          <p class="text-right">{{$pedido->transporteEntrega->choferTransporte->nombre_apellido ?? ''}}</p>
                                       </div>
-                                      @if (isset($pedido->transporteEntrega()->aceptar_chofer))
+                                      @if (isset($pedido->transporteEntrega->aceptar_chofer))
                                         <div class="form-group d-flex justify-content-between">
                                             <strong>Chofer Respuesta:</strong>
-                                            <p class="text-right">{{$pedido->transporteEntrega()->aceptar_chofer ?? ''}}</p>
+                                            <p class="text-right">{{$pedido->transporteEntrega->aceptar_chofer ?? ''}}</p>
                                         </div>
                                       @endif
                                       <div class="form-group d-flex justify-content-between">
                                           <strong>Direccion de Entrega:</strong>
-                                          <p class="text-right">{{ $pedido->transporteEntrega()->direccion ?? ''  }}</p>
+                                          <p class="text-right">{{ $pedido->transporteEntrega->direccion ?? ''  }}</p>
                                       </div>
                                       <div class="form-group d-flex justify-content-between">
                                           <strong>Fecha de Entrega:</strong>
                                           <p class="text-right">{{
-                                              isset($pedido->transporteEntrega()->fecha_hora_completado) ?
-                                              date('d/m/Y h:i A' ,strtotime( $pedido->transporteEntrega()->fecha_hora_completado) ) :
+                                              isset($pedido->transporteEntrega->fecha_hora_completado) ?
+                                              date('d/m/Y h:i A' ,strtotime( $pedido->transporteEntrega->fecha_hora_completado) ) :
                                               date('d/m/Y',strtotime( $pedido->pedidoDetalle->fecha_entrega_aprox) )
                                           }}</p>
                                       </div>
                                       <div class="form-group d-flex justify-content-between">
                                           <strong>Observacion Chofer Entrega:</strong>
-                                          <p class="text-right">{{ $pedido->transporteEntrega()->observacion_chofer ?? ''  }}</p>
+                                          <p class="text-right">{{ $pedido->transporteEntrega->observacion_chofer ?? ''  }}</p>
                                       </div>
                                     </div>
                                   </div>
@@ -291,11 +291,13 @@
                         <button wire:click.prevent="completado({{$pedido->id}})" 
                             class=" mx-4 btn btn-primary btn-sm">Completado</button>
                         @endif
-                        @if ($pedido->pedidoEstado->nombre === 'EN RUTA ENTREGA' && $pedido->transporteEntrega()->completado === 'COMPLETADO' )
+                        @if ($pedido->pedidoEstado->nombre === 'EN RUTA ENTREGA' && $pedido->transporteEntrega->completado === 'COMPLETADO' )
                         <button wire:click.prevent="pago({{$pedido->id}})" 
                             class="mx-4 btn btn-primary btn-sm">Pago pendiente</button>
                         @endif
-                        @if ($pedido->pedidoEstado->nombre === 'TERMINADO' || $pedido->pedidoEstado->nombre === 'EN ALMACEN TERMINADO')
+                        @if ($pedido->pedidoEstado->nombre === 'TERMINADO'
+                         || $pedido->pedidoEstado->nombre === 'DEPOSITADO MECANICO'
+                         || $pedido->pedidoEstado->nombre === 'EN ALMACEN TERMINADO')
                         <button wire:click.prevent="asignarChofer({{$pedido->id}})" 
                             class="mx-4 btn btn-primary btn-sm">Asignar Entrega</button>
                         @endif

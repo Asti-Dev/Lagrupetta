@@ -46,23 +46,23 @@
             <div class="card-body">
                 <div class="form-group d-flex justify-content-between">
                     <strong>Chofer Recojo:</strong>
-                    <p class="text-right">{{$pedido->transporteRecojo()->choferTransporte->nombre_apellido ?? ''}}</p>
+                    <p class="text-right">{{$pedido->transporteRecojo->choferTransporte->nombre_apellido ?? ''}}</p>
                 </div>
                 <div class="form-group d-flex justify-content-between">
                     <strong>Direccion de Recojo:</strong>
-                    <p class="text-right">{{ $pedido->transporteRecojo()->direccion ?? ''  }}</p>
+                    <p class="text-right">{{ $pedido->transporteRecojo->direccion ?? ''  }}</p>
                 </div>
                 <div class="form-group d-flex justify-content-between">
                     <strong>Fecha de Recojo:</strong>
                     <p class="text-right">{{
-                        isset($pedido->transporteRecojo()->fecha_hora_completado) ?
-                        date('d/m/Y h:i A' ,strtotime( $pedido->transporteRecojo()->fecha_hora_completado) ) :
+                        isset($pedido->transporteRecojo->fecha_hora_completado) ?
+                        date('d/m/Y h:i A' ,strtotime( $pedido->transporteRecojo->fecha_hora_completado) ) :
                         date('d/m/Y',strtotime( $pedido->fecha_recojo_aprox) )
                     }}</p>
                 </div>
                 <div class="form-group d-flex justify-content-between">
                     <strong>Observacion Chofer Recojo:</strong>
-                    <p class="text-right">{{ $pedido->transporteRecojo()->observacion_chofer ?? ''  }}</p>
+                    <p class="text-right">{{ $pedido->transporteRecojo->observacion_chofer ?? ''  }}</p>
                 </div>
             </div>
           </div>
@@ -80,7 +80,7 @@
               <div class="card-body">
                   <div class="form-group d-flex justify-content-between">
                       <strong>LLegada al Taller:</strong>
-                      <p class="text-right">{{ $pedido->transporteRecojo()->fecha_hora_local ?? ''  }}</p>
+                      <p class="text-right">{{ $pedido->transporteRecojo->fecha_hora_local ?? ''  }}</p>
                   </div>
                   <div class="form-group d-flex justify-content-between">
                       <strong>Mecanico:</strong>
@@ -109,23 +109,23 @@
                 <div class="card-body">
                   <div class="form-group d-flex justify-content-between">
                       <strong>Chofer Entrega:</strong>
-                      <p class="text-right">{{$pedido->transporteEntrega()->choferTransporte->nombre_apellido ?? ''}}</p>
+                      <p class="text-right">{{$pedido->transporteEntrega->choferTransporte->nombre_apellido ?? ''}}</p>
                   </div>
                   <div class="form-group d-flex justify-content-between">
                       <strong>Direccion de Entrega:</strong>
-                      <p class="text-right">{{ $pedido->transporteEntrega()->direccion ?? ''  }}</p>
+                      <p class="text-right">{{ $pedido->transporteEntrega->direccion ?? ''  }}</p>
                   </div>
                   <div class="form-group d-flex justify-content-between">
                       <strong>Fecha de Entrega:</strong>
                       <p class="text-right">{{
-                          isset($pedido->transporteEntrega()->fecha_hora_completado) ?
-                          date('d/m/Y h:i A' ,strtotime( $pedido->transporteEntrega()->fecha_hora_completado) ) :
+                          isset($pedido->transporteEntrega->fecha_hora_completado) ?
+                          date('d/m/Y h:i A' ,strtotime( $pedido->transporteEntrega->fecha_hora_completado) ) :
                           date('d/m/Y',strtotime( $pedido->pedidoDetalle->fecha_entrega_aprox) )
                       }}</p>
                   </div>
                   <div class="form-group d-flex justify-content-between">
                       <strong>Observacion Chofer Entrega:</strong>
-                      <p class="text-right">{{ $pedido->transporteEntrega()->observacion_chofer ?? ''  }}</p>
+                      <p class="text-right">{{ $pedido->transporteEntrega->observacion_chofer ?? ''  }}</p>
                   </div>
                 </div>
               </div>

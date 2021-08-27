@@ -25,7 +25,7 @@ class Taller extends Component
     {
         $pedido = Pedido::find($id);
 
-        $estado = PedidoEstado::where('nombre', '=', 'DEPOSITADO')->first();
+        $estado = PedidoEstado::where('nombre', '=', 'DEPOSITADO MECANICO')->first();
 
         $pedido->update([
             'pedido_estado_id' => $estado->id,
@@ -37,6 +37,8 @@ class Taller extends Component
         $data['pedidoDetalles'] = PedidoDetalle::mecanicoSession()->whereHas('pedido.pedidoEstado', function($q){
 
             $q->where('nombre', '=', 'EN TALLER')
+            ->orWhere('nombre', '=', 'EN RUTA RECOJO')
+            ->orWhere('nombre', '=', 'DEPOSITADO')
             ->orWhere('nombre', '=', 'EN ALMACEN')
             ->orWhere('nombre', '=', 'COTIZADO')
             ->orWhere('nombre', '=', 'EN PROCESO')
@@ -49,7 +51,7 @@ class Taller extends Component
         ->buscarCliente($this->cliente)
         ->filtrarEstadoPedido($this->estado)
         ->orderBy($this->orden[$this->nroOrden]['TERMINO'] ?? 'id' , $this->orden[$this->nroOrden]['SENTIDO'] ?? 'desc')
-        ->paginate(6);
+        ->get();
 
         return view('livewire.taller.taller',$data)
         ->extends('layouts.app')

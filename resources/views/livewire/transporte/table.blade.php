@@ -98,7 +98,7 @@
                         @hasanyrole('super-admin|chofer')
                         @if ($transporte->aceptar_chofer != 'ACEPTADO')
                         <div class="d-flex flex-column">
-                            <button wire:click.prevent="aceptarChofer({{$transporte->id}})" class="btn btn-success">
+                            <button wire:click.prevent="aceptarChofer({{$transporte->id}})" class="btn btn-success mb-4">
                                 Aceptar
                             </button>
                             <button wire:click.prevent="rechazarChofer({{$transporte->id}})" class="btn btn-danger">
