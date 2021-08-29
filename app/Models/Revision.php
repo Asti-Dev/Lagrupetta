@@ -27,6 +27,10 @@ class Revision extends Model
         return $this->belongsTo(Diagnostico::class);
     } 
 
+    public function mecanicoUno(){
+        return $this->belongsTo(Empleado::class, 'mecanico', 'id' );
+    } 
+
     public function pruebas()
     {
         return $this->belongsToMany(Prueba::class, 'revision_prueba','revision_id','prueba_id')

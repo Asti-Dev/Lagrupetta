@@ -16,14 +16,20 @@
 
     <div class="row">
         <div class="col-lg-5 margin-tb">
-            <form action="">
+            <form wire:submit.prevent="setFechas">
                 <div class="form-group">
                     <label for="fechaInicio">Fecha Inicio</label>
-                    <input type="date" class="form-control" id="fechaInicio" wire:model.lazy="fechaInicio">
+                    <input type="date" class="form-control
+                    @error('fechaInicio') is-invalid @enderror" id="fechaInicio" wire:model.lazy="fechaInicio">
+                    @error('fechaInicio') <span class="text-danger">Campo Obligatorio</span> @enderror
+
                 </div>
                 <div class="form-group">
                     <label for="fechaFinal">Fecha Final</label>
-                    <input type="date" class="form-control" id="fechaFinal" wire:model.lazy="fechaFinal">
+                    <input type="date" class="form-control
+                    @error('fechaFinal') is-invalid @enderror" id="fechaFinal" wire:model.lazy="fechaFinal">
+                    @error('fechaFinal') <span class="text-danger">Campo Obligatorio</span> @enderror
+
                 </div>
                 <button type="submit" class="btn btn-primary mb-2">Descargar Excel</button>
             </form>
