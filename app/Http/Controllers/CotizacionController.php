@@ -288,7 +288,7 @@ class CotizacionController extends Controller
             'salida' => $salida
         ]);
         
-        $pdf = PDF::loadView('PDF.diagnostico', $data)->setOptions(['defaultFont' => 'sans-serif']);
+        $pdf = PDF::loadView('PDF.diagnostico', $data)->setOptions(['defaultFont' => 'sans-serif','isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]) ;
         Storage::disk('local')->put('pdf/'. $nombre . $serial. '.pdf' ,$pdf->output());
 
         

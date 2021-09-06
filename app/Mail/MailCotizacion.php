@@ -39,7 +39,7 @@ class MailCotizacion extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.cotizacion')
+        return $this->markdown('mail.cotizacion')->subject('Cotizacion')
         ->attachFromStorage('/pdf/Diagnostico #'. $this->serial . '.pdf', 
         'Diagnostico #'. $this->serial . '.pdf', [
             'mime' => 'application/pdf'

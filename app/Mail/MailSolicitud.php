@@ -41,6 +41,6 @@ class MailSolicitud extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.solicitud');
+        return $this->markdown('mail.solicitud')->subject('Solicitud');
     }
 }
