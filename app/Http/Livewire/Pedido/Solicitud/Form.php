@@ -4,10 +4,11 @@ namespace App\Http\Livewire\Pedido\Solicitud;
 
 use App\Mail\MailSolicitud;
 use App\Models\Bicicleta;
-use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 use App\Models\Cliente;
 use App\Models\Empleado;
 use App\Models\Pedido;
+use App\Models\PedidoEstado;
 use App\Models\Transporte;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
@@ -29,7 +30,7 @@ class Form extends Component
     public $confirmacion;
     public $estados = [];
     public $direccion;
-
+  
 
 
     public function mount()
@@ -61,13 +62,25 @@ class Form extends Component
 
         $this->fechaRecojoAprox = $this->fechaRecojoAprox ?? $this->pedido->fecha_recojo_aprox;
 
-        $this->pedido->update([
-            'cliente_id' => $cliente->id,
-            'bicicleta_id' => $this->bicicleta->id,
-            'fecha_recojo_aprox' => $this->fechaRecojoAprox,
-            'observacion_cliente' => $this->observacion,
-            'confirmacion' => $this->confirmacion,
-        ]);
+        if ($this->confirmacion === Pedido::ESTADOS[0]){
+            $this->pedido->update([
+                'cliente_id' => $cliente->id,
+                'bicicleta_id' => $this->bicicleta->id,
+                'fecha_recojo_aprox' => $this->fechaRecojoAprox,
+                'observacion_cliente' => $this->observacion,
+                'confirmacion' => $this->confirmacion,
+                'pedido_estado_id' => PedidoEstado::where('nombre', 'EN RUTA RECOJO')->first()->id,
+                'fecha_hora_confirmacion' => Carbon::now()->setTimezone('America/Lima'),
+            ]);
+        } else {
+            $this->pedido->update([
+                'cliente_id' => $cliente->id,
+                'bicicleta_id' => $this->bicicleta->id,
+                'fecha_recojo_aprox' => $this->fechaRecojoAprox,
+                'observacion_cliente' => $this->observacion,
+                'confirmacion' => $this->confirmacion,
+            ]);
+        }
 
         $transporte = Transporte::find($this->pedido->transporteRecojo->id);
 

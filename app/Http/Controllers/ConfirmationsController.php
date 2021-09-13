@@ -6,6 +6,7 @@ use App\Mail\CotizacionRechazo;
 use App\Mail\SolicitudRechazo;
 use App\Models\Pedido;
 use App\Models\PedidoDetalle;
+use App\Models\PedidoEstado;
 use App\Models\Servicio;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ class ConfirmationsController extends Controller
         }
 
         $pedido->update(
+            ['pedido_estado_id' => PedidoEstado::where('nombre', 'EN RUTA RECOJO')->first()->id] +
             ['confirmacion' => Pedido::ESTADOS[0]] +
             ['fecha_hora_confirmacion' => Carbon::now()->setTimezone('America/Lima')]
         );
