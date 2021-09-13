@@ -75,10 +75,8 @@
                         <a  wire:click.prevent="enTaller({{$pedido->id}})"class="btn btn-primary">En Taller</a>
                         @endif
                         @if ($pedido->pedidoEstado->nombre === 'EN ALMACEN TERMINADO' && 
-                            isset($pedido->transporteEntrega->aceptar_chofer))
-                            @if ($pedido->transporteEntrega->aceptar_chofer === 'ACEPTADO')
+                            isset($pedido->transporteEntrega))
                             <a  wire:click.prevent="retirar({{$pedido->id}})"class="btn btn-primary">Retirar</a>
-                            @endif
                         @endif
                         <small class="">{{$pedido->created_at->diffForHumans()}} </small>
                     </div>

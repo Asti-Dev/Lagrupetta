@@ -96,6 +96,15 @@
                     </div>
                     <div class="d-flex w-100 justify-content-between">
                         @hasanyrole('super-admin|chofer')
+                        @if ($transporte->pedido->pedidoEstado->nombre === 'EN RUTA ENTREGA' || $transporte->pedido->pedidoEstado->nombre === 'EN RUTA RECOJO')
+                        <a class="shadow-lg p-3 btn btn-primary" wire:click.prevent="edit({{$transporte->id}})">
+                            @if ($transporte->ruta === 'RECOJO')
+                            Realizar Recojo
+                            @else
+                            Realizar Entrega
+                            @endif
+                        </a>
+                        @endif
                         @if ($transporte->completado === 'COMPLETADO' && $transporte->ruta === 'RECOJO')
                         <a class="shadow-lg p-3 btn btn-primary" wire:click.prevent="depositar({{$transporte->id}})">
                             Depositar

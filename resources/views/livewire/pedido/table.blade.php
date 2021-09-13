@@ -112,15 +112,12 @@
                               </div>
                             </div>
                             <div class="card"  x-data="{ text_openTwo{{$key}}:false }">
-                              <div class="card-header  @if ($pedido->transporteRecojo->aceptar_chofer === 'RECHAZADO') d-flex justify-content-around align-items-center @endif">
+                              <div class="card-header">
                                 <h2 class="mb-0">
                                   <button class="btn btn-link btn-block text-left collapsed" type="button"  @click = "text_openTwo{{$key}} = true">
                                     Recojo del pedido
                                   </button>
                                 </h2>
-                                @if ($pedido->transporteRecojo->aceptar_chofer === 'RECHAZADO')
-                                <span class="text-danger"><i class="fas fa-exclamation-circle"></i></span>    
-                                @endif
                               </div>
                               <div class="collapse show"  x-show="text_openTwo{{$key}}" @click.away="text_openTwo{{$key}} = false">
                                 <div class="card-body">
@@ -128,12 +125,6 @@
                                         <strong>Chofer Recojo:</strong>
                                         <p class="text-right">{{$pedido->transporteRecojo->choferTransporte->nombre_apellido ?? ''}}</p>
                                     </div>
-                                    @if (isset($pedido->transporteRecojo->aceptar_chofer))
-                                    <div class="form-group d-flex justify-content-between">
-                                        <strong>Chofer Respuesta:</strong>
-                                        <p class="text-right">{{$pedido->transporteRecojo->aceptar_chofer ?? ''}}</p>
-                                    </div>
-                                    @endif
                                     <div class="form-group d-flex justify-content-between">
                                         <strong>Direccion de Recojo:</strong>
                                         <p class="text-right">{{ $pedido->transporteRecojo->direccion ?? ''  }}</p>
@@ -186,18 +177,14 @@
                               @endif
                               @if (isset($pedido->pedidoDetalle))
                               <div class="card"  x-data="{ text_openFour{{$key}}:false }">
-                                  <div class="card-header @if ($pedido->transporteEntrega) d-flex justify-content-around align-items-center @endif">
+                                  <div class="card-header @if (isset($pedido->transporteEntrega)) d-flex justify-content-around align-items-center @endif">
                                     <h2 class="mb-0">
                                       <button class="btn btn-link btn-block text-left collapsed" type="button"  @click = "text_openFour{{$key}} = true">
                                         Entrega del Pedido
                                       </button>
                                     </h2>
                                     @if ($pedido->transporteEntrega)
-                                        @if ($pedido->transporteEntrega->aceptar_chofer === 'RECHAZADO')
-                                            <span class="text-danger"><i class="fas fa-exclamation-circle"></i></span>    
-                                        @elseif ($pedido->transporteEntrega->aceptar_chofer === 'ACEPTADO')
-                                            <span class="text-success"><i class="fas fa-exclamation-circle"></i></span>
-                                        @else    
+                                        @if (isset($pedido->transporteRecojo)) 
                                             <span class="text-primary"><i class="fas fa-exclamation-circle"></i></span>
                                         @endif
                                     @endif
@@ -208,12 +195,6 @@
                                           <strong>Chofer Entrega:</strong>
                                           <p class="text-right">{{$pedido->transporteEntrega->choferTransporte->nombre_apellido ?? ''}}</p>
                                       </div>
-                                      @if (isset($pedido->transporteEntrega->aceptar_chofer))
-                                        <div class="form-group d-flex justify-content-between">
-                                            <strong>Chofer Respuesta:</strong>
-                                            <p class="text-right">{{$pedido->transporteEntrega->aceptar_chofer ?? ''}}</p>
-                                        </div>
-                                      @endif
                                       <div class="form-group d-flex justify-content-between">
                                           <strong>Direccion de Entrega:</strong>
                                           <p class="text-right">{{ $pedido->transporteEntrega->direccion ?? ''  }}</p>
