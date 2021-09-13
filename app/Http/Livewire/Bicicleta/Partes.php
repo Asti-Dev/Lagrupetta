@@ -14,7 +14,7 @@ class Partes extends Component
 
     public function render()
     {
-        $partes = $this->bicicleta->partes()->paginate(5);
+        $partes = $this->bicicleta->partes()->paginate(10);
 
         return view('livewire.bicicleta.partes', compact('partes'));
     }

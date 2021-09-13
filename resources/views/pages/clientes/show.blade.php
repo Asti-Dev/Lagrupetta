@@ -24,6 +24,18 @@
                 {{ $cliente->direccion }}
             </div>
         </div>
+        <div class="col-4">
+            <div class="form-group">
+                <strong>email:</strong>
+                {{ $cliente->email }}
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <strong>creacion:</strong>
+                {{ $cliente->created_at }}
+            </div>
+        </div>
     </div>
 
     <div class="row">
