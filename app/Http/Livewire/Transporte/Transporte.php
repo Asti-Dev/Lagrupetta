@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Transporte;
 
+use App\Models\Empleado;
 use App\Models\Pedido;
 use App\Models\PedidoEstado;
 use App\Models\Transporte as ModelsTransporte;
@@ -25,6 +26,8 @@ class Transporte extends Component
     public $fechaFin;
     public $ruta;
     public $cliente;
+    public $chofers;
+    public $chofer;
 
     public function rules()
     {
@@ -39,6 +42,8 @@ class Transporte extends Component
         $this->fechaFin = '';
         $this->ruta = '';
         $this->cliente = '';
+        $this->chofer = '';
+
     }
 
     public function depositar($id)
@@ -109,6 +114,8 @@ class Transporte extends Component
 
     public function render()
     {
+        $this->chofers = Empleado::where('cargo', 'chofer')->get();
+
         $transportesIdList = collect(Pedido::with('transportes')->get())->map(function($pedido){
             return isset($pedido->transportes[1]) ? $pedido->transportes[1]['id'] : $pedido->transportes[0]['id'];
         })->toArray();
@@ -118,6 +125,7 @@ class Transporte extends Component
             ->filtrarRuta($this->ruta)
             ->filtrarFecha($this->fechaIni , $this->fechaFin)
             ->choferSession()
+            ->filtrarChofer($this->chofer)
             ->whereHas('pedido', function($q){
 
                 $q->where('confirmacion', '=', 'ACEPTADO');

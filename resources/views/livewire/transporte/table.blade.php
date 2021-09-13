@@ -1,8 +1,19 @@
 <div>
-    <div class="row">
+    <div class="d-flex">
         <a class="btn btn-success" wire:click="clear()">
             Limpiar
         </a>
+        
+        @hasanyrole('super-admin|administrador')
+        <div class="col-4">
+        <select class="form-control" wire:model="chofer" name="chofer">
+            <option value=""> Selecciona un chofer</option>
+            @foreach ($chofers as $chofer)
+            <option value="{{$chofer->id}}">{{$chofer->nombre_apellido}}</option>
+            @endforeach
+        </select>
+        </div>
+        @endhasanyrole
     </div>
     <div class="row row-cols-1 row-cols-lg-4 d-flex align-items-start my-1">
         <div class="col d-flex justify-content-between form-group pl-0 row">

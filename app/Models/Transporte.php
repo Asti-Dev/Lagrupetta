@@ -84,5 +84,11 @@ class Transporte extends Model
             });
         }
     }
+
+    public function scopeFiltrarChofer($query, $chofer){
+        if($chofer){
+               return $query->where('chofer', $chofer);
+        }
+    }
     
 }
