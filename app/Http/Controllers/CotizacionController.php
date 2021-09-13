@@ -60,11 +60,17 @@ class CotizacionController extends Controller
         }
         catch(\Exception $e){ // Using a generic exception
             session()->flash('danger', 'Email no enviado!');
-            return redirect()->route('pedidos.index');
+            if(Empleado::find(session()->get('empleado_id'))->user->hasRole('administrador')){
+                return redirect()->route('pedidos.index');
+            }
+            return redirect()->route('taller.index');
         }
 
-
-        return redirect()->route('pedidos.index')
+        if(Empleado::find(session()->get('empleado_id'))->user->hasRole('administrador')){
+            return redirect()->route('pedidos.index')
+            ->with('success', 'Cotizacion reenviada!');
+        }
+        return redirect()->route('taller.index')
             ->with('success', 'Cotizacion reenviada!');
     }
 

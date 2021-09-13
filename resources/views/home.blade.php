@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        Tu rol es {{Auth::user()->getRoleNames()->first() ?? ''}}
+                        Tu rol es {{Auth::user()->getRoleNames() ?? ''}}
                 </div>
             </div>
         </div>

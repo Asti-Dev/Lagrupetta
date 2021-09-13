@@ -76,6 +76,10 @@
                             <label class="mb-1">Observacion Chofer:</label>
                             <label class="text-right"> {{$pedidoDetalle->pedido->transporteRecojo->observacion_chofer}} </label>
                         </div>
+                        <div class="d-flex w-100 justify-content-between">
+                            <label class="mb-1"> Mecanico:</label>
+                            <label class="text-right"> {{$pedidoDetalle->mecanicoUno->nombre_apellido}} </label>
+                        </div>
                         @if (isset($pedidoDetalle->fecha_entrega_aprox))
                         <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Fecha Entrega:</label>
@@ -104,8 +108,14 @@
                             class="btn btn-primary">Diagnosticar/Cotizar</a>
                         @endif
                         @if($pedidoDetalle->confirmacion === 'EN ESPERA' || $pedidoDetalle->confirmacion === 'RECHAZADO')
+                        <div class="d-flex flex-column">
+                            <a href="{{route('cotizacion.edit', $pedidoDetalle->id)}}"
+                                class="btn btn-primary mb-1">Reenviar Cotizacion</a>
+
                         <a href="{{route('cotizacion.edit2',  $pedidoDetalle->pedido->id )}}" 
                             class="btn btn-primary">Editar Cotizacion</a>
+
+                        </div>
                         @endif
                         @if($pedidoDetalle->pedido->pedidoEstado->nombre == 'TERMINADO')
                         <a wire:click="depositar({{$pedidoDetalle->pedido->id}})" 
