@@ -65,11 +65,4 @@ class Revision extends Model
             });
         }
     }
-    public function scopeBuscarPedido($query, $nroPedido){
-        if($nroPedido != ''){
-            return $query->whereHas('pedido', function($query2) use ($nroPedido){
-                $query2->where('id', 'like', "%{$nroPedido}%");
-            });
-        }
-    }
 }

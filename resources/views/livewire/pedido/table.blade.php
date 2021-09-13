@@ -1,23 +1,33 @@
 <div>
-    <div class="d-flex align-items-start my-1">
+    <div class="d-flex align-items-start justify-content-between my-1">
+        <div class="d-flex align-items-start">
         <a class="btn btn-success" wire:click.prevent="create()" title="Crear solicitud">
             Nuevo
         </a>
         <div class="mx-3 d-flex">
             {{ $pedidos->links() }} 
         </div>
+        </div>
+        @hasanyrole('super-admin|administrador')
+        <a class="btn btn-success" href="{{ route('pedidos.export') }}">
+            <i class="fas fa-file-export"></i>
+            Exportar
+        </a>
+        @endhasanyrole
+
     </div>
-    <div class="row row-cols-1 row-cols-lg-4 d-flex align-items-start my-1">
-        <div class="col form-group">
-            <select class="form-control" id="orden" wire:model='nroOrden'>
-                <option value=''>Ordenar por ... </option>
-                <option value='1'> INGRESADOS RECIENTE  </option>
-                <option value='2'> INGRESADOS ANTIGUOS </option>
-                <option value='3'> ACTUALIZADOS RECIENTE </option>
-                <option value='4'> ACTUALIZADOS ANTIGUOS </option>
-                <option value='5'> NRO PEDIDO MAYOR </option>
-                <option value='6'>NRO PEDIDO MENOR  </option>
-              </select>
+    <div class="row row-cols-1 row-cols-lg-4 d-flex align-items-start mt-1 my-1">
+        <div class="col d-flex justify-content-between form-group pl-0 row">
+          <label class="col-sm-2 col-form-label" for="fechaIni">Desde:</label>
+          <div class="col-sm-10">
+            <input type="date" class="form-control" id="fechaIni" wire:model='fechaIni'>
+          </div>
+        </div>
+        <div class="col d-flex justify-content-between form-group pl-0 row">
+          <label class="col-sm-2 col-form-label" for="fechaFin">Hasta:</label>
+          <div class="col-sm-10">
+            <input type="date" class="form-control" id="fechaFin" wire:model='fechaFin'>
+          </div>
         </div>
         <div class="col form-group">
             <select class="form-control" id="estados" wire:model='estado'>
@@ -43,12 +53,6 @@
           <label class="col-sm-2 col-form-label" for="cliente">Cliente</label>
           <div class="col-sm-9">
               <input type="text" class="form-control" id="cliente" wire:model="cliente">
-          </div>
-        </div>
-        <div class="col d-flex justify-content-between form-group row">
-          <label class="col-sm-2 col-form-label" for="nroPedido">Nro Pedido</label>
-          <div class="col-sm-9">
-              <input type="number" class="form-control" id="nroPedido" wire:model="nroPedido">
           </div>
         </div>
   </div>
@@ -175,7 +179,7 @@
                                 </div>
                               </div>
                               @endif
-                              @if (isset($pedido->pedidoDetalle))
+                              @if (isset($pedido->pedidoDetalle->fecha_entrega_aprox))
                               <div class="card"  x-data="{ text_openFour{{$key}}:false }">
                                   <div class="card-header @if (isset($pedido->transporteEntrega)) d-flex justify-content-around align-items-center @endif">
                                     <h2 class="mb-0">

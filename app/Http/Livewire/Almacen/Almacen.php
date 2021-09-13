@@ -81,7 +81,7 @@ class Almacen extends Component
             ->orWhere('nombre', '=', 'DEPOSITADO MECANICO')
             ->orWhere('nombre', '=', 'EN ALMACEN TERMINADO');
         
-        })->buscarPedido($this->nroPedido)
+        })
         ->buscarCliente($this->cliente)
         ->orderBy('id', 'desc')->paginate(8);
 

@@ -6,12 +6,6 @@
               <input type="text" class="form-control" id="cliente" wire:model="cliente">
           </div>
         </div>
-        <div class="form-group row ml-3">
-          <label class="col-sm-2 col-form-label" for="nroPedido">Nro Pedido</label>
-          <div class="col-sm-10">
-              <input type="number" class="form-control" id="nroPedido" wire:model="nroPedido">
-          </div>
-        </div>
   </div>
     <div class="d-flex align-items-start my-1">
         @if (count($revisiones) == 0)

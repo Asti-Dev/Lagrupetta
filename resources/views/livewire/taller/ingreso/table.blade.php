@@ -6,12 +6,6 @@
               <input type="text" class="form-control" id="cliente" wire:model="cliente">
           </div>
         </div>
-        <div class="col d-flex justify-content-between form-group row">
-          <label class="col-sm-2 col-form-label" for="nroPedido">Nro Pedido</label>
-          <div class="col-sm-9">
-              <input type="number" class="form-control" id="nroPedido" wire:model="nroPedido">
-          </div>
-        </div>
   </div>
     <div class="d-flex align-items-start my-1">
         @if (count($pedidos) == 0)

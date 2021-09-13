@@ -102,6 +102,11 @@ class PedidoDetalle extends Model
             }
         }
     }
+    public function scopeFiltrarMecanico($query, $mecanico){
+        if($mecanico){
+               return $query->where('mecanico', $mecanico);
+        }
+    }
     public function scopeFiltrarEstadoPedido($query, $estado){
         if($estado != ''){
             return $query->whereHas('pedido.pedidoEstado', function($query2) use ($estado){
@@ -118,11 +123,14 @@ class PedidoDetalle extends Model
             });
         }
     }
-    public function scopeBuscarPedido($query, $nroPedido){
-        if($nroPedido != ''){
-            return $query->whereHas('pedido', function($query2) use ($nroPedido){
-                $query2->where('id', 'like', "%{$nroPedido}%");
-            });
+
+    public function scopeFiltrarFecha($query, $fecha , $fecha2){
+        if($fecha != ''){
+                if($fecha2 != ''){
+                    return $query->whereBetween('created_at', [$fecha , $fecha2]);
+                } else{
+                    return $query->whereBetween('created_at', [$fecha , today()]);
+                }
         }
     }
 }

@@ -115,18 +115,7 @@ class Form extends Component
 }
 
 
-    public function updatedChofer()
-    {
-        if ($this->chofer != "") {
-            $this->chofers = Empleado::where([
-                ['cargo', '=', 'chofer'],
-                ["nombre_apellido", "like", "%" . trim($this->chofer) . "%"]
-            ])->take(10)
-                ->get();
-        } else {
-            $this->chofers = [];
-        }
-    }
+    
 
     public function updatedCliente()
     {
@@ -145,6 +134,7 @@ class Form extends Component
 
     public function render()
     {
+        $this->chofers = Empleado::where([['cargo','=','chofer']])->get();
         if (!empty($this->check)) {
             // dd(Cliente::where('id','=',10)->first()->bicicletas()->get());
             $this->bicicletas =  Bicicleta::where('cliente_id', '=', $this->check->id)->get();

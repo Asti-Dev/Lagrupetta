@@ -21,20 +21,24 @@ class Transporte extends Component
     public $estados = [
         'SOLICITADO' => 'EN RUTA RECOJO',
     ];
-    public $fecha;
-    public $fecha2;
-    public $selectFecha;
+    public $fechaIni;
+    public $fechaFin;
     public $ruta;
     public $cliente;
-    public $nroPedido;
-
-
 
     public function rules()
     {
         return [
             'completado' => Rule::in(ModelsTransporte::CUMPLIMIENTO),
         ];
+    }
+
+    public function clear()
+    {
+        $this->fechaIni = '';
+        $this->fechaFin = '';
+        $this->ruta = '';
+        $this->cliente = '';
     }
 
     public function depositar($id)
@@ -103,31 +107,6 @@ class Transporte extends Component
         $this->view = 'table';
     }
 
-    public function updatedSelectFecha($value)
-    {
-        switch ($value) {
-            case 'HOY':
-                $this->fecha = today();
-                $this->fecha2 = '';
-                break;
-            
-            case 'SEMANA':
-                $this->fecha = today()->subDays(3);
-                $this->fecha2 = today()->addDays(7);
-                break;
-
-            case 'MES':
-                $this->fecha = today()->subDays(7);
-                $this->fecha2 = today()->addDays(30);
-                break;
-
-            default:
-                $this->fecha = '';
-                $this->fecha2 = '';
-                break;
-        }
-    }
-
     public function render()
     {
         $transportesIdList = collect(Pedido::with('transportes')->get())->map(function($pedido){
@@ -136,9 +115,8 @@ class Transporte extends Component
 
 
         $transportes = ModelsTransporte::whereIn('id', $transportesIdList)->buscarCliente($this->cliente)
-            ->buscarPedido($this->nroPedido)
             ->filtrarRuta($this->ruta)
-            ->filtrarFecha($this->fecha , $this->fecha2)
+            ->filtrarFecha($this->fechaIni , $this->fechaFin)
             ->choferSession()
             ->whereHas('pedido', function($q){
 

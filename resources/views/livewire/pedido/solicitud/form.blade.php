@@ -37,15 +37,15 @@
         <div class="form-group row">
             <label for="chofer" class="col-sm-4 col-form-label">Chofer</label>
             <div class="col-sm-8">
-            <input autocomplete="off" list="chofers" wire:model="chofer" wire:change="$emit('updatedChofer')"
-                type="text" name="Chofer" id="Chofer" class="form-control">
-            <datalist id="chofers">
-                @foreach ($chofers as $chofer)
-                    <option value="{{ $chofer->nombre_apellido }}">
-                @endforeach
-            </datalist> 
+                <select class="form-control" wire:model="chofer" name="Chofer">
+                    <option value=""> Selecciona un chofer</option>
+                    @foreach ($chofers as $chofer)
+                    <option value="{{$chofer->nombre_apellido}}">{{$chofer->nombre_apellido}}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
+
         <div class="form-group row">
             <label for="fechaRecojoAprox" class="col-sm-4 col-form-label">Fecha de Recojo: <br> {{date('d/m/Y',strtotime($pedido->fecha_recojo_aprox))}}</label>
             <div class="col-sm-8">

@@ -21,35 +21,9 @@ class Pedido extends Component
     public $pedido;
     public $estado;
     public $cliente;
-    public $nroPedido;
     public $direccion;
-    public $nroOrden;
-    public $orden = [
-        '1' => [
-            'TERMINO' => 'created_at',
-            'SENTIDO' => 'desc'
-        ],
-        '2' => [
-            'TERMINO' => 'created_at',
-            'SENTIDO' => 'asc'
-        ],
-        '3' => [
-            'TERMINO' => 'updated_at',
-            'SENTIDO' => 'desc'
-        ],
-        '4' => [
-            'TERMINO' => 'updated_at',
-            'SENTIDO' => 'asc'
-        ],
-        '5' => [
-            'TERMINO' => 'id',
-            'SENTIDO' => 'desc'
-        ],
-        '6' => [
-            'TERMINO' => 'id',
-            'SENTIDO' => 'asc'
-        ],
-    ];
+    public $fechaIni;
+    public $fechaFin;
 
 
 
@@ -68,6 +42,8 @@ class Pedido extends Component
         $this->pedido = ModelsPedido::find($id);
 
         $this->direccion = $this->pedido->transporteRecojo->direccion;
+
+        $this->chofers = Empleado::where([['cargo','=','chofer']])->get();
 
         $this->view = 'asignarChofer';
     }
@@ -128,26 +104,13 @@ class Pedido extends Component
         ModelsPedido::withTrashed()->find($id)->restore();
     }
 
-    public function updatedChofer()
-    {
-        if($this->chofer != ""){
-        $this->chofers = Empleado::where([
-            ['cargo','=','chofer'],
-            ["nombre_apellido", "like","%" . trim($this->chofer) . "%"]
-            ])->take(10)
-            ->get();
-        }else{
-            $this->chofers = [];
-        }
-
-    }
-
     public function render()
     {
-        $pedidos = ModelsPedido::with(['cliente', 'bicicleta', 'pedidoEstado','pedidoDetalle','revision', 'transportes','transporteEntrega','transporteRecojo'])->buscarPedido($this->nroPedido)
+        $pedidos = ModelsPedido::with(['cliente', 'bicicleta', 'pedidoEstado','pedidoDetalle','revision', 'transportes','transporteEntrega','transporteRecojo'])
             ->buscarCliente($this->cliente)
+            ->filtrarFecha($this->fechaIni, $this->fechaFin)
             ->filtrarEstadoPedido($this->estado)
-            ->orderBy($this->orden[$this->nroOrden]['TERMINO'] ?? 'id' , $this->orden[$this->nroOrden]['SENTIDO'] ?? 'desc')
+            ->orderBy('id','desc')
             ->paginate(8);
         
         return view('livewire.pedido.pedido', compact('pedidos'))

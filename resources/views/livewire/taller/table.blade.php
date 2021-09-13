@@ -1,11 +1,27 @@
 <div>
     <div class="row row-cols-1 row-cols-lg-4 d-flex align-items-start my-1">
-        <div class="col form-group">
-            <select class="form-control" id="orden" wire:model='nroOrden'>
-                <option value=''>Ordenar por ... </option>
-                <option value='1'> PEDIDOS POR VENCER</option>
-              </select>
-        </div>
+        @hasanyrole('super-admin|administrador')
+        <select class="form-control" wire:model="mecanico" name="mecanico">
+            <option value=""> Selecciona un mecanico</option>
+            @foreach ($mecanicos as $mecanico)
+            <option value="{{$mecanico->id}}">{{$mecanico->nombre_apellido}}</option>
+            @endforeach
+        </select>
+        @endhasanyrole
+    </div>
+    <div class="row row-cols-1 row-cols-lg-4 d-flex align-items-start my-1">
+        <div class="col d-flex justify-content-between form-group pl-0 row">
+            <label class="col-sm-2 col-form-label" for="fechaIni">Desde:</label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control" id="fechaIni" wire:model='fechaIni'>
+            </div>
+          </div>
+          <div class="col d-flex justify-content-between form-group pl-0 row">
+            <label class="col-sm-2 col-form-label" for="fechaFin">Hasta:</label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control" id="fechaFin" wire:model='fechaFin'>
+            </div>
+          </div>
         <div class="col form-group">
             <select class="form-control" id="estados" wire:model='estado'>
                 <option value=''>Todos los Estados</option>
@@ -22,12 +38,6 @@
           <label class="col-sm-2 col-form-label" for="cliente">Cliente</label>
           <div class="col-sm-9">
               <input type="text" class="form-control" id="cliente" wire:model="cliente">
-          </div>
-        </div>
-        <div class="col d-flex justify-content-between form-group row">
-          <label class="col-sm-2 col-form-label" for="nroPedido">Nro Pedido</label>
-          <div class="col-sm-9">
-              <input type="number" class="form-control" id="nroPedido" wire:model="nroPedido">
           </div>
         </div>
     </div>

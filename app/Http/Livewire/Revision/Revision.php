@@ -18,7 +18,6 @@ class Revision extends Component
     public $pruebasR = [];
     public $checkC;
     public $cliente;
-    public $nroPedido;
 
     protected $rules = [
 
@@ -106,7 +105,7 @@ class Revision extends Component
 
             $q->where('nombre', '=', 'EN CALIDAD');
 
-        })->buscarPedido($this->nroPedido)
+        })
         ->buscarCliente($this->cliente)
         ->orderBy('id', 'desc')->get();
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Taller;
 
+use App\Models\Empleado;
 use App\Models\Pedido;
 use App\Models\PedidoDetalle;
 use App\Models\PedidoEstado;
@@ -11,15 +12,11 @@ class Taller extends Component
 {
     public $view = 'table';
     public $estado;
-    public $nroPedido;
     public $cliente;
-    public $nroOrden;
-    public $orden = [
-        '1' => [
-            'TERMINO' => 'fecha_entrega_aprox',
-            'SENTIDO' => 'desc'
-        ],
-    ];
+    public $fechaIni;
+    public $fechaFin;
+    public $mecanicos;
+    public $mecanico;
 
     public function depositar($id)
     {
@@ -34,6 +31,8 @@ class Taller extends Component
 
     public function render()
     {
+        $this->mecanicos = Empleado::where('cargo','=','mecanico')->orWhere('cargo','=','jefe mecanicos')->get();
+
         $data['pedidoDetalles'] = PedidoDetalle::mecanicoSession()->whereHas('pedido.pedidoEstado', function($q){
 
             $q->where('nombre', '=', 'EN TALLER')
@@ -47,10 +46,11 @@ class Taller extends Component
             ->orWhere('nombre', '=', 'CORREGIR')
             ->orWhere('nombre', '=', 'TERMINADO');
 
-        })->buscarPedido($this->nroPedido)
+        })->filtrarFecha($this->fechaIni, $this->fechaFin)
         ->buscarCliente($this->cliente)
         ->filtrarEstadoPedido($this->estado)
-        ->orderBy($this->orden[$this->nroOrden]['TERMINO'] ?? 'id' , $this->orden[$this->nroOrden]['SENTIDO'] ?? 'desc')
+        ->filtrarMecanico($this->mecanico)
+        ->orderBy('id' ,  'desc')
         ->get();
 
         return view('livewire.taller.taller',$data)

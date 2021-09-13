@@ -23,14 +23,13 @@
         <input type="text" class="form-control item" name="direccion" id="direccion" wire:model="direccion">
     </div>
     <div class="form-group">
-        <label for="chofer">Chofer</label>
-        <input autocomplete="off" list="chofers" wire:model="chofer" wire:change="$emit('updatedChofer')" type="text"
-            name="chofer" id="chofer" class="form-control">
-        <datalist id="chofers">
+        <strong>Chofer:</strong>
+        <select class="form-control" wire:model="chofer" name="chofer">
+            <option value=""> Selecciona un chofer</option>
             @foreach ($chofers as $chofer)
-            <option value="{{ $chofer->nombre_apellido }}">
-                @endforeach
-        </datalist>
+            <option value="{{$chofer->nombre_apellido}}">{{$chofer->nombre_apellido}}</option>
+            @endforeach
+        </select>
     </div>
     <div class="form-group">
         <label for="fechaRecojoAprox">Fecha de Recojo</label>

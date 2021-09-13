@@ -108,9 +108,15 @@ class Pedido extends Model
             });
         }
     }
-    public function scopeBuscarPedido($query, $nroPedido){
-        if($nroPedido != ''){
-            return $query->where('id', 'like', "%{$nroPedido}%");
+
+    public function scopeFiltrarFecha($query, $fecha , $fecha2){
+        if($fecha != ''){
+                if($fecha2 != ''){
+                    return $query->whereBetween('created_at', [$fecha , $fecha2]);
+                } else{
+                    return $query->whereBetween('created_at', [$fecha , today()]);
+                }
         }
     }
+
 }
