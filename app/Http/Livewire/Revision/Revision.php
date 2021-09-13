@@ -104,7 +104,7 @@ class Revision extends Component
 
         $data['revisiones'] = ModelsRevision::whereHas('pedido.pedidoEstado', function($q){
 
-            $q->where('nombre', '=', 'REVISAR');
+            $q->where('nombre', '=', 'EN CALIDAD');
 
         })->buscarPedido($this->nroPedido)
         ->buscarCliente($this->cliente)

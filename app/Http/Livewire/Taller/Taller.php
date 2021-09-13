@@ -43,7 +43,7 @@ class Taller extends Component
             ->orWhere('nombre', '=', 'COTIZADO')
             ->orWhere('nombre', '=', 'EN PROCESO')
             ->orWhere('nombre', '=', 'EN ESPERA')
-            ->orWhere('nombre', '=', 'REVISAR')
+            ->orWhere('nombre', '=', 'EN CALIDAD')
             ->orWhere('nombre', '=', 'CORREGIR')
             ->orWhere('nombre', '=', 'TERMINADO');
 

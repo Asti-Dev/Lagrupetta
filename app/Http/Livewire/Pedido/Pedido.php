@@ -114,7 +114,7 @@ class Pedido extends Component
         $this->pedido = ModelsPedido::find($id);
 
         $this->pedido->update([
-            'pedido_estado_id' => PedidoEstado::where('nombre','COMPLETADO')->first()->id,
+            'pedido_estado_id' => PedidoEstado::where('nombre','FACTURADO')->first()->id,
         ]);
     }
 

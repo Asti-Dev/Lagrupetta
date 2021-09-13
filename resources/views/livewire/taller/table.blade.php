@@ -12,7 +12,7 @@
                 <option value='EN TALLER'>EN TALLER  </option>
                 <option value='COTIZADO'>COTIZADO  </option>
                 <option value='EN PROCESO'>EN PROCESO  </option>
-                <option value='REVISAR'>REVISAR  </option>
+                <option value='EN CALIDAD'>EN CALIDAD  </option>
                 <option value='CORREGIR'>CORREGIR  </option>
                 <option value='TERMINADO'>TERMINADO  </option>
                 <option value='EN ESPERA'>EN ESPERA  </option>

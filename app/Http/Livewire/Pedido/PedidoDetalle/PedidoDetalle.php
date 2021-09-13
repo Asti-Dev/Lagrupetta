@@ -53,7 +53,7 @@ class PedidoDetalle extends Component
         }
 
         $pedido->update([
-            'pedido_estado_id' => PedidoEstado::where('nombre', '=', 'REVISAR')->first()->id,
+            'pedido_estado_id' => PedidoEstado::where('nombre', '=', 'EN CALIDAD')->first()->id,
             'revision_id' => $revision->id
         ]);
 

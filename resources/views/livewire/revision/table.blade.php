@@ -68,7 +68,7 @@
 
                     <div class="d-flex w-100 justify-content-between">
                         @hasanyrole('jefe mecanicos|super-admin')
-                        @if($revision->pedido->pedidoEstado->nombre === 'REVISAR')
+                        @if($revision->pedido->pedidoEstado->nombre === 'EN CALIDAD')
                         <a wire:click.prevent="revision({{$revision->id}})"
                             class="btn btn-primary">Revisar</a>
                         @endif

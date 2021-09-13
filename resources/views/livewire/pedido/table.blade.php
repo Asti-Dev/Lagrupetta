@@ -29,12 +29,12 @@
                 <option value='EN TALLER'>EN TALLER  </option>
                 <option value='COTIZADO'>COTIZADO  </option>
                 <option value='EN PROCESO'>EN PROCESO  </option>
-                <option value='REVISAR'>REVISAR  </option>
+                <option value='EN CALIDAD'>EN CALIDAD  </option>
                 <option value='CORREGIR'>CORREGIR  </option>
                 <option value='TERMINADO'>TERMINADO  </option>
                 <option value='DEPOSITADO MECANICO'>DEPOSITADO MECANICO</option>
                 <option value='PAGO PENDIENTE'>PAGO PENDIENTE  </option>
-                <option value='COMPLETADO'>COMPLETADO  </option>
+                <option value='FACTURADO'>FACTURADO  </option>
                 <option value='ANULADO'>ANULADO</option>
                 <option value='EN ESPERA'>EN ESPERA  </option>
               </select>

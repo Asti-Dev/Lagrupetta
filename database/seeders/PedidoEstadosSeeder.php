@@ -22,12 +22,12 @@ class PedidoEstadosSeeder extends Seeder
             ['nombre' => 'COTIZADO'] ,
             ['nombre' => 'EN PROCESO'] ,
             ['nombre' => 'EN ESPERA'] ,
-            ['nombre' => 'REVISAR'] ,
+            ['nombre' => 'EN CALIDAD'] ,
             ['nombre' => 'CORREGIR'] ,
             ['nombre' => 'TERMINADO'] ,
             ['nombre' => 'ENTREGADO'] ,
             ['nombre' => 'PAGO PENDIENTE'] ,
-            ['nombre' => 'COMPLETADO'] ,
+            ['nombre' => 'FACTURADO'] ,
             ['nombre' => 'ANULADO'] ,
         ];
         

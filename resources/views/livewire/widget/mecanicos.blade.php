@@ -13,7 +13,7 @@
             <tr>
                 <th scope="row">{{$mecanico->nombre_apellido}}</th>
                 <td>{{count($mecanico->pedidodDetalles()->whereHas('pedido.pedidoEstado', function($query){
-                    $query->whereIn('nombre', ['EN TALLER','COTIZADO','EN PROCESO','EN ESPERA','REVISAR','CORREGIR']);
+                    $query->whereIn('nombre', ['EN TALLER','COTIZADO','EN PROCESO','EN ESPERA','EN CALIDAD','CORREGIR']);
                 })->get())}}
                 </td>
             </tr>

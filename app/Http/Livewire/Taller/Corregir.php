@@ -56,7 +56,7 @@ class Corregir extends Component
     public function save(){
 
         $this->revision->pedido->update([
-            'pedido_estado_id' => PedidoEstado::where('nombre','=','REVISAR')->first()->id,
+            'pedido_estado_id' => PedidoEstado::where('nombre','=','EN CALIDAD')->first()->id,
         ]);
 
         return Redirect::route('taller.index');
