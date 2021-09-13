@@ -11,11 +11,6 @@ class Transporte extends Model
 {
     use HasFactory, SoftDeletes;
 
-    const RESPUESTAS = [
-        'ACEPTADO',
-        'RECHAZADO'
-    ];
-
     const CUMPLIMIENTO = [
         'COMPLETADO',
         'FALLIDO'

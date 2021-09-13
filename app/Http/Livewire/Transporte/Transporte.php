@@ -37,38 +37,6 @@ class Transporte extends Component
         ];
     }
 
-    public function aceptarChofer($id){
-        $this->transporte = ModelsTransporte::find($id);
-        $estado = $this->transporte->pedido->pedidoEstado->nombre;
-
-        $this->transporte->update([
-            'aceptar_chofer' => ModelsTransporte::RESPUESTAS[0],
-            'fecha_hora_aceptar_chofer' => now(),
-        ]);
-        if ($this->transporte->ruta === 'RECOJO') {
-            $this->transporte->pedido->update([
-                'pedido_estado_id' => PedidoEstado::where('nombre',$this->estados[$estado])->first()->id,
-            ]);
-        }
-        
-    }
-
-    public function rechazarChofer($id){
-        $this->transporte = ModelsTransporte::find($id);
-
-        $this->transporte->update([
-            'aceptar_chofer' => ModelsTransporte::RESPUESTAS[1],
-            'fecha_hora_aceptar_chofer' => now(),
-        ]);
-
-        if ($this->transporte->ruta === 'RECOJO') {
-            $this->transporte->pedido->update([
-                'confirmacion' => Pedido::ESTADOS[1],
-                'fecha_hora_confirmacion' => NULL,
-            ]);
-        } 
-    }
-
     public function depositar($id)
     {
         $this->transporte = ModelsTransporte::find($id);
@@ -179,8 +147,7 @@ class Transporte extends Component
             })
             ->orderBy('created_at', 'asc')->get();
 
-            $this->transportes = $transportes->whereIn('aceptar_chofer',['ACEPTADO', NULL])
-            ->whereNotIn('aceptar_chofer',['RECHAZADO'])->where('check', false);
+            $this->transportes = $transportes->where('check', false);
         
         return view('livewire.transporte.transporte')
         ->extends('layouts.app')
