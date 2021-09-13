@@ -20,6 +20,7 @@ class CreateTransportesTable extends Migration
             $table->foreignId('pedido_id')->constrained();
             $table->string('completado')->nullable();
             $table->string('ruta')->nullable();
+            $table->boolean('check')->default(0);
             $table->longText('observacion_chofer')->nullable();
             $table->dateTime('fecha_hora_completado')->nullable();
             $table->dateTime('fecha_hora_local')->nullable();
