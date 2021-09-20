@@ -52,25 +52,6 @@ class Almacen extends Component
         ]);
     }
 
-    function enTaller($id){
-        $this->pedido = Pedido::find($id);
-
-        $estado = PedidoEstado::where('nombre', '=', 'EN TALLER')->first();
-
-        $this->pedido->update([
-            'pedido_estado_id' => $estado->id,
-        ]);
-    }
-
-    function retirar($id){
-        $this->pedido = Pedido::find($id);
-
-        $estado = PedidoEstado::where('nombre', '=', 'EN RUTA ENTREGA')->first();
-
-        $this->pedido->update([
-            'pedido_estado_id' => $estado->id,
-        ]);
-    }
 
     public function render()
     {

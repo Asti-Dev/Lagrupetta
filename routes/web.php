@@ -11,6 +11,7 @@ use App\Http\Controllers\WhatsappController;
 use App\Http\Livewire\Almacen\Almacen;
 use App\Http\Livewire\Cliente\CreateClientForm;
 use App\Http\Livewire\Diagnostico\Diagnostico;
+use App\Http\Livewire\Export\Clientes;
 use App\Http\Livewire\Export\Pedidos;
 use App\Http\Livewire\Paquete\Paquete;
 use App\Http\Livewire\ParteModelo\ParteModelo;
@@ -133,5 +134,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'logistica'], function() {
 Route::group(['middleware' => 'auth', 'prefix' => 'exportar'], function() {
 
     Route::get('/pedidosXls', Pedidos::class)->name('pedidos.export')->middleware(['role:super-admin|administrador']);
+
+    Route::get('/clientesXls', Clientes::class)->name('clientes.export')->middleware(['role:super-admin|administrador']);
+
 
 });

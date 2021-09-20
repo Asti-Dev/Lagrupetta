@@ -21,6 +21,9 @@ class Transporte extends Component
     public Collection $transportes;
     public $fechaIni;
     public $fechaFin;
+    public $selectFecha;
+    public $fecha;
+    public $fecha2;
     public $ruta;
     public $cliente;
     public $chofers;
@@ -44,6 +47,9 @@ class Transporte extends Component
         $this->ruta = '';
         $this->cliente = '';
         $this->chofer = '';
+        $this->selectFecha = '';
+        $this->fecha = '';
+        $this->fecha2 = '';
 
     }
 
@@ -62,6 +68,15 @@ class Transporte extends Component
         ]);
     }
 
+    function retirar($id){
+        $pedido = Pedido::find($id);
+
+        $estado = PedidoEstado::where('nombre', '=', 'EN RUTA ENTREGA')->first();
+
+        $pedido->update([
+            'pedido_estado_id' => $estado->id,
+        ]);
+    }
     /** Mostrar los pedido que tengan una instancia en transporte y poder separarlos en recojo y entrega
      * poder ingresar a la instancia y poner observaciones marcar como completado o fallido
      * los estados del pedido seran 
@@ -113,6 +128,31 @@ class Transporte extends Component
         $this->view = 'table';
     }
 
+    public function updatedSelectFecha($value)
+    {
+        switch ($value) {
+            case 'HOY':
+                $this->fecha = today();
+                $this->fecha2 = '';
+                break;
+            
+            case 'SEMANA':
+                $this->fecha = today()->subDays(3);
+                $this->fecha2 = today()->addDays(7);
+                break;
+
+            case 'MES':
+                $this->fecha = today()->subDays(7);
+                $this->fecha2 = today()->addDays(30);
+                break;
+
+            default:
+                $this->fecha = '';
+                $this->fecha2 = '';
+                break;
+        }
+    }
+
     public function render()
     {
         $this->chofers = Empleado::where('cargo', 'chofer')->get();
@@ -124,13 +164,9 @@ class Transporte extends Component
         $transportes = ModelsTransporte::whereIn('id', $transportesIdList)->buscarCliente($this->cliente)
             ->filtrarRuta($this->ruta)
             ->filtrarFecha($this->fechaIni , $this->fechaFin)
+            ->filtrarFechaAprox($this->fecha , $this->fecha2)
             ->choferSession()
             ->filtrarChofer($this->chofer)
-            ->whereHas('pedido', function($q){
-
-                $q->where('fecha_recojo_aprox', '=', today());
-    
-            })
             ->orderBy('created_at', 'asc')->get();
 
             $this->transportes = $transportes->where('check', false);

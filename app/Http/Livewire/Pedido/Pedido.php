@@ -112,7 +112,7 @@ class Pedido extends Component
             ->filtrarFecha($this->fechaIni, $this->fechaFin)
             ->filtrarEstadoPedido($this->estado)
             ->orderBy('id','desc')
-            ->paginate(8);
+            ->paginate(9);
         
         return view('livewire.pedido.pedido', compact('pedidos'))
         ->extends('layouts.app')

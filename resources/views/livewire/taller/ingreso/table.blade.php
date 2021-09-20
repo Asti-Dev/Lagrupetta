@@ -1,10 +1,16 @@
 <div>
     <div class="row row-cols-1 row-cols-lg-4 d-flex align-items-start my-1">
+
         <div class="col d-flex justify-content-between form-group row">
           <label class="col-sm-2 col-form-label" for="cliente">Cliente</label>
           <div class="col-sm-9">
               <input type="text" class="form-control" id="cliente" wire:model="cliente">
           </div>
+        </div>
+        <div class="d-flex align-items-start my-1">
+            <div class="mx-3 d-flex">
+                {{ $pedidos->links() }} 
+            </div>
         </div>
   </div>
     <div class="d-flex align-items-start my-1">
@@ -13,11 +19,6 @@
             NO TIENES PEDIDOS POR INGRESAR
         </div>
         @endif
-    </div>
-    <div class="d-flex align-items-start my-1">
-        <div class="mx-3 d-flex">
-            {{ $pedidos->links() }} 
-        </div>
     </div>
     <div wire:poll.10s.keep-alive class="container-fluid" style="background: lightskyblue">
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 d-flex justify-content-left">

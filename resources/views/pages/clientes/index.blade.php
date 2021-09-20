@@ -6,7 +6,8 @@
             <div class="my-3">
                 <h2>Clientes </h2>
             </div>
-            <div class="d-flex align-items-strech my-1">
+            <div class="d-flex justify-content-between align-items-strech my-1">
+                <div class="d-flex">
                  <a class="btn btn-success" href="{{ route('clientes.create') }}" title="Crear cliente">
                     Nuevo
                 </a>
@@ -22,6 +23,15 @@
                     </div>
                     <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-search"></i></button>
                   </form>
+                </div>
+                <div>
+                @hasanyrole('super-admin|administrador')
+                <a class="btn btn-success" href="{{ route('clientes.export') }}">
+                    <i class="fas fa-file-export"></i>
+                    Exportar
+                </a>
+                @endhasanyrole
+            </div>
             </div>
         </div>
     </div>

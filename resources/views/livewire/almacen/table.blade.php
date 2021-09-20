@@ -71,13 +71,6 @@
                         || $pedido->pedidoEstado->nombre === 'DEPOSITADO MECANICO')
                         <a  wire:click.prevent="enAlmacen({{$pedido->id}})"class="btn btn-primary">Marcar Ingreso</a>
                         @endif
-                        @if ($pedido->pedidoEstado->nombre === 'EN ALMACEN' && isset($pedido->pedidoDetalle))
-                        <a  wire:click.prevent="enTaller({{$pedido->id}})"class="btn btn-primary">En Taller</a>
-                        @endif
-                        @if ($pedido->pedidoEstado->nombre === 'EN ALMACEN TERMINADO' && 
-                            isset($pedido->transporteEntrega))
-                            <a  wire:click.prevent="retirar({{$pedido->id}})"class="btn btn-primary">Retirar</a>
-                        @endif
                         <small class="">{{$pedido->created_at->diffForHumans()}} </small>
                     </div>
                 </div>

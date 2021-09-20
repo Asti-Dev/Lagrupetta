@@ -18,6 +18,16 @@ class Taller extends Component
     public $mecanicos;
     public $mecanico;
 
+    function enTaller($id){
+        $pedido = Pedido::find($id);
+
+        $estado = PedidoEstado::where('nombre', '=', 'EN TALLER')->first();
+
+        $pedido->update([
+            'pedido_estado_id' => $estado->id,
+        ]);
+    }
+
     public function depositar($id)
     {
         $pedido = Pedido::find($id);
