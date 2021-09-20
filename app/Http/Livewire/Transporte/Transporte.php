@@ -19,15 +19,16 @@ class Transporte extends Component
     public ModelsTransporte $transporte;
     public $observacion;
     public Collection $transportes;
-    public $estados = [
-        'SOLICITADO' => 'EN RUTA RECOJO',
-    ];
     public $fechaIni;
     public $fechaFin;
     public $ruta;
     public $cliente;
     public $chofers;
     public $chofer;
+    //cuando editar
+    //cuando depositar
+    //cuando retirar
+
 
     public function rules()
     {
@@ -120,7 +121,6 @@ class Transporte extends Component
             return isset($pedido->transportes[1]) ? $pedido->transportes[1]['id'] : $pedido->transportes[0]['id'];
         })->toArray();
 
-
         $transportes = ModelsTransporte::whereIn('id', $transportesIdList)->buscarCliente($this->cliente)
             ->filtrarRuta($this->ruta)
             ->filtrarFecha($this->fechaIni , $this->fechaFin)
@@ -128,7 +128,7 @@ class Transporte extends Component
             ->filtrarChofer($this->chofer)
             ->whereHas('pedido', function($q){
 
-                $q->where('confirmacion', '=', 'ACEPTADO');
+                $q->where('fecha_recojo_aprox', '=', today());
     
             })
             ->orderBy('created_at', 'asc')->get();

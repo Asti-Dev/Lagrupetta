@@ -38,23 +38,6 @@ Observacion
 Fecha de Recojo: {{$hoy}}
 </b>
 <table>
-<tr>
-<td>
-@component('mail::button', ['url' => $url['aceptar'],'color'=>'green'])
-Aceptar
-@endcomponent
-</td>
-<td>
-@component('mail::button', ['url' => $url['rechazar'],'color'=>'red'])
-Rechazar
-@endcomponent
-</td>
-<td>
-@component('mail::button', ['url' => 'https://api.whatsapp.com/send?phone=51943304475&text=Hola%2C%20deseo%20modificar%20mi%20pedido','color'=>'blue'])
-Modificar
-@endcomponent
-</td>
-</tr>
 </table>
 @endif
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateEmergenciaCheckTransporte extends Migration
+class DeleteConfirmacionSolicitud extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class UpdateEmergenciaCheckTransporte extends Migration
      */
     public function up()
     {
-        Schema::table('transportes', function (Blueprint $table) {
-            $table->boolean('check')->default(0)->after('pedido_id');
+        Schema::table('pedidos', function (Blueprint $table) {
+            $table->dropColumn('confirmacion');
+            $table->dropColumn('fecha_hora_confirmacion');
         });
     }
 
@@ -25,7 +26,7 @@ class UpdateEmergenciaCheckTransporte extends Migration
      */
     public function down()
     {
-        Schema::table('transportes', function (Blueprint $table) {
+        Schema::table('pedidos', function (Blueprint $table) {
             //
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\MecanicoScope;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -126,10 +127,12 @@ class PedidoDetalle extends Model
 
     public function scopeFiltrarFecha($query, $fecha , $fecha2){
         if($fecha != ''){
+            $fecha = new Carbon($fecha);
                 if($fecha2 != ''){
-                    return $query->whereBetween('created_at', [$fecha , $fecha2]);
+                    $fecha2 = new Carbon($fecha2);
+                    return $query->whereBetween('created_at', [$fecha->format('Y-m-d')." 00:00:00" , $fecha2->format('Y-m-d')." 23:59:59"]);
                 } else{
-                    return $query->whereBetween('created_at', [$fecha , today()]);
+                    return $query->whereBetween('created_at', [$fecha->format('Y-m-d')." 00:00:00" , today()]);
                 }
         }
     }

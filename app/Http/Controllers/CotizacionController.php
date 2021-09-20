@@ -37,6 +37,7 @@ class CotizacionController extends Controller
      */
     public function edit($pedidoDetalleId)
     {
+        $empleado = Empleado::find(session()->get('empleado_id'));
         $pedidoDetalle = PedidoDetalle::find($pedidoDetalleId);
         $pedido = Pedido::find($pedidoDetalle->pedido->id);
         $diagnostico = Diagnostico::find($pedidoDetalle->diagnostico->id);
@@ -60,13 +61,15 @@ class CotizacionController extends Controller
         }
         catch(\Exception $e){ // Using a generic exception
             session()->flash('danger', 'Email no enviado!');
-            if(Empleado::find(session()->get('empleado_id'))->user->hasRole('administrador')){
+
+            if($this->findUserRole($empleado)){
                 return redirect()->route('pedidos.index');
             }
+
             return redirect()->route('taller.index');
         }
 
-        if(Empleado::find(session()->get('empleado_id'))->user->hasRole('administrador')){
+        if($this->findUserRole($empleado)){
             return redirect()->route('pedidos.index')
             ->with('success', 'Cotizacion reenviada!');
         }
@@ -407,6 +410,16 @@ class CotizacionController extends Controller
                     }
                 }
             }
+        }
+    }
+
+    public function findUserRole($empleado){
+        if (empty($empleado)) {
+            return true;
+        } elseif ($empleado->user->hasRole('administrador')) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

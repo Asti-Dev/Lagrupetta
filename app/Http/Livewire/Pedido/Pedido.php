@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Pedido;
 
+use Illuminate\Support\Facades\Validator;
 use App\Models\Empleado;
 use App\Models\Pedido as ModelsPedido;
 use App\Models\PedidoEstado;
@@ -49,23 +50,23 @@ class Pedido extends Component
     }
 
     public function asignar(){
+        
+        $this->validate([
+            'chofer' => 'required',
+            'direccion' => 'required',
+        ]);
 
         $chofer = Empleado::where('nombre_apellido','=', $this->chofer)->first();
 
-        $transporteEntrega = Transporte::where([
-            ['pedido_id', $this->pedido->id],
-            ['ruta', Transporte::RUTA[0]],
-        ])->first();
+        $transporteEntrega = $this->pedido->transporteEntrega;
 
         if ($transporteEntrega !== null) {
             $transporteEntrega->update([
                 'chofer' => $chofer->id,
                 'direccion' => $this->direccion,
-                'aceptar_chofer' => NULL,
-                'fecha_hora_aceptar_chofer' => NULL
             ]);
         } else {
-            $transporteEntrega = Transporte::create([
+            Transporte::create([
                 'chofer' => $chofer->id,
                 'pedido_id' => $this->pedido->id,
                 'ruta' => Transporte::RUTA[0],

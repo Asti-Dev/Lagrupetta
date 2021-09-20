@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Pedido;
 
 use App\Mail\MailSolicitud;
-use Illuminate\Database\Eloquent\Builder;
 use App\Models\Bicicleta;
 use App\Models\Cliente;
 use App\Models\Empleado;
@@ -56,17 +55,15 @@ class Form extends Component
         }
 
         $pedido = Pedido::create([
-            'pedido_estado_id' => PedidoEstado::where('nombre','SOLICITADO')->first()->id,
+            'pedido_estado_id' => PedidoEstado::where('nombre','EN RUTA RECOJO')->first()->id,
             'cliente_id' => $cliente->id,
             'bicicleta_id' => $this->bicicleta,
             'fecha_recojo_aprox' => $this->fechaRecojoAprox,
             'observacion_cliente' => $this->observacion,
-            'confirmacion' => Pedido::ESTADOS[1]
         ]);
 
-        $transporte = Transporte::create([
+        $pedido->transportes()->create([
             'chofer' => $chofer->id,
-            'pedido_id' => $pedido->id,
             'ruta' => Transporte::RUTA[1],
             'direccion' => $this->direccion
         ]);
