@@ -12,6 +12,7 @@ use App\Models\Paquete;
 use App\Models\Parte;
 use App\Models\Pedido;
 use App\Models\PedidoDetalle;
+use App\Models\PedidoDetalleServicio;
 use App\Models\PedidoEstado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use stdClass;
 
 class CotizacionController extends Controller
 {
@@ -45,13 +48,13 @@ class CotizacionController extends Controller
 
         $url['aceptar'] = URL::temporarySignedRoute(
             'pedido.aceptarCotizacion',
-            now()->addMinutes(300),
+            now()->addMinutes(1440),
             ['pedido' => $pedido->id]
         );
 
         $url['rechazar'] = URL::temporarySignedRoute(
             'pedido.rechazarCotizacion',
-            now()->addMinutes(300),
+            now()->addMinutes(1440),
             ['pedido' => $pedido->id]
         );
 
@@ -118,13 +121,13 @@ class CotizacionController extends Controller
 
         $url['aceptar'] = URL::temporarySignedRoute(
             'pedido.aceptarCotizacion',
-            now()->addMinutes(300),
+            now()->addMinutes(1440),
             ['pedido' => $pedido->id]
         );
 
         $url['rechazar'] = URL::temporarySignedRoute(
             'pedido.rechazarCotizacion',
-            now()->addMinutes(300),
+            now()->addMinutes(1440),
             ['pedido' => $pedido->id]
         );
 
@@ -151,17 +154,15 @@ class CotizacionController extends Controller
         ]);
         $pedido = Pedido::find($pedidoDetalle->pedido->id);
 
-        $pedidoDetalle->paquetes()->detach();
-
-        $pedidoDetalle->servicios()->detach();
-
-        $pedidoDetalle->repuestos()->detach();
-
         $this->insertarRepuestos($request, $pedidoDetalle);
 
         $this->insertarServicios($request, $pedidoDetalle);
 
         $this->insertarPaquetes($request, $pedidoDetalle);
+
+        $pedido->update([
+            'pedido_estado_id' => PedidoEstado::where('nombre', '=', 'COTIZADO')->first()->id,
+        ]);
 
         $pedido->pedidoDetalle->update([
             'explicacion' => $request->input('explicacion'),
@@ -173,13 +174,13 @@ class CotizacionController extends Controller
 
         $url['aceptar'] = URL::temporarySignedRoute(
             'pedido.aceptarCotizacion',
-            now()->addMinutes(300),
+            now()->addMinutes(1440),
             ['pedido' => $pedido->id]
         );
 
         $url['rechazar'] = URL::temporarySignedRoute(
             'pedido.rechazarCotizacion',
-            now()->addMinutes(300),
+            now()->addMinutes(1440),
             ['pedido' => $pedido->id]
         );
 
@@ -198,15 +199,11 @@ class CotizacionController extends Controller
 
     public function diagnosticoSalida(Request $request, $id){
 
-        $pedidoDetalle = PedidoDetalle::find($id);
+        $pedido = Pedido::find($id);
 
-        $pedido = Pedido::find($pedidoDetalle->pedido->id);
+        $pedidoDetalle = $pedido->pedidoDetalle;
 
         $diagnostico = $this->createDiagnostico($request, $pedidoDetalle, $salida= 1);
-
-        $diagnostico->update([
-            'salida' => 1
-        ]);
 
         $pedido->revision->update([
             'diagnostico_id' => $diagnostico->id,
@@ -332,20 +329,58 @@ class CotizacionController extends Controller
             $cantidad = $request->input('cantidadrepuesto', []);
             $precio = $request->input('preciorepuesto', []);
 
+            $arrayRepuestos = [];
+
             for ($repuesto = 0; $repuesto < count($idrepuestos); $repuesto++) {
                 if ($idrepuestos[$repuesto] != '') {
-                    $pedidoDetalle->repuestos()->attach(
-                        $idrepuestos[$repuesto],
-                        [
+
+                    $arrayRepuestos[$idrepuestos[$repuesto]] = [
                             'cantidad_pendiente' => $cantidad[$repuesto],
                             'cantidad' => $cantidad[$repuesto],
                             'precio_total' => $precio[$repuesto],
                             'precio_final' => $precio[$repuesto],
-
-                        ]
-                    );
+                    ];
                 }
             }
+
+            $repuestoIDs = array_keys($arrayRepuestos);
+
+            $updateIDs = DB::table('pedido_detalle_repuesto')
+                ->where('pedido_detalle_id',$pedidoDetalle->id)
+                ->whereIn('repuesto_id',$repuestoIDs)
+                ->pluck('id','repuesto_id')->toArray();
+
+                DB::table('pedido_detalle_repuesto')
+                ->where('pedido_detalle_id',$pedidoDetalle->id)
+                ->whereNotIn('repuesto_id',$repuestoIDs)
+                ->delete();
+
+            $createRepuestos = array_diff_key($arrayRepuestos, $updateIDs);
+            $updateRepuestos = array_intersect_key($arrayRepuestos, $updateIDs);
+
+            foreach ($updateIDs as $repuesto_id => $updateID) {
+                $updateRepuestos[$repuesto_id];
+
+                $cantidad = DB::table('pedido_detalle_repuesto')
+                ->where('id',$updateID)->pluck('cantidad');
+
+                $cantidad_pendiente = DB::table('pedido_detalle_repuesto')
+                ->where('id',$updateID)->pluck('cantidad_pendiente');
+
+                $cantidad_pendiente_final = $cantidad_pendiente[0] + ($updateRepuestos[$repuesto_id]['cantidad'] - $cantidad[0]);
+
+                DB::table('pedido_detalle_repuesto')
+                ->where('id',$updateID)->update([
+                    'cantidad_pendiente' => $cantidad_pendiente_final,
+                    'cantidad' => $updateRepuestos[$repuesto_id]['cantidad'],
+                    'precio_total' => $updateRepuestos[$repuesto_id]['precio_total'],
+                    'precio_final' => $updateRepuestos[$repuesto_id]['precio_final'],
+                    'checked' => ($cantidad_pendiente_final === 0 ) ? true : false,
+                ]);
+            }
+
+            $pedidoDetalle->repuestos()->attach($createRepuestos);
+
         }
     }
 
@@ -355,21 +390,60 @@ class CotizacionController extends Controller
             $idservicios = $request->input('idservicios', []);
             $cantidad = $request->input('cantidadservicio', []);
             $precio = $request->input('precioservicio', []);
+            $arrayServicios = [];
 
             for ($servicio = 0; $servicio < count($idservicios); $servicio++) {
                 if ($idservicios[$servicio] != '') {
-                    $pedidoDetalle->servicios()->attach(
-                        $idservicios[$servicio],
-                        [
+
+                    $arrayServicios[$idservicios[$servicio]] = [
                             'cantidad_pendiente' => $cantidad[$servicio],
                             'cantidad' => $cantidad[$servicio],
                             'precio_total' => $precio[$servicio],
                             'precio_final' => $precio[$servicio],
-
-                        ]
-                    );
+                    ];
                 }
             }
+
+            $servicioIDs = array_keys($arrayServicios);
+
+            $updateIDs = DB::table('pedido_detalle_servicio')
+                ->where('pedido_detalle_id',$pedidoDetalle->id)
+                ->where('paquete_id', null)
+                ->whereIn('servicio_id',$servicioIDs)
+                ->pluck('id','servicio_id')->toArray();
+
+                DB::table('pedido_detalle_servicio')
+                ->where('pedido_detalle_id',$pedidoDetalle->id)
+                ->where('paquete_id', null)
+                ->whereNotIn('servicio_id',$servicioIDs)
+                ->delete();
+            
+            $createServicios = array_diff_key($arrayServicios, $updateIDs);
+            $updateServicios = array_intersect_key($arrayServicios, $updateIDs);
+
+            foreach ($updateIDs as $servicio_id => $updateID) {
+                $updateServicios[$servicio_id];
+
+                $cantidad = DB::table('pedido_detalle_servicio')
+                ->where('id',$updateID)->pluck('cantidad');
+
+                $cantidad_pendiente = DB::table('pedido_detalle_servicio')
+                ->where('id',$updateID)->pluck('cantidad_pendiente');
+
+                $cantidad_pendiente_final = $cantidad_pendiente[0] + ($updateServicios[$servicio_id]['cantidad'] - $cantidad[0]);
+
+                DB::table('pedido_detalle_servicio')
+                ->where('id',$updateID)->update([
+                    'cantidad_pendiente' => $cantidad_pendiente_final,
+                    'cantidad' => $updateServicios[$servicio_id]['cantidad'],
+                    'precio_total' => $updateServicios[$servicio_id]['precio_total'],
+                    'precio_final' => $updateServicios[$servicio_id]['precio_final'],
+                    'checked' => ($cantidad_pendiente_final === 0 ) ? true : false,
+                ]);
+            }
+            
+
+            $pedidoDetalle->servicios()->attach($createServicios);
         }
     }
 
@@ -380,36 +454,88 @@ class CotizacionController extends Controller
             $cantidad = $request->input('cantidadpaquete', []);
             $precio = $request->input('preciopaquete', []);
 
-            for ($paquete = 0; $paquete < count($idpaquetes); $paquete++) {
-                if ($idpaquetes[$paquete] != '') {
-                    $paqueteObj = Paquete::find($idpaquetes[$paquete]);
-                    if (!empty($paqueteObj->servicios()->get()[0])) {
-                        foreach ($paqueteObj->servicios()->get() as $servicio) {
-                            $pedidoDetalle->paquetes()->attach(
-                                $idpaquetes[$paquete],
-                                [
-                                    'servicio_id' => $servicio->id,
-                                    'cantidad_pendiente' => $cantidad[$paquete],
-                                    'cantidad' => $cantidad[$paquete],
-                                    'precio_total' => $precio[$paquete],
-                                    'precio_final' => $precio[$paquete],
+            $BD = PedidoDetalleServicio::where('pedido_detalle_id',$pedidoDetalle->id)
+            ->where('paquete_id', '!=', null)
+            ->get();
+            $test = $BD->whereIn('paquete_id',$idpaquetes);
+            $result = collect();
+          
 
-                                ]
-                            );
+            //eliminar
+            for ($i=0; $i < count($idpaquetes); $i++) { 
+                $listaIDsPaqueteServiciosEnVenta = Paquete::find($idpaquetes[$i])->servicios->pluck('id')->isEmpty() ? [null] : 
+                Paquete::find($idpaquetes[$i])->servicios->pluck('id')->toArray();
+
+                $listaIDsPaqueteServiciosBD = $test->where('paquete_id', $idpaquetes[$i])->pluck('servicio_id')->toArray();
+
+                $serviciosEliminar = array_diff($listaIDsPaqueteServiciosBD, $listaIDsPaqueteServiciosEnVenta);
+            
+                if (!empty($serviciosEliminar)) {
+                    foreach ($test->where('paquete_id', $idpaquetes[$i]) as $key => $value) {
+                        if (in_array($value->servicio_id, $serviciosEliminar)) {
+                            $test->forget($key);
                         }
-                    } else {
-                        $pedidoDetalle->paquetes()->attach(
-                            $idpaquetes[$paquete],
-                            [
-                                'cantidad_pendiente' => $cantidad[$paquete],
-                                'cantidad' => $cantidad[$paquete],
-                                'precio_total' => $precio[$paquete],
-                                'precio_final' => $precio[$paquete],
-                            ]
-                        );
                     }
                 }
             }
+
+            //actualizar
+            for ($i=0; $i < count($idpaquetes); $i++) { 
+                foreach ($test->where('paquete_id', $idpaquetes[$i]) as $key => $value) {
+                    $cantidad_final = $value->cantidad_pendiente + ($cantidad[$i] - $value->cantidad);
+                    $item = new PedidoDetalleServicio();
+                    $item->paquete_id = $idpaquetes[$i];
+                    $item->servicio_id = $value->servicio_id;
+                    $item->cantidad_pendiente = $cantidad_final;
+                    $item->cantidad = $cantidad[$i];
+                    $item->precio_total = $precio[$i];
+                    $item->precio_final = $precio[$i];
+                    $item->pedido_detalle_id = $pedidoDetalle->id;
+                    $item->checked = ($cantidad_final === 0 ) ? true : false;
+                    $result->push($item);
+                }
+            }
+
+            //crear
+            for ($i=0; $i < count($idpaquetes); $i++) { 
+                if($test->where('paquete_id', $idpaquetes[$i])->isEmpty()){
+                    $paqueteObj = Paquete::find($idpaquetes[$i]);
+                    if($paqueteObj->servicios->isEmpty()){
+                        $item = new PedidoDetalleServicio();
+                        $item->paquete_id = $idpaquetes[$i];
+                        $item->cantidad_pendiente = $cantidad[$i];
+                        $item->cantidad = $cantidad[$i];
+                        $item->precio_total = $precio[$i];
+                        $item->precio_final = $precio[$i];
+                        $item->pedido_detalle_id = $pedidoDetalle->id;
+                        $item->checked = false;
+                        $result->push($item);
+                    } else {
+                        foreach ($paqueteObj->servicios as $key => $servicio) {
+                            $item = new PedidoDetalleServicio();
+                            $item->paquete_id = $idpaquetes[$i];
+                            $item->servicio_id = $servicio->id;
+                            $item->cantidad_pendiente = $cantidad[$i];
+                            $item->cantidad = $cantidad[$i];
+                            $item->precio_total = $precio[$i];
+                            $item->precio_final = $precio[$i];
+                            $item->pedido_detalle_id = $pedidoDetalle->id;
+                            $item->checked = false;
+                            $result->push($item);
+                        }
+                    }
+                    
+                }
+            }
+            
+            PedidoDetalleServicio::where('pedido_detalle_id',$pedidoDetalle->id)->where('paquete_id','!=', null)->delete();
+            
+            $result?->each(function ($item, $key) {
+                $item->save();
+            });
+            
+        } else {
+            PedidoDetalleServicio::where('pedido_detalle_id',$pedidoDetalle->id)->where('paquete_id','!=', null)->delete();
         }
     }
 

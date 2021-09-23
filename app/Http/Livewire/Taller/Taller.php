@@ -17,6 +17,20 @@ class Taller extends Component
     public $fechaFin;
     public $mecanicos;
     public $mecanico;
+    public $estadosTrabajar = [
+        'COTIZADO',
+        'EN ESPERA',
+        'EN PROCESO',
+    ];
+    public $estadosEditar = [
+        'COTIZADO',
+        'EN ESPERA',
+        'EN PROCESO',
+        'EN CALIDAD',
+        'CORREGIR',
+        'TERMINADO',
+        'EN ALMACEN TERMINADO',
+    ];
 
     function enTaller($id){
         $pedido = Pedido::find($id);

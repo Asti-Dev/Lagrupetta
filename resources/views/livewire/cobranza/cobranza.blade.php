@@ -1,20 +1,26 @@
 <div>
     <div class="d-flex align-items-start justify-content-between my-1">
         <div class="d-flex align-items-start">
-        <a class="btn btn-success" wire:click.prevent="create()" title="Crear solicitud">
-            Nuevo
-        </a>
-        <div class="mx-3 d-flex">
-            {{ $pedidos->links() }} 
+            <div class="col form-group">
+                <select class="form-control" id="estados" wire:model='estado'>
+                    <option value='COTIZADO'>COTIZADO  </option>
+                    <option value='EN PROCESO'>EN PROCESO  </option>
+                    <option value='EN ESPERA'>EN ESPERA  </option>
+                    <option value='EN CALIDAD'>EN CALIDAD  </option>
+                    <option value='CORREGIR'>CORREGIR  </option>
+                    <option value='TERMINADO'>TERMINADO  </option>
+                    <option value='DEPOSITADO MECANICO'>DEPOSITADO MECANICO</option>
+                    <option value='EN ALMACEN TERMINADO'>EN ALMACEN TERMINADO </option>
+                    <option value='EN RUTA ENTREGA'>EN RUTA ENTREGA </option>
+                    <option value='PAGO PENDIENTE'>PAGO PENDIENTE  </option>
+                    <option value='FACTURADO'>FACTURADO  </option>
+                    <option value='ANULADO'>ANULADO</option>
+                  </select>
+            </div>
+            <div class="mx-3 d-flex">
+                {{ $pedidos->links() }} 
+            </div>
         </div>
-        </div>
-        @hasanyrole('super-admin|administrador')
-        <a class="btn btn-success" href="{{ route('pedidos.export') }}">
-            <i class="fas fa-file-export"></i>
-            Exportar
-        </a>
-        @endhasanyrole
-
     </div>
     <div class="row row-cols-1 row-cols-lg-4 d-flex align-items-start mt-1 my-1">
         <div class="col d-flex justify-content-between form-group pl-0 row">
@@ -29,40 +35,17 @@
             <input type="date" class="form-control" id="fechaFin" wire:model='fechaFin'>
           </div>
         </div>
-        <div class="col form-group">
-            <select class="form-control" id="estados" wire:model='estado'>
-                <option value=''>Todos los Estados</option>
-                <option value='EN RUTA RECOJO'>EN RUTA RECOJO </option>
-                <option value='DEPOSITADO'> DEPOSITADO </option>
-                <option value='EN ALMACEN'>EN ALMACEN </option>
-                <option value='EN TALLER'>EN TALLER  </option>
-                <option value='COTIZADO'>COTIZADO  </option>
-                <option value='EN PROCESO'>EN PROCESO  </option>
-                <option value='EN ESPERA'>EN ESPERA  </option>
-                <option value='EN CALIDAD'>EN CALIDAD  </option>
-                <option value='CORREGIR'>CORREGIR  </option>
-                <option value='TERMINADO'>TERMINADO  </option>
-                <option value='DEPOSITADO MECANICO'>DEPOSITADO MECANICO</option>
-                <option value='EN ALMACEN TERMINADO'>EN ALMACEN TERMINADO </option>
-                <option value='EN RUTA ENTREGA'>EN RUTA ENTREGA </option>
-                
-                
-                
-                
-                
-                
-                
-                <option value='PAGO PENDIENTE'>PAGO PENDIENTE  </option>
-                <option value='FACTURADO'>FACTURADO  </option>
-                <option value='ANULADO'>ANULADO</option>
-                
-              </select>
-        </div>
         <div class="col d-flex justify-content-between form-group row">
           <label class="col-sm-2 col-form-label" for="cliente">Cliente</label>
           <div class="col-sm-9">
               <input type="text" class="form-control" id="cliente" wire:model="cliente">
           </div>
+        </div>
+        <div class="col d-flex justify-content-between form-group row">
+            <label class="col-sm-2 col-form-label" for="nroPedido">Nro Pedido</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="nroPedido" wire:model="nroPedido">
+            </div>
         </div>
   </div>
     <div wire:poll.10s.keep-alive class="container-fluid" style="background: lightskyblue">
@@ -73,10 +56,7 @@
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="">Pedido #{{$pedido->id}}</h5>
                         <div class="d-flex flex-column">
-                            <span style="font-size: 100%" class="mb-1 badge badge-primary">{{$pedido->pedidoEstado->nombre}}</span>      
-                            @if ($pedido->pedidoEstado->nombre === 'EN RUTA RECOJO' && isset($pedido->transporteRecojo->completado))
-                            <x-test :estado="$pedido->transporteRecojo->completado" />                        
-                            @endif    
+                            <span style="font-size: 100%" class="mb-1 badge badge-primary">{{$pedido->pedidoEstado->nombre}}</span>       
                             @if ($pedido->pedidoEstado->nombre === 'EN RUTA ENTREGA' && isset($pedido->transporteEntrega->completado))
                             <x-test :estado="$pedido->transporteEntrega->completado" />                        
                             @endif       
@@ -121,7 +101,7 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="card"  x-data="{ text_openTwo{{$key}}:false }">
+                            {{-- <div class="card"  x-data="{ text_openTwo{{$key}}:false }">
                               <div class="card-header">
                                 <h2 class="mb-0">
                                   <button class="btn btn-link btn-block text-left collapsed" type="button"  @click = "text_openTwo{{$key}} = true">
@@ -153,8 +133,7 @@
                                     </div>
                                 </div>
                               </div>
-                            </div>
-                            @if (isset($pedido->pedidoDetalle) || isset($pedido->transporteRecojo->fecha_hora_local))
+                            </div> --}}
                             <div class="card"  x-data="{ text_openThree{{$key}}:false }">
                                 <div class="card-header">
                                   <h2 class="mb-0">
@@ -184,7 +163,6 @@
                                   </div>
                                 </div>
                               </div>
-                              @endif
                               @if (isset($pedido->pedidoDetalle->fecha_entrega_aprox))
                               <div class="card"  x-data="{ text_openFour{{$key}}:false }">
                                   <div class="card-header @if (isset($pedido->transporteEntrega)) d-flex justify-content-around align-items-center @endif">
@@ -233,19 +211,6 @@
 
                        
                         <div class="d-flex flex-row-reverse">
-                            @hasanyrole('super-admin|administrador')
-                            @if(in_array($pedido->pedidoEstado->nombre, ['SOLICITADO', 'EN RUTA RECOJO', 'DEPOSITADO', 'EN ALMACEN', 'EN TALLER']) )
-                            <a class="mx-2" href="{{route('pedido.show', ['pedido' => $pedido->id])}}" style="width: min-content" title="show">
-                                <i class="fas fa-eye text-success"></i>
-                            </a>
-                            @endif
-
-                            @if(!in_array($pedido->pedidoEstado->nombre, ['SOLICITADO', 'EN RUTA RECOJO', 'DEPOSITADO', 'EN ALMACEN', 'EN TALLER']))
-                            <a class="mx-2" href="{{route('cotizacion.show', $pedido->id)}}" style="width: min-content" title="show">
-                                <i class="fas fa-eye text-success"></i>
-                            </a>
-                            @endif
-                            @endhasanyrole
                             @if ($pedido->pedidoDetalle->diagnostico ?? '')
                             <a class="mx-2" style="width: min-content"
                             href="{{ route('download.diagnostico', $pedido->id) }}"
@@ -253,27 +218,6 @@
                             <i class="fas fa-file-download text-primary"></i>
                             </a>
                             @endif
-                            @hasanyrole('super-admin|administrador')
-                            @if (!$pedido->trashed())
-                             <form class="mx-2" style="width: min-content"
-                             wire:submit.prevent="destroy({{$pedido->id}})"> 
-
-                            <button type="submit" onclick="return confirm('¿Estas seguro de borrar el pedido?')"
-                                title="delete" style="padding:0px; border: none; background-color:transparent;">
-                                <i class="fas fa-trash fa-lg text-danger"></i>
-                            </button>
-                             </form>
-                            @else
-                             <form class="mx-2" style="width: min-content"
-                             wire:submit.prevent="restore({{$pedido->id}})">
-
-                            <button type="submit" onclick="return confirm('¿Estas seguro de restaurar el pedido?')"
-                                title="restore" style="padding:0px; border: none; background-color:transparent;">
-                                <i class="fas fa-trash-restore"></i>
-                            </button>
-                             </form>
-                            @endif
-                            @endhasanyrole
                         </div>
                        
 
@@ -286,12 +230,8 @@
                         <button wire:click.prevent="pago({{$pedido->id}})" 
                             class="mx-4 btn btn-primary btn-sm">Pago pendiente</button>
                         @endif
-                        @if ($pedido->pedidoEstado->nombre === 'TERMINADO'
-                         || $pedido->pedidoEstado->nombre === 'DEPOSITADO MECANICO'
-                         || $pedido->pedidoEstado->nombre === 'EN ALMACEN TERMINADO')
-                        <button wire:click.prevent="asignarChofer({{$pedido->id}})" 
-                            class="mx-4 btn btn-primary btn-sm">Asignar Entrega</button>
-                        @endif
+                        <a href="{{route('cotizacion.edit2',  $pedido->id )}}" 
+                            class="btn btn-primary mt-1">Añadir Cotizacion</a>  
                         @endhasanyrole
                         <small class="">{{$pedido->created_at->diffForHumans()}} </small>
                     </div>

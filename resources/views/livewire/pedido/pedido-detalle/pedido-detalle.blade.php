@@ -28,55 +28,40 @@
                         Paquetes
                     </div>
                     <ul class="list-group list-group-flush">
-                        @foreach ($paquetes as $paquete)
-                        <li class="list-group-item"> {{$paquete->nombre}}
+                        @foreach ($paquetes as $nombre => $paquete)
+                        <li class="list-group-item"> {{$nombre}}
                             <ul class="list-group list-group-flush">
-                                @foreach ($paquete->servicios as $paquete_servicio)
+                                @foreach ( $paquete as $key => $paquete_servicio )
                                 <li class="list-group-item">
 
-                                    @if (!$paquete_servicio->pedidoDetalles
-                                    ->where('id',$pedido->pedidoDetalle->id)
-                                    ->where('pivot.paquete_id',$paquete->id)
-                                    ->first()->pivot->checked)
+                                    @if (!$paquete_servicio->pivot->checked)
                                     <div class="d-flex row w-100 justify-content-between align-items-center">
                                         <div class="col-9">
                                             <label class="m-1">{{ $paquete_servicio->nombre }}
                                                 <label class="font-weight-bold text-danger">Pendiente</label>
                                             </label>
                                         </div>
-                                        @else
+                                    @else
                                         <div class="d-flex row w-100 justify-content-between align-items-center">
                                             <div class="col-9">
                                                 <label class="m-1">{{ $paquete_servicio->nombre }}
                                                     <label class="font-weight-bold text-success">Listo</label>
                                                 </label>
                                             </div>
-                                            @endif
+                                    @endif
                                             <div class="col-3 d-flex justify-content-around">
-                                                <strong class='p-1'>{{$paquete_servicio->pedidoDetalles
-                                        ->where('id',$pedido->pedidoDetalle->id)
-                                        ->where('pivot.paquete_id',$paquete->id)
-                                        ->first()->pivot->cantidad_pendiente}}</strong>
+                                                <strong class='p-1'>{{$paquete_servicio->pivot->cantidad_pendiente}}</strong>
                                                 <div>
-                                                    @if ($paquete_servicio->pedidoDetalles
-                                                    ->where('id',$pedido->pedidoDetalle->id)
-                                                    ->where('pivot.paquete_id',$paquete->id)
-                                                    ->first()->pivot->cantidad_pendiente
-                                                    < $paquete_servicio->pedidoDetalles
-                                                        ->where('id',$pedido->pedidoDetalle->id)
-                                                        ->where('pivot.paquete_id',$paquete->id)
-                                                        ->first()->pivot->cantidad)
+                                                    @if ($paquete_servicio->pivot->cantidad_pendiente
+                                                    < $paquete_servicio->pivot->cantidad)
                                                         <a class="btn btn-secondary btn-sm"
-                                                            wire:click.prevent="addCantPaquete({{$pedido->id}},{{$paquete_servicio->id}},{{$paquete->id}})">
+                                                            wire:click.prevent="addCantPaquete({{$paquete_servicio->pivot->id}})">
                                                             <i class="fas fa-plus"></i>
                                                         </a>
                                                         @endif
-                                                        @if ($paquete_servicio->pedidoDetalles
-                                                        ->where('id',$pedido->pedidoDetalle->id)
-                                                        ->where('pivot.paquete_id',$paquete->id)
-                                                        ->first()->pivot->cantidad_pendiente > 0)
+                                                        @if ($paquete_servicio->pivot->cantidad_pendiente > 0)
                                                         <a class="btn btn-secondary btn-sm"
-                                                            wire:click.prevent="removeCantPaquete({{$pedido->id}},{{$paquete_servicio->id}},{{$paquete->id}})">
+                                                            wire:click.prevent="removeCantPaquete({{$paquete_servicio->pivot->id}})">
                                                             <i class="fas fa-minus"></i>
                                                         </a>
                                                         @endif
@@ -119,16 +104,15 @@
                                     <strong class='p-1'
                                         style="font-size: 1rem">{{$servicio->pivot->cantidad_pendiente}}</strong>
                                     <div>
-                                        @if ($servicio->pivot->cantidad_pendiente
-                                        < $servicio->pivot->cantidad)
+                                        @if ($servicio->pivot->cantidad_pendiente < $servicio->pivot->cantidad)
                                             <a class="btn btn-secondary btn-sm"
-                                                wire:click.prevent="addCantServicio({{$pedido->id}},{{$servicio->id}})">
+                                                wire:click.prevent="addCantServicio({{$servicio->pivot->id}})">
                                                 <i class="fas fa-plus"></i>
                                             </a>
                                         @endif
                                         @if ($servicio->pivot->cantidad_pendiente > 0)
                                             <a class="btn btn-secondary btn-sm"
-                                                wire:click.prevent="removeCantServicio({{$pedido->id}},{{$servicio->id}})">
+                                                wire:click.prevent="removeCantServicio({{$servicio->pivot->id}})">
                                                 <i class="fas fa-minus"></i>
                                             </a>
                                         @endif
@@ -171,13 +155,13 @@
                                             @if ($repuesto->pivot->cantidad_pendiente
                                                 < $repuesto->pivot->cantidad)
                                                 <a class="btn btn-secondary btn-sm"
-                                                    wire:click.prevent="addCantRepuesto({{$pedido->id}},{{$repuesto->id}})">
+                                                    wire:click.prevent="addCantRepuesto({{$repuesto->pivot->id}})">
                                                     <i class="fas fa-plus"></i>
                                                 </a>
                                             @endif
                                             @if ($repuesto->pivot->cantidad_pendiente > 0)
                                                 <a class="btn btn-secondary btn-sm"
-                                                    wire:click.prevent="removeCantRepuesto({{$pedido->id}},{{$repuesto->id}})">
+                                                    wire:click.prevent="removeCantRepuesto({{$repuesto->pivot->id}})">
                                                     <i class="fas fa-minus"></i>
                                                 </a>
                                             @endif

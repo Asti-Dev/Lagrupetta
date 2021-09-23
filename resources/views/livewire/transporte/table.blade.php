@@ -90,6 +90,12 @@
                             </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
+                            <b class="mb-1">Cliente Telefono:</b>
+                            <label class="text-right">
+                                {{$transporte->pedido->cliente->telefono ?? ''}}
+                            </label>
+                        </div>
+                        <div class="d-flex w-100 justify-content-between">
                             <b class="mb-1">Bicicleta:</b>
                             <label
                                 class="text-right">{{$transporte->pedido->bicicleta->marca .' '. $transporte->pedido->bicicleta->modelo}}

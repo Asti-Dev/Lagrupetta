@@ -111,7 +111,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'logistica'], function() {
 
     Route::get('/taller', Taller::class)->name('taller.index')->middleware(['role:super-admin|administrador|chofer|jefe mecanicos|mecanico']);
 
-    Route::get('/salida/{pedidoDetalleId}', Diagnostico::class)->name('diagnostico.salida')->middleware(['role:super-admin|jefe mecanicos']);
+    Route::get('/salida/{pedidoID}', Diagnostico::class)->name('diagnostico.salida')->middleware(['role:super-admin|jefe mecanicos']);
 
     Route::get('/corregir/{revisionId}', Corregir::class)->name('corregir')->middleware(['role:super-admin|administrador|chofer|jefe mecanicos|mecanico']);
 

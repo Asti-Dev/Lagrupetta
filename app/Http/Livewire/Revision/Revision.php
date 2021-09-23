@@ -84,9 +84,9 @@ class Revision extends Component
     
     public function salida(){
 
-        $pedidoDetalleId = $this->revision->pedido->pedidoDetalle->id;
+        $pedidoID = $this->revision->pedido->id;
 
-        return Redirect::route('diagnostico.salida', $pedidoDetalleId );
+        return Redirect::route('diagnostico.salida', $pedidoID );
 
     }
 

@@ -1,5 +1,5 @@
 <div>
-    <form action="{{ route('diagnostico.create', $pedidoDetalle->id) }}" method="POST">
+    <form action="{{ route('diagnostico.create', $pedido->id) }}" method="POST">
         @csrf
         @method('PUT')
         <table class="table table-borderless table-hover">

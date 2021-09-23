@@ -13,6 +13,7 @@ use App\Models\Revision;
 use App\Models\Servicio;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Maatwebsite\Excel\Concerns\ToArray;
 
 class PedidoDetalle extends Component
 {
@@ -60,204 +61,164 @@ class PedidoDetalle extends Component
         return Redirect::route('taller.index');
     }
 
-    public function addCantPaquete(Pedido $pedido, Servicio $servicio, Paquete $paquete)
+    public function addCantPaquete($id)
     {
 
         DB::table('pedido_detalle_servicio')
-            ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-            ->where('paquete_id', $paquete->id)
-            ->where('servicio_id', $servicio->id)
+            ->where('id', $id)
             ->increment('cantidad_pendiente', 1);
 
         $check = DB::table('pedido_detalle_servicio')
-            ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-            ->where('paquete_id', $paquete->id)
-            ->where('servicio_id', $servicio->id)
+            ->where('id', $id)
             ->first();
-
+        
         if ($check->cantidad_pendiente === 0) {
 
             DB::table('pedido_detalle_servicio')
-                ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-                ->where('paquete_id', $paquete->id)
-                ->where('servicio_id', $servicio->id)
+                ->where('id', $id)
                 ->update([
                     'checked' => 1
                 ]);
         } else {
 
             DB::table('pedido_detalle_servicio')
-                ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-                ->where('paquete_id', $paquete->id)
-                ->where('servicio_id', $servicio->id)
+                ->where('id', $id)
                 ->update([
                     'checked' => 0
                 ]);
         }
     }
 
-    public function removeCantPaquete(Pedido $pedido, Servicio $servicio, Paquete $paquete)
+    public function removeCantPaquete($id)
     {
 
         DB::table('pedido_detalle_servicio')
-            ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-            ->where('paquete_id', $paquete->id)
-            ->where('servicio_id', $servicio->id)
+            ->where('id', $id)
             ->decrement('cantidad_pendiente', 1);
 
         $check = DB::table('pedido_detalle_servicio')
-            ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-            ->where('paquete_id', $paquete->id)
-            ->where('servicio_id', $servicio->id)
+            ->where('id', $id)
             ->first();
 
         if ($check->cantidad_pendiente === 0) {
 
             DB::table('pedido_detalle_servicio')
-                ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-                ->where('paquete_id', $paquete->id)
-                ->where('servicio_id', $servicio->id)
+                ->where('id', $id)
                 ->update([
                     'checked' => 1
                 ]);
         } else {
 
             DB::table('pedido_detalle_servicio')
-                ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-                ->where('paquete_id', $paquete->id)
-                ->where('servicio_id', $servicio->id)
+                ->where('id', $id)
                 ->update([
                     'checked' => 0
                 ]);
         }
     }
-    public function addCantServicio(Pedido $pedido, Servicio $servicio)
+    public function addCantServicio($id)
     {
 
         DB::table('pedido_detalle_servicio')
-            ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-            ->where('paquete_id', null)
-            ->where('servicio_id', $servicio->id)
+            ->where('id', $id)
             ->increment('cantidad_pendiente', 1);
 
         $check = DB::table('pedido_detalle_servicio')
-            ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-            ->where('paquete_id', null)
-            ->where('servicio_id', $servicio->id)
+            ->where('id', $id)
             ->first();
 
         if ($check->cantidad_pendiente === 0) {
 
             DB::table('pedido_detalle_servicio')
-                ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-                ->where('paquete_id', null)
-                ->where('servicio_id', $servicio->id)
+                ->where('id', $id)
                 ->update([
                     'checked' => 1
                 ]);
         } else {
 
             DB::table('pedido_detalle_servicio')
-                ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-                ->where('paquete_id', null)
-                ->where('servicio_id', $servicio->id)
+                ->where('id', $id)
                 ->update([
                     'checked' => 0
                 ]);
         }
     }
-    public function removeCantServicio(Pedido $pedido, Servicio $servicio)
+    public function removeCantServicio($id)
     {
 
         DB::table('pedido_detalle_servicio')
-            ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-            ->where('paquete_id', null)
-            ->where('servicio_id', $servicio->id)
+            ->where('id', $id)
             ->decrement('cantidad_pendiente', 1);
 
         $check = DB::table('pedido_detalle_servicio')
-            ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-            ->where('paquete_id', null)
-            ->where('servicio_id', $servicio->id)
+            ->where('id', $id)
             ->first();
 
         if ($check->cantidad_pendiente === 0) {
 
             DB::table('pedido_detalle_servicio')
-                ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-                ->where('paquete_id', null)
-                ->where('servicio_id', $servicio->id)
+                ->where('id', $id)
                 ->update([
                     'checked' => 1
                 ]);
         } else {
 
             DB::table('pedido_detalle_servicio')
-                ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-                ->where('paquete_id', null)
-                ->where('servicio_id', $servicio->id)
+                ->where('id', $id)
                 ->update([
                     'checked' => 0
                 ]);
         }
     }
-    public function addCantRepuesto(Pedido $pedido, Repuesto $repuesto)
+    public function addCantRepuesto($id)
     {
 
         DB::table('pedido_detalle_repuesto')
-            ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-            ->where('repuesto_id', $repuesto->id)
+            ->where('id', $id)
             ->increment('cantidad_pendiente', 1);
 
         $check = DB::table('pedido_detalle_repuesto')
-            ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-            ->where('repuesto_id', $repuesto->id)
+            ->where('id', $id)
             ->first();
 
         if ($check->cantidad_pendiente === 0) {
 
             DB::table('pedido_detalle_repuesto')
-                ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-                ->where('repuesto_id', $repuesto->id)
+                ->where('id', $id)
                 ->update([
                     'checked' => 1
                 ]);
         } else {
 
             DB::table('pedido_detalle_repuesto')
-                ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-                ->where('repuesto_id', $repuesto->id)
+                ->where('id', $id)
                 ->update([
                     'checked' => 0
                 ]);
         }
     }
-    public function removeCantRepuesto(Pedido $pedido, Repuesto $repuesto)
+    public function removeCantRepuesto($id)
     {
 
         DB::table('pedido_detalle_repuesto')
-            ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-            ->where('repuesto_id', $repuesto->id)
+            ->where('id', $id)
             ->decrement('cantidad_pendiente', 1);
 
         $check = DB::table('pedido_detalle_repuesto')
-            ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-            ->where('repuesto_id', $repuesto->id)
+            ->where('id', $id)
             ->first();
 
         if ($check->cantidad_pendiente === 0) {
 
             DB::table('pedido_detalle_repuesto')
-                ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-                ->where('repuesto_id', $repuesto->id)
+                ->where('id', $id)
                 ->update([
                     'checked' => 1
                 ]);
         } else {
 
             DB::table('pedido_detalle_repuesto')
-                ->where('pedido_detalle_id', $pedido->pedidoDetalle->id)
-                ->where('repuesto_id', $repuesto->id)
+                ->where('id', $id)
                 ->update([
                     'checked' => 0
                 ]);
@@ -286,7 +247,11 @@ class PedidoDetalle extends Component
         $this->servicios = $this->pedido->pedidoDetalle->servicios()
             ->wherePivot('paquete_id', null)->get();
 
-        $this->paquetes = $this->pedido->pedidoDetalle->paquetes->unique();
+        $paquetes = $this->pedido->pedidoDetalle->paquetes->unique();
+
+        foreach ($paquetes as $paquete) {
+            $this->paquetes[$paquete->nombre] = $this->pedido->pedidoDetalle->servicios()->wherePivot('paquete_id', $paquete->id)->get();
+        }
 
         $this->repuestos = $this->pedido->pedidoDetalle->repuestos;
 

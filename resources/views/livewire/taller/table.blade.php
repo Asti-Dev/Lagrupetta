@@ -105,6 +105,7 @@
 
                     <div class="d-flex w-100 justify-content-between">
                         @hasanyrole('super-admin|mecanico|jefe mecanicos')
+                        <div class="d-flex flex-column">
                         @if ($pedidoDetalle->pedido->pedidoEstado->nombre === 'EN ALMACEN')
                         <a  wire:click.prevent="enTaller({{$pedidoDetalle->pedido->id}})"class="btn btn-primary">En Taller</a>
                         @endif
@@ -112,7 +113,7 @@
                         <a href="{{route('corregir', ['revisionId' => $pedidoDetalle->pedido->revision->id] )}}" 
                             class="btn btn-primary">Corregir</a>
                         @endif
-                        @if($pedidoDetalle->confirmacion === 'ACEPTADO' && $pedidoDetalle->pedido->revision == false)
+                        @if($pedidoDetalle->confirmacion === 'ACEPTADO' && in_array($pedidoDetalle->pedido->pedidoEstado->nombre , $estadosTrabajar))
                         <a href="{{route('todoList', ['pedidoDetalleId' => $pedidoDetalle->id] )}}" 
                             class="btn btn-primary">Trabajar</a>
                         @endif
@@ -121,19 +122,18 @@
                             class="btn btn-primary">Diagnosticar/Cotizar</a>
                         @endif
                         @if($pedidoDetalle->confirmacion === 'EN ESPERA' || $pedidoDetalle->confirmacion === 'RECHAZADO')
-                        <div class="d-flex flex-column">
                             <a href="{{route('cotizacion.edit', $pedidoDetalle->id)}}"
-                                class="btn btn-primary mb-1">Reenviar Cotizacion</a>
-
-                        <a href="{{route('cotizacion.edit2',  $pedidoDetalle->pedido->id )}}" 
-                            class="btn btn-primary">Editar Cotizacion</a>
-
-                        </div>
+                                class="btn btn-primary">Reenviar Cotizacion</a>
                         @endif
                         @if($pedidoDetalle->pedido->pedidoEstado->nombre == 'TERMINADO')
                         <a wire:click="depositar({{$pedidoDetalle->pedido->id}})" 
                             class="btn btn-primary">Depositar</a>
                         @endif
+                        @if (in_array($pedidoDetalle->pedido->pedidoEstado->nombre , $estadosEditar))
+                        <a href="{{route('cotizacion.edit2',  $pedidoDetalle->pedido->id )}}" 
+                            class="btn btn-primary mt-1">Editar Cotizacion</a>                            
+                        @endif
+                    </div>
                         @endhasanyrole
                         <small class="">{{$pedidoDetalle->pedido->created_at->diffForHumans()}} </small>
                     </div>

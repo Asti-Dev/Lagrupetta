@@ -43,6 +43,7 @@ class PedidoDetalle extends Model
     {
         return $this->belongsToMany(Servicio::class, 'pedido_detalle_servicio','pedido_detalle_id','servicio_id')
         ->withPivot(
+            'id',
             'paquete_id',
             'cantidad_pendiente',
             'cantidad',
@@ -50,13 +51,14 @@ class PedidoDetalle extends Model
             'descuento',
             'precio_final',
             'checked',
-        );
+        )->withTimestamps();
     }
 
     public function repuestos()
     {
         return $this->belongsToMany(Repuesto::class, 'pedido_detalle_repuesto','pedido_detalle_id','repuesto_id')
         ->withPivot(
+            'id',
             'cantidad_pendiente',
             'cantidad',
             'precio_total',
@@ -70,6 +72,7 @@ class PedidoDetalle extends Model
     {
         return $this->belongsToMany(Paquete::class, 'pedido_detalle_servicio','pedido_detalle_id','paquete_id')
         ->withPivot(
+            'id',
             'servicio_id',
             'cantidad_pendiente',
             'cantidad',
@@ -77,7 +80,7 @@ class PedidoDetalle extends Model
             'descuento',
             'precio_final',
             'checked',
-        );
+        )->withTimestamps();
     }
 
     protected static function boot()

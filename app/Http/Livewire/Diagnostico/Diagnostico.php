@@ -2,15 +2,17 @@
 
 namespace App\Http\Livewire\Diagnostico;
 
+use App\Models\Diagnostico as ModelsDiagnostico;
 use App\Models\Parte;
-use App\Models\PedidoDetalle;
+use App\Models\Pedido;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 
 class Diagnostico extends Component
 {
-    public $pedidoDetalleId;
-    public $pedidoDetalle;
+    public $pedidoID;
+    public $diagnostico;
+    public $pedido;
     public $partes = [];
     public $partes2 = [];
     public $partesD1 = [];
@@ -20,14 +22,15 @@ class Diagnostico extends Component
     public $comentarioDiag;
 
     public function mount(){
-        $this->pedidoDetalle = PedidoDetalle::find($this->pedidoDetalleId);
-        $data = json_decode($this->pedidoDetalle->diagnostico->data);
+        $this->pedido = Pedido::find($this->pedidoID);
+        $this->diagnostico = $this->pedido->revision->diagnostico ?? $this->pedido->pedidoDetalle->diagnostico;
+        $data = json_decode($this->diagnostico->data);
         $this->partesD1 = $data->partes;
         $this->partesD2 = $data->partes2;
-        $this->partes = Parte::where('bicicleta_id', $this->pedidoDetalle->pedido->bicicleta->id)->whereHas('parteModelo', function (Builder $query) {
+        $this->partes = Parte::where('bicicleta_id', $this->pedido->bicicleta->id)->whereHas('parteModelo', function (Builder $query) {
             $query->where('tag', false);
         })->get();
-        $this->partes2 = Parte::where('bicicleta_id', $this->pedidoDetalle->pedido->bicicleta->id)->whereHas('parteModelo', function (Builder $query) {
+        $this->partes2 = Parte::where('bicicleta_id', $this->pedido->bicicleta->id)->whereHas('parteModelo', function (Builder $query) {
             $query->where('tag', true);
         })->get();
         $this->color = $data->color;
