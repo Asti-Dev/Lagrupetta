@@ -1,27 +1,40 @@
-<div class="col-md-8 mt-3 ">
-    <livewire:pedido.pedido-detalle.cotizacion.form-paquetes>
-    <livewire:pedido.pedido-detalle.cotizacion.form-servicios>
-    <livewire:pedido.pedido-detalle.cotizacion.form-repuestos>
+<div>
+    <div style="background-color:skyblue" class='d-flex flex-column align-items-center px-1'>
+    <form  class=""
+        action="{{ route('cobranza.update', $pedido->pedidoDetalle->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+    <livewire:pedido.pedido-detalle.cotizacion.form-paquetes :pedido="$pedido">
+    <livewire:pedido.pedido-detalle.cotizacion.form-servicios :pedido="$pedido">
+    <livewire:pedido.pedido-detalle.cotizacion.form-repuestos :pedido="$pedido">
+
     <div class="form-group">
         <label for="fecha_entrega">Fecha de Entrega</label>
-        <input type="date" wire:model='fecha' id="fecha_entrega" name="fecha_entrega" min="2021-01-00" class="form-control
-        @error('fecha') is-invalid @enderror">
-        @error('fecha') <span class="text-danger">Campo Obligatorio</span> @enderror
+        <input wire:model='fechaEntrega' type="date" id="fecha_entrega" name="fecha_entrega" min="2021-01-00" class="form-control
+        @error('fechaEntrega') is-invalid @enderror">
+        @error('fechaEntrega') <span class="text-danger">Campo Obligatorio</span> @enderror
     </div>
     <div class="form-group">
         <label for="explicacion" class="form-label">Explicacion</label>
         <textarea wire:model='explicacion' name="explicacion" id="explicacion" rows="3" class="form-control
-        @error('explicacion') is-invalid @enderror"></textarea>
+        @error('explicacion') is-invalid @enderror">{{$explicacion}}</textarea>
         @error('explicacion') <span class="text-danger">Campo Obligatorio</span> @enderror
     </div>
     <div class="form-group">
         <strong>Precio Total:</strong>
-        <input readonly type="number" min="0" step="0.01" name="total_precio" class="form-control">
+        <input readonly wire:model='precioTotal' type="number" min="0" step="0.01" name="total_precio" class="form-control">
+        @error('total_precio') <span>{{$message}}</span> @enderror
+    </div>
+    <div class="form-group">
+        <button type="submit" onclick="totales()" 
+            class="btn btn-primary">Cotizar</button>
+    </div>
+    </form>
     </div>
 </div>
 
 @section('javascript')
-
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
     function totales() {
             var total = 0;

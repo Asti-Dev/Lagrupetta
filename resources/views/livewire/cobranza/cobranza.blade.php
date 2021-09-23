@@ -1,13 +1,28 @@
 <div>
-    <div class="d-flex align-items-start justify-content-between my-1">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="">
+                <h2>Cobranza </h2>
+            </div>
+        </div>
+    </div>
+    
+
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+    @if ($message = Session::get('danger'))
+        <div class="alert alert-danger">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+    
+    <div class="d-flex align-items-start my-1">
         <div class="d-flex align-items-start">
-            <div class="col form-group">
                 <select class="form-control" id="estados" wire:model='estado'>
-                    <option value='COTIZADO'>COTIZADO  </option>
-                    <option value='EN PROCESO'>EN PROCESO  </option>
-                    <option value='EN ESPERA'>EN ESPERA  </option>
-                    <option value='EN CALIDAD'>EN CALIDAD  </option>
-                    <option value='CORREGIR'>CORREGIR  </option>
+                    <option value=''>Estados  </option>
                     <option value='TERMINADO'>TERMINADO  </option>
                     <option value='DEPOSITADO MECANICO'>DEPOSITADO MECANICO</option>
                     <option value='EN ALMACEN TERMINADO'>EN ALMACEN TERMINADO </option>
@@ -16,7 +31,6 @@
                     <option value='FACTURADO'>FACTURADO  </option>
                     <option value='ANULADO'>ANULADO</option>
                   </select>
-            </div>
             <div class="mx-3 d-flex">
                 {{ $pedidos->links() }} 
             </div>
@@ -93,6 +107,10 @@
                                     <div class="form-group d-flex justify-content-between">
                                         <strong>Observacion Cliente:</strong>
                                         <p class="text-right">{{ $pedido->observacion_cliente ?? ''  }}</p>
+                                    </div>
+                                    <div class="form-group d-flex justify-content-between">
+                                        <strong>Precio a pagar:</strong>
+                                        <p class="text-right"> S/. {{ $pedido->pedidoDetalle->precio_total ?? ''  }} </p>
                                     </div>
                                     <div class="d-flex w-100 justify-content-between">
                                         <label class="mb-1">Codigo:</label>
@@ -222,16 +240,18 @@
                        
 
                         @hasanyrole('super-admin|administrador')
+                        <div class="d-flex flex-column align-items-stretch">
                         @if ($pedido->pedidoEstado->nombre === 'PAGO PENDIENTE')
                         <button wire:click.prevent="completado({{$pedido->id}})" 
-                            class=" mx-4 btn btn-primary btn-sm">Completado</button>
+                            class="btn btn-primary mt-1">Completado</button>
                         @endif
                         @if ($pedido->pedidoEstado->nombre === 'EN RUTA ENTREGA' && $pedido->transporteEntrega->completado === 'COMPLETADO' )
                         <button wire:click.prevent="pago({{$pedido->id}})" 
-                            class="mx-4 btn btn-primary btn-sm">Pago pendiente</button>
+                            class="btn btn-primary mt-1">Pago pendiente</button>
                         @endif
-                        <a href="{{route('cotizacion.edit2',  $pedido->id )}}" 
+                        <a href="{{route('cobranza.show',  $pedido->id )}}" 
                             class="btn btn-primary mt-1">Añadir Cotizacion</a>  
+                        </div>
                         @endhasanyrole
                         <small class="">{{$pedido->created_at->diffForHumans()}} </small>
                     </div>

@@ -4,6 +4,27 @@
         <a class="btn btn-success" wire:click.prevent="create()" title="Crear solicitud">
             Nuevo
         </a>
+        <div class="col form-group">
+          <select class="form-control" id="estados" wire:model='estado'>
+              <option value=''>Todos los Estados</option>
+              <option value='EN RUTA RECOJO'>EN RUTA RECOJO </option>
+              <option value='DEPOSITADO'> DEPOSITADO </option>
+              <option value='EN ALMACEN'>EN ALMACEN </option>
+              <option value='EN TALLER'>EN TALLER  </option>
+              <option value='COTIZADO'>COTIZADO  </option>
+              <option value='EN PROCESO'>EN PROCESO  </option>
+              <option value='EN ESPERA'>EN ESPERA  </option>
+              <option value='EN CALIDAD'>EN CALIDAD  </option>
+              <option value='CORREGIR'>CORREGIR  </option>
+              <option value='TERMINADO'>TERMINADO  </option>
+              <option value='DEPOSITADO MECANICO'>DEPOSITADO MECANICO</option>
+              <option value='EN ALMACEN TERMINADO'>EN ALMACEN TERMINADO </option>
+              <option value='EN RUTA ENTREGA'>EN RUTA ENTREGA </option>
+              <option value='PAGO PENDIENTE'>PAGO PENDIENTE  </option>
+              <option value='FACTURADO'>FACTURADO  </option>
+              <option value='ANULADO'>ANULADO</option>
+            </select>
+      </div>
         <div class="mx-3 d-flex">
             {{ $pedidos->links() }} 
         </div>
@@ -29,41 +50,18 @@
             <input type="date" class="form-control" id="fechaFin" wire:model='fechaFin'>
           </div>
         </div>
-        <div class="col form-group">
-            <select class="form-control" id="estados" wire:model='estado'>
-                <option value=''>Todos los Estados</option>
-                <option value='EN RUTA RECOJO'>EN RUTA RECOJO </option>
-                <option value='DEPOSITADO'> DEPOSITADO </option>
-                <option value='EN ALMACEN'>EN ALMACEN </option>
-                <option value='EN TALLER'>EN TALLER  </option>
-                <option value='COTIZADO'>COTIZADO  </option>
-                <option value='EN PROCESO'>EN PROCESO  </option>
-                <option value='EN ESPERA'>EN ESPERA  </option>
-                <option value='EN CALIDAD'>EN CALIDAD  </option>
-                <option value='CORREGIR'>CORREGIR  </option>
-                <option value='TERMINADO'>TERMINADO  </option>
-                <option value='DEPOSITADO MECANICO'>DEPOSITADO MECANICO</option>
-                <option value='EN ALMACEN TERMINADO'>EN ALMACEN TERMINADO </option>
-                <option value='EN RUTA ENTREGA'>EN RUTA ENTREGA </option>
-                
-                
-                
-                
-                
-                
-                
-                <option value='PAGO PENDIENTE'>PAGO PENDIENTE  </option>
-                <option value='FACTURADO'>FACTURADO  </option>
-                <option value='ANULADO'>ANULADO</option>
-                
-              </select>
-        </div>
         <div class="col d-flex justify-content-between form-group row">
           <label class="col-sm-2 col-form-label" for="cliente">Cliente</label>
           <div class="col-sm-9">
               <input type="text" class="form-control" id="cliente" wire:model="cliente">
           </div>
         </div>
+        <div class="col d-flex justify-content-between form-group row">
+          <label class="col-sm-2 col-form-label" for="nroPedido">Nro Pedido</label>
+          <div class="col-sm-9">
+              <input type="text" class="form-control" id="nroPedido" wire:model="nroPedido">
+          </div>
+      </div>
   </div>
     <div wire:poll.10s.keep-alive class="container-fluid" style="background: lightskyblue">
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 d-flex justify-content-left">

@@ -14,8 +14,6 @@ class Cobranza extends Component
     
     public $view = 'table';
     public $solicitudView = 'create';
-    public $chofer;
-    public $chofers =[];
     public $pedido;
     public $estado;
     public $cliente;
@@ -45,7 +43,7 @@ class Cobranza extends Component
     public function render()
     {
         $pedidos = Pedido::with(['cliente', 'bicicleta', 'pedidoEstado','pedidoDetalle','revision', 'transportes','transporteEntrega','transporteRecojo'])
-            ->whereHas('pedido.pedidoEstado', function($q){
+            ->whereHas('pedidoEstado', function($q){
 
                 $q->where('nombre', '=', 'TERMINADO')
                 ->orWhere('nombre', '=', 'EN RUTA ENTREGA')
@@ -55,8 +53,10 @@ class Cobranza extends Component
             })->buscarCliente($this->cliente)
             ->filtrarFecha($this->fechaIni, $this->fechaFin)
             ->filtrarEstadoPedido($this->estado)
+            ->buscarPedido($this->nroPedido)
             ->orderBy('id','desc')
             ->paginate(9);
+
         return view('livewire.cobranza.cobranza', compact('pedidos'))
         ->extends('layouts.app')
         ->section('content');

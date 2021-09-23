@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BicicletaController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\CobranzaController;
 use App\Http\Controllers\ConfirmationsController;
 use App\Http\Controllers\CotizacionController;
 use App\Http\Controllers\DownloadController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\ImportController;
 use App\Http\Controllers\WhatsappController;
 use App\Http\Livewire\Almacen\Almacen;
 use App\Http\Livewire\Cliente\CreateClientForm;
+use App\Http\Livewire\Cobranza\Cobranza;
 use App\Http\Livewire\Diagnostico\Diagnostico;
 use App\Http\Livewire\Export\Clientes;
 use App\Http\Livewire\Export\Pedidos;
@@ -100,6 +102,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'administracion'], function() 
     Route::get('/pedidos', Pedido::class)->name('pedidos.index')->middleware(['role:super-admin|administrador|chofer|jefe mecanicos']);
 
     Route::get('/pedidos/{pedido}', Solicitud::class)->name('pedido.show')->middleware(['role:super-admin|administrador|chofer|jefe mecanicos']);
+
+    Route::get('/cobranza', Cobranza::class)->name('cobranza.index')->middleware(['role:super-admin|administrador']);
+
+    Route::get('cobranza/show/{pedido}', [CobranzaController::class, 'show'])->name('cobranza.show')->middleware(['role:super-admin|administrador']);
+
+    Route::put('/cobranza/update/{pedidoDetalleId}', [CobranzaController::class, 'update'])->name('cobranza.update')->middleware(['role:super-admin|administrador']);
 
 });
 

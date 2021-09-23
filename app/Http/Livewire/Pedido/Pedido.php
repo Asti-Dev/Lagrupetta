@@ -25,6 +25,7 @@ class Pedido extends Component
     public $direccion;
     public $fechaIni;
     public $fechaFin;
+    public $nroPedido;
 
 
 
@@ -111,6 +112,7 @@ class Pedido extends Component
             ->buscarCliente($this->cliente)
             ->filtrarFecha($this->fechaIni, $this->fechaFin)
             ->filtrarEstadoPedido($this->estado)
+            ->buscarPedido($this->nroPedido)
             ->orderBy('id','desc')
             ->paginate(9);
         

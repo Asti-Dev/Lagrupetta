@@ -41,6 +41,13 @@
               </a>
             </li>
             @endhasanyrole
+            @hasanyrole('super-admin|administrador|chofer|jefe mecanicos')
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{{ route('cobranza.index') }}">
+                {{ __('Cobranza') }}
+              </a>
+            </li>
+            @endhasanyrole
             @hasanyrole('super-admin|administrador')
             <li class="nav-item">
               <a class="nav-link text-light" href="{{ route('servicios.index') }}">

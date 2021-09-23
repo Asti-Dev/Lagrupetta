@@ -40,8 +40,8 @@
         <button type="submit" onclick="totales()" 
             class="btn btn-primary">Cotizar</button>
     </div>
-</form>
-</div>
+    </form>
+    </div>
 </div>
 </div>
 
@@ -74,7 +74,7 @@
                 }
             )
 
-            total = sumRepuestos + sumServicios + sumPaquetes;
+            total = parseFloat(sumRepuestos + sumServicios + sumPaquetes).toFixed(2);
 
 
             document.getElementsByName('total_precio')[0].value = total;

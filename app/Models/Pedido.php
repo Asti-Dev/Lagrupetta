@@ -122,4 +122,10 @@ class Pedido extends Model
         }
     }
 
+    public function scopeBuscarPedido($query, $nroPedido){
+        if($nroPedido != ''){
+            return $query->where('id', 'like', "%{$nroPedido}%");
+        }
+    }
+
 }
