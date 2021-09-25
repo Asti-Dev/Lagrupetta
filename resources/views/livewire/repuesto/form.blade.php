@@ -10,6 +10,13 @@
         @error('precio') <span>{{$message}}</span> @enderror
     </div>
     <div class="form-group">
+        <strong>Disponible:</strong>
+        <select class="form-control" wire:model="disponible" name="disponible" id="disponible">
+            <option value="0">Si</option>
+            <option value="1">No</option>
+        </select>
+    </div>
+    <div class="form-group">
         <strong>Apto para la venta:</strong>
         <select class="form-control" wire:model="activo" name="activo" id="activo">
             <option value="0">Si</option>

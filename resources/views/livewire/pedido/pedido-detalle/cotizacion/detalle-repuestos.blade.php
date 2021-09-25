@@ -23,5 +23,9 @@
         <strong>Precio:</strong>
         <input readonly type="number" min="0" step="0.01" wire:model="repuesto.precio" name="preciorepuesto[]" class="form-control">
     </div>
+    <div class="col form-group d-flex flex-column justify-content-end ">
+        <strong>Disponible:</strong>
+        <strong>{{$repuesto['disponible']}}</strong>
+    </div>
 </div>
 

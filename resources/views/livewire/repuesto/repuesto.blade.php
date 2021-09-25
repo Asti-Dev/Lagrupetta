@@ -1,9 +1,14 @@
 <div>
-    <div class="col-lg-12 margin-tb">
-        <div class="my-3">
+    <div class="d-flex align-items-center col-lg-12 margin-tb">
+        <div class="my-3 mr-3">
             <h2>Repuestos</h2>
         </div>
-
+        @hasanyrole('super-admin|administrador')
+                <a class="btn btn-success" href="{{ route('repuestos.export') }}">
+                    <i class="fas fa-file-export"></i>
+                    Exportar
+                </a>
+        @endhasanyrole
     </div>
 
     @if ($message = Session::get('success'))

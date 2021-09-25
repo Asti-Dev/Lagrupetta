@@ -22,6 +22,10 @@
             </th>
             <th scope="col">Precio
             </th>
+            <th scope="col">Disponible
+            </th>
+            <th scope="col">Apto Venta
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -41,6 +45,8 @@
                 <td>{{ $repuesto->id }}</td>
                 <td>{{ $repuesto->nombre }}</td>
                 <td>{{ $repuesto->precio }}</td>
+                <td>{{ $repuesto->disponible ? 'No' : 'Si' }}</td>
+                <td>{{ $repuesto->activo ? 'No' : 'Si'  }}</td>
             </tr>
         @endforeach
     </tbody>

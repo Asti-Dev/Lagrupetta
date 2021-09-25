@@ -23,6 +23,8 @@ class DetalleRepuestos extends Component
             'cantidad' => $orderRepuesto['cantidad'],
             'precio_unitario' => $orderRepuesto['precio_unitario'],
             'precio' => $orderRepuesto['precio'],
+            'disponible' => $orderRepuesto['disponible'],
+
         ];
     }
 
@@ -37,6 +39,7 @@ class DetalleRepuestos extends Component
                 'cantidad' => 1,
                 'precio_unitario' => $repuesto->precio,
                 'precio' => $repuesto->precio,
+                'disponible' => $repuesto->disponible ? 'No' : 'Si',
             ];
         } else{
             $this->repuesto = [
@@ -45,6 +48,7 @@ class DetalleRepuestos extends Component
                 'cantidad' => 1,
                 'precio_unitario' => '',
                 'precio' => '',
+                'disponible' => '',
             ];
         };
     }
@@ -61,6 +65,7 @@ class DetalleRepuestos extends Component
                 'cantidad' => $this->repuesto['cantidad'],
                 'precio_unitario' => $this->repuesto['precio_unitario'],
                 'precio' =>  $this->repuesto['cantidad'] * $this->repuesto['precio_unitario'],
+                'disponible' => $this->repuesto['disponible'],
             ];
 
         } else {
@@ -69,7 +74,8 @@ class DetalleRepuestos extends Component
                 'nombre' => $this->repuesto['nombre'],
                 'cantidad' => $this->repuesto['cantidad'],
                 'precio_unitario' => $this->repuesto['precio_unitario'],
-                "precio" => ""
+                "precio" => "",
+                'disponible' => $this->repuesto['disponible'],
             ];
         }
     }

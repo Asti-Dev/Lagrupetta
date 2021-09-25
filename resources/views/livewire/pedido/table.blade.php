@@ -101,6 +101,18 @@
                                         <p class="text-right">{{ ($pedido->cliente->nombre_apellido) ?? '' }}</p>
                                     </div>
                                     <div class="form-group d-flex justify-content-between">
+                                        <strong>Celular:</strong>
+                                        <p class="text-right">{{ ($pedido->cliente->telefono) ?? '' }}</p>
+                                    </div>
+                                    <div class="form-group d-flex justify-content-between">
+                                      <strong>Email:</strong>
+                                      <p class="text-right">{{ ($pedido->cliente->email) ?? '' }}</p>
+                                    </div>
+                                    <div class="form-group d-flex justify-content-between">
+                                      <strong>{{$pedido->cliente->tipo_doc ?? 'Documento no asignado'}}:</strong>
+                                      <p class="text-right">{{ ($pedido->cliente->nro_doc) ?? '' }}</p>
+                                    </div>
+                                    <div class="form-group d-flex justify-content-between">
                                         <strong>Bicicleta:</strong>
                                         <p class="text-right">{{ ($pedido->bicicleta->marca . ' ' . $pedido->bicicleta->modelo) ?? ''}}</p>
                                     </div>

@@ -5,7 +5,7 @@
 <table width="100%" cellpadding="0" cellspacing="0">
 <tr>
 <td colspan="4" style="padding: 10px" width="33%" align="center">
-{{$pedido->cliente->nombre . ' ' . $pedido->cliente->apellido}}
+{{$pedido->cliente->nombre_apellido}}
 </td>
 <td colspan="4" style="padding: 10px" width="33%" align="center">
 {{$pedido->cliente->tipo_doc}} {{$pedido->cliente->nro_doc}}

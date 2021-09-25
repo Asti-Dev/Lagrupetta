@@ -7,6 +7,7 @@ use App\Http\Controllers\ConfirmationsController;
 use App\Http\Controllers\CotizacionController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\WhatsappController;
 use App\Http\Livewire\Almacen\Almacen;
@@ -145,5 +146,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'exportar'], function() {
 
     Route::get('/clientesXls', Clientes::class)->name('clientes.export')->middleware(['role:super-admin|administrador']);
 
+    Route::get('/repuestosXls', [ExportController::class, 'exportRepuestos'])->name('repuestos.export')->middleware(['role:super-admin|administrador']);
 
 });

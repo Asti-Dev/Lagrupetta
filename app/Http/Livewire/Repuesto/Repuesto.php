@@ -15,6 +15,7 @@ class Repuesto extends Component
     public $nombre;
     public $precio;
     public $activo = 0;
+    public $disponible = 0;
     public $nombreRepuesto = '';
     public $precioRepuesto;
 
@@ -26,6 +27,7 @@ class Repuesto extends Component
         'nombre' => 'required',
         'precio' => 'required',
         'activo' => 'required',
+        'disponible' => 'required',
 
     ];
 
@@ -58,6 +60,7 @@ class Repuesto extends Component
             'nombre' => $this->nombre,
             'precio' => $this->precio,
             'activo' => $this->activo,
+            'disponible' => $this->disponible,
 
         ]);
 
@@ -72,6 +75,8 @@ class Repuesto extends Component
         $this->nombre = $repuesto->nombre;
         $this->precio = $repuesto->precio;
         $this->activo = $repuesto->activo;
+        $this->disponible = $repuesto->disponible;
+
 
         $this->repuestoId = $repuesto->id;
 
@@ -88,6 +93,8 @@ class Repuesto extends Component
             'nombre' => $this->nombre,
             'precio' => $this->precio,
             'activo' => $this->activo,
+            'disponible' => $this->disponible,
+
 
         ]);
     }
@@ -97,6 +104,8 @@ class Repuesto extends Component
         $this->nombre = '';
         $this->precio = '';
         $this->activo = 0;
+        $this->disponible = 0;
+
 
 
         $this->view = 'create';

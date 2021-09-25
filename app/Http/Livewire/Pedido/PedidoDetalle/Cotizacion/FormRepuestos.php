@@ -22,7 +22,8 @@ class FormRepuestos extends Component
                         'nombre' => $repuesto->nombre,
                         'cantidad' => $repuesto->pivot->cantidad,
                         'precio_unitario' => $repuesto->precio,
-                        "precio" => $repuesto->pivot->precio_total
+                        "precio" => $repuesto->pivot->precio_total,
+                        "disponible" => $repuesto->disponible ? 'No' : 'Si'
                     ];
                 
             }
@@ -38,6 +39,7 @@ class FormRepuestos extends Component
             'cantidad' => '',
             'precio_unitario' => '',
             "precio" => '',
+            "disponible" => '',
         ];
     }
 

@@ -11,6 +11,34 @@
     </div>
 </div>
 
+<div class="row p-3 mt-1" style="background: lightblue">
+    <div class="col-4">
+        <div class="form-group">
+            <strong>Cliente:</strong>
+            {{ $pedido->cliente->nombre_apellido }} <br>
+            {{ ($pedido->cliente->tipo_doc ?? 'Sin documento') . ': '. ($pedido->cliente->nro_doc ?? '')}}
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <strong>Telefono:</strong>
+            {{ $pedido->cliente->telefono }}
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <strong>Dirección:</strong>
+            {{ $pedido->cliente->direccion }}
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <strong>email:</strong>
+            {{ $pedido->cliente->email }}
+        </div>
+    </div>
+</div>
+
 <div class="row p-3 my-3">
     <div class="col-sm-6">
         <livewire:pedido.pedido-detalle.cotizacion.cotizacion-edit2 :pedido="$pedido->id">
