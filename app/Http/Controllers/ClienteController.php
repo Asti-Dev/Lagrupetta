@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bicicleta;
 use App\Models\Cliente;
+use App\Models\Parte;
+use App\Models\ParteModelo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -31,9 +34,11 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        $tipoDoc = Cliente::TIPODOC;
+        $data['tipoDoc'] = Cliente::TIPODOC;
+        $data['distritos'] = Cliente::DISTRITOS;
+        $data['llegadas'] = Cliente::LLEGADAS;
 
-        return view('pages.clientes.create', compact('tipoDoc'));
+        return view('pages.clientes.create', $data);
     }
 
     /**
@@ -49,6 +54,7 @@ class ClienteController extends Controller
             'apellido' => 'required',
             'telefono' => 'required',
             'direccion' => 'required',
+            'distrito' => 'required',
             'email' =>  [
                 'required',
                 'string',
@@ -58,10 +64,25 @@ class ClienteController extends Controller
             ]
         ]);
 
-        Cliente::create($request->all() +
+        $cliente = Cliente::create($request->all() +
         [
             'nombre_apellido' => $request['nombre'] . " " . $request['apellido']
         ]);
+
+        if (!empty($request['marca']) && !empty($request['modelo'])) {
+            $bicicleta = Bicicleta::create($request->all() +
+                ['cliente_id' => $cliente->id] 
+            );
+    
+            $parteModelos = ParteModelo::orderBy('id', 'asc')->get();
+    
+            foreach ($parteModelos as $parteModelo ) {
+                Parte::create([
+                        'parte_modelo_id' => $parteModelo->id,
+                        'bicicleta_id' => $bicicleta->id,
+                ]);
+            }
+        }
 
         return redirect()->route('clientes.index')
         ->with('success', 'Cliente creado!');
@@ -78,6 +99,8 @@ class ClienteController extends Controller
         $data = [];
         $data['cliente'] = $cliente;
         $data['bicicletas'] = $cliente->bicicletas()->paginate(5);
+        $data['pedidos'] = $cliente->pedidos()->paginate(5);
+
 
         return view('pages.clientes.show', $data);
     }
@@ -92,6 +115,8 @@ class ClienteController extends Controller
     {
         $data['cliente'] = $cliente;
         $data['tipoDoc'] = Cliente::TIPODOC;
+        $data['distritos'] = Cliente::DISTRITOS;
+        $data['llegadas'] = Cliente::LLEGADAS;
 
 
         return view('pages.clientes.edit', $data);
@@ -109,6 +134,7 @@ class ClienteController extends Controller
         $request->validate([
             'nombre_apellido' => 'required',
             'telefono' => 'required',
+            'distrito' => 'required',
             'direccion' => 'required',
         ]);
 

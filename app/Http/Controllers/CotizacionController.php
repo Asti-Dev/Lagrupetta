@@ -530,9 +530,12 @@ class CotizacionController extends Controller
             
             PedidoDetalleServicio::where('pedido_detalle_id',$pedidoDetalle->id)->where('paquete_id','!=', null)->delete();
             
-            $result?->each(function ($item, $key) {
-                $item->save();
-            });
+            if($result->isNotEmpty()){
+                $result->each(function ($item, $key) {
+                    $item->save();
+                });
+            }
+            
             
         } else {
             PedidoDetalleServicio::where('pedido_detalle_id',$pedidoDetalle->id)->where('paquete_id','!=', null)->delete();

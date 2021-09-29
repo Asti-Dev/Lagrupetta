@@ -34,7 +34,15 @@ class Form extends Component
         'fechaRecojoAprox' => 'required',
     ];
 
-    
+    public function mount(Cliente $cliente)
+    {
+        $this->cliente = $cliente->nombre_apellido ?? '';
+        if (!empty($this->cliente)) {
+            $this->direccion = $cliente->direccion;
+            $this->bicicletas = $cliente->bicicletas;
+        }
+    }
+
     public function store()
     {
         $cliente = Cliente::where('nombre_apellido', '=', $this->cliente)->first();

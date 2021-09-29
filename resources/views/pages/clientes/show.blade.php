@@ -36,8 +36,69 @@
                 {{ $cliente->created_at }}
             </div>
         </div>
+        <div class="col-4">
+            <div class="form-group">
+                <strong>Distrito:</strong>
+                {{ $cliente->distrito }}
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-12 margin-tb">
+            <div class="my-3">
+                <h2>Pedidos en total : {{$cliente->pedidos->count()}}</h2>
+            </div>
+            <div class="d-flex align-items-strech my-1">
+                 <a class="btn btn-success" href="{{ route('pedido.cliente',['cliente' => $cliente->id] ) }}" title="Crear bicicleta">
+                    Nuevo
+                </a>
+            </div>
+        </div>
     </div>
 
+    <table class="table table-bordered table-responsive-lg">
+        <thead class="thead-dark">
+            <tr class="">
+                <th scope="col">Nro</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Precio Total</th>
+                <th scope="col">Fecha de creacion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($pedidos as $index => $pedido)
+                <tr>
+                    <td>{{ $pedido->id ?? '' }}
+                            @hasanyrole('super-admin|administrador')
+                            @if(in_array($pedido->pedidoEstado->nombre, ['SOLICITADO', 'EN RUTA RECOJO', 'DEPOSITADO', 'EN ALMACEN', 'EN TALLER']) )
+                            <a class="mx-2" href="{{route('pedido.show', ['pedido' => $pedido->id])}}" style="width: min-content" title="show">
+                                <i class="fas fa-eye text-success"></i>
+                            </a>
+                            @endif
+
+                            @if(!in_array($pedido->pedidoEstado->nombre, ['SOLICITADO', 'EN RUTA RECOJO', 'DEPOSITADO', 'EN ALMACEN', 'EN TALLER']))
+                            <a class="mx-2" href="{{route('cotizacion.show', $pedido->id)}}" style="width: min-content" title="show">
+                                <i class="fas fa-eye text-success"></i>
+                            </a>
+                            @endif
+                            @endhasanyrole
+                            @if ($pedido->pedidoDetalle->diagnostico ?? '')
+                            <a class="mx-2" style="width: min-content"
+                            href="{{ route('download.diagnostico', $pedido->id) }}"
+                            title="show">
+                            <i class="fas fa-file-download text-primary"></i>
+                            </a>
+                            @endif
+                    </td>
+                    <td>{{ $pedido->pedidoEstado->nombre ?? '' }}</td>
+                    <td>{{ $pedido->pedidoDetalle->precio_final ?? '' }}</td>
+                    <td>{{ $pedido->created_at ?? ''}}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    {{ $pedidos->links('pagination::bootstrap-4') }}
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="my-3">

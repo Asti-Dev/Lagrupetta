@@ -18,6 +18,7 @@ use App\Http\Livewire\Export\Clientes;
 use App\Http\Livewire\Export\Pedidos;
 use App\Http\Livewire\Paquete\Paquete;
 use App\Http\Livewire\ParteModelo\ParteModelo;
+use App\Http\Livewire\Pedido\CreatePedidoCliente;
 use App\Http\Livewire\Pedido\Pedido;
 use App\Http\Livewire\Pedido\PedidoDetalle\Cotizacion\CotizacionEdit;
 use App\Http\Livewire\Pedido\PedidoDetalle\Cotizar;
@@ -80,6 +81,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'administracion'], function() 
 
     Route::resource('clientes', ClienteController::class)->only(['show'])->middleware(['role:super-admin|administrador|jefe mecanicos|mecanico']);
     
+    Route::get('/pedidoCliente/{cliente}', CreatePedidoCliente::class)->name('pedido.cliente')->middleware(['role:super-admin|administrador']);
+
     Route::resource('bicicletas', BicicletaController::class)->except(['index'])->middleware(['role:super-admin|administrador|jefe mecanicos|mecanico']);
 
     Route::get('/bicicleta/diagnostico/{diagnostico}', [DownloadController::class, 'descargarDiagnostico'])->name('download.diagnostico.bicicleta');

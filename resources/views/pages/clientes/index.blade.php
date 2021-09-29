@@ -52,11 +52,15 @@
                 </th>
                 <th scope="col">Telefono
                 </th>
+                <th scope="col">Distrito
+                </th>
                 <th scope="col">Direccion
                 </th>
                 <th scope="col">Tipo de Documento
                 </th>
                 <th scope="col">Nro Documento
+                </th>
+                <th scope="col">Medio de llegada
                 </th>
                 <th scope="col">Email
                 </th>
@@ -67,7 +71,8 @@
         <tbody>
             @foreach ($clientes as $cliente)
                 <tr>
-                    <td class="d-flex justify-content-center" style="height: 100px" scope="row">
+                    <td class="d-flex flex-column justify-content-center" style="height: 100px" scope="row">
+                            <div class="d-flex justify-content-center">
                             <a class="mx-1" href="{{ route('clientes.show', $cliente->id) }}" title="show">
                                 <i class="fas fa-eye text-success  fa-lg"></i>
                             </a>
@@ -84,13 +89,19 @@
                                     <i class="fas fa-trash fa-lg text-danger"></i>
                                 </button>
                             </form>
+                            </div>
+                            <a class="btn btn-success mt-2" href="{{ route('pedido.cliente',['cliente' => $cliente->id] ) }}" title="Crear bicicleta">
+                                <nobr>Nuevo Pedido</nobr> 
+                            </a>
                     </td>
                     <td>{{ $cliente->id }}</td>
                     <td>{{ $cliente->nombre_apellido }}</td>
                     <td>{{ $cliente->telefono }}</td>
+                    <td>{{ $cliente->distrito }}</td>
                     <td>{{ $cliente->direccion }}</td>
                     <td>{{ $cliente->tipo_doc }}</td>
                     <td>{{ $cliente->nro_doc }}</td>
+                    <td>{{ $cliente->medio_llegada }}</td>
                     <td>{{ $cliente->email }}</td>
                     <td>{{ $cliente->fecha_cumpleanos }}</td>
 

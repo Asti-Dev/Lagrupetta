@@ -11,6 +11,49 @@ class Cliente extends Model
 {
     use HasFactory, SoftDeletes;
 
+    const LLEGADAS = [
+        'Redes',
+        'Van',
+        'Competencia',
+        'Feria',
+        'Referido',
+        'Otros'
+    ];
+
+    const DISTRITOS = [
+        'Ancón',
+        'Ate',
+        'Barranco',
+        'Bellavista',
+        'Brena',
+        'Carmen de la Legua',
+        'Chorrilos',
+        'Comas',
+        'El Agustino',
+        'Independencia',
+        'Jesus Maria',
+        'La Victoria',
+        'La Perla',
+        'La Punta',
+        'Lince',
+        'Lima Cercado',
+        'Los Olivos',
+        'Magdalena',
+        'Miraflores',
+        'Pueblo Libre',
+        'Rimac',
+        'San Borja',
+        'San Juan de Miraflores',
+        'San Juan de Lurigancho',
+        'San Isidro',
+        'San Luis',
+        'San Martin de Porres',
+        'Santa Anita' , 
+        'San Miguel' , 
+        'Surco' , 
+        'Surquillo' ,
+    ];
+
     const TIPODOC = [
         'DNI',
         'PASAPORTE',
@@ -33,7 +76,7 @@ class Cliente extends Model
     }
 
     public function pedidos(){
-        return $this->hasMany(Pedido::class);
+        return $this->hasMany(Pedido::class)->orderBy('id','desc');
     }
 
     protected static function boot()
