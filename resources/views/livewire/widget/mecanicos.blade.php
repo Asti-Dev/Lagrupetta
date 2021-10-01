@@ -12,14 +12,11 @@
             @foreach ($mecanicos as $index => $mecanico)
             <tr>
                 <th scope="row">{{$mecanico->nombre_apellido}}</th>
-                <td>{{count($mecanico->pedidodDetalles()->whereHas('pedido.pedidoEstado', function($query){
-                    $query->whereIn('nombre', ['EN TALLER','COTIZADO','EN PROCESO','EN ESPERA','EN CALIDAD','CORREGIR']);
-                })->get())}}
+                <td>{{$mecanico->pedidod_detalles_count}}
                 </td>
             </tr>
             @endforeach
         </tbody>
       </table>
-      {{ $mecanicos->links() }}
     </div>
 </div>

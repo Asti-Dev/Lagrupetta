@@ -155,6 +155,14 @@ class ClienteController extends Controller
 
         $cliente->update($request->all());
 
+        if (!empty($request['marca']) && !empty($request['modelo'])) {
+            
+            $bicicleta = Bicicleta::find($request['bicicleta']);
+
+            $bicicleta->update($request->all());
+            
+        }
+
         return redirect()->route('clientes.index')
         ->with('success', 'Cliente actualizado!');
     }

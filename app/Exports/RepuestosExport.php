@@ -24,6 +24,7 @@ class RepuestosExport implements FromCollection, WithHeadings, WithMapping, With
     public function headings(): array
     {
         return [
+            'Nro',
             'Nombre',
             'Precio',
             'Disponible',
@@ -34,6 +35,7 @@ class RepuestosExport implements FromCollection, WithHeadings, WithMapping, With
     public function map($repuesto): array
     {
         return [
+            $repuesto->id ?? 'Vacio en BD',
             $repuesto->nombre ?? 'Vacio en BD',
             $repuesto->precio ?? 'Vacio en BD',
             ($repuesto->disponible === 1) ? 'NO' : 'SI' ,

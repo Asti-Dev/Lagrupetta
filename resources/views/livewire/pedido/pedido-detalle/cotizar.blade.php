@@ -45,6 +45,12 @@
                                         class="text-right">{{$bicicleta->modelo}}
                                     </label>
                                 </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <b class="mb-1">Color:</b>
+                                    <label
+                                        class="text-right">{{$bicicleta->color}}
+                                    </label>
+                                </div>
                                 <div class="d-flex flex-column w-100 justify-content-between">
                                     <b class="mb-1">codigo:</b>
                                     <label class="text-right"> {{$bicicleta->codigo}} </label>

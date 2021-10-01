@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Pedido;
 
+use App\Models\Cliente;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Empleado;
 use App\Models\Pedido as ModelsPedido;
@@ -26,6 +27,8 @@ class Pedido extends Component
     public $fechaIni;
     public $fechaFin;
     public $nroPedido;
+    public $distritos = Cliente::DISTRITOS;
+    public $distrito;
 
 
 
@@ -45,6 +48,8 @@ class Pedido extends Component
 
         $this->direccion = $this->pedido->transporteRecojo->direccion;
 
+        $this->distrito = $this->pedido->transporteRecojo->distrito;
+
         $this->chofers = Empleado::where([['cargo','=','chofer']])->get();
 
         $this->view = 'asignarChofer';
@@ -54,6 +59,7 @@ class Pedido extends Component
         
         $this->validate([
             'chofer' => 'required',
+            'distrito' => 'required',
             'direccion' => 'required',
         ]);
 
@@ -64,6 +70,7 @@ class Pedido extends Component
         if ($transporteEntrega !== null) {
             $transporteEntrega->update([
                 'chofer' => $chofer->id,
+                'distrito' => $this->distrito,
                 'direccion' => $this->direccion,
             ]);
         } else {
@@ -71,7 +78,8 @@ class Pedido extends Component
                 'chofer' => $chofer->id,
                 'pedido_id' => $this->pedido->id,
                 'ruta' => Transporte::RUTA[0],
-                'direccion' => $this->direccion
+                'distrito' => $this->distrito,
+                'direccion' => $this->direccion,
             ]);
         }
 

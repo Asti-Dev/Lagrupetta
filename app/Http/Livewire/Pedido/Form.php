@@ -26,11 +26,17 @@ class Form extends Component
     public $fechaRecojoAprox;
     public $observacion;
     public $direccion;
+    public $distrito;
+    public $rango;
+    public $distritos = Cliente::DISTRITOS;
 
     protected $rules = [
         'cliente' => 'required',
+        'rango' => 'require',
         'bicicleta' => 'required',
         'chofer' => 'required',
+        'direccion' => 'required',
+        'distrito' => 'required',
         'fechaRecojoAprox' => 'required',
     ];
 
@@ -40,6 +46,7 @@ class Form extends Component
         if (!empty($this->cliente)) {
             $this->direccion = $cliente->direccion;
             $this->bicicletas = $cliente->bicicletas;
+            $this->distrito = $cliente->distrito;
         }
     }
 
@@ -68,12 +75,14 @@ class Form extends Component
             'bicicleta_id' => $this->bicicleta,
             'fecha_recojo_aprox' => $this->fechaRecojoAprox,
             'observacion_cliente' => $this->observacion,
+            'rango_recojo' => $this->rango,
         ]);
 
         $pedido->transportes()->create([
             'chofer' => $chofer->id,
             'ruta' => Transporte::RUTA[1],
-            'direccion' => $this->direccion
+            'direccion' => $this->direccion,
+            'distrito' => $this->distrito,
         ]);
 
         $url['aceptar'] = URL::temporarySignedRoute(
@@ -113,6 +122,7 @@ class Form extends Component
         }
         if(!empty($this->check)) {
         $this->direccion = $this->check->direccion;
+        $this->distrito = $this->check->distrito;
         }
     }
 

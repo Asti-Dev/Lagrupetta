@@ -35,6 +35,10 @@
                 <input type="text" class="form-control item" name="modelo" id="modelo" value="{{$bicicleta->modelo}}">
             </div>
             <div class="form-group">
+                <label for="color">Color</label>
+                <input type="text" class="form-control item" name="color" id="color" value="{{$bicicleta->color ?? ''}}">
+            </div>
+            <div class="form-group">
                 <label for="codigo">Codigo</label>
                 <input type="text" class="form-control item" name="codigo" id="codigo" value="{{$bicicleta->codigo ?? ''}}">
             </div>

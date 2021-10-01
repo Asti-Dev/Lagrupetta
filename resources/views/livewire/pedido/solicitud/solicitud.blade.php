@@ -13,7 +13,7 @@
         <div class="col-sm-6">
             <x-show-pedido :pedido="$pedido" />
         </div>
-@if ($pedido->pedidoEstado->nombre === 'SOLICITADO')
+@if ($pedido->transporteRecojo->completado != 'COMPLETADO')
 <div class="col-sm-6">
     @if (session()->has('message'))
     <div class="alert alert-success">

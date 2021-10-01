@@ -15,6 +15,7 @@ class Form extends Component
     public $partes = [];
     public $partes2 = [];
     public $porcentajes = [];
+    public $color;
 
 
     public function mount(){
@@ -25,6 +26,7 @@ class Form extends Component
         $this->partes2 = Parte::where('bicicleta_id', $this->pedidoDetalle->pedido->bicicleta->id)->whereHas('parteModelo', function (Builder $query) {
             $query->where('tag', true);
         })->get();
+        $this->color = $this->pedidoDetalle->pedido->bicicleta->color;
     }
 
     

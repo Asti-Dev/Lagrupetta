@@ -75,6 +75,10 @@
                             <label class="text-right">{{$pedidoDetalle->pedido->bicicleta->marca .' '. $pedidoDetalle->pedido->bicicleta->modelo}} </label>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
+                            <label class="mb-1">Bicicleta Color:</label>
+                            <label class="text-right"> {{$pedidoDetalle->pedido->bicicleta->color}} </label>
+                        </div>
+                        <div class="d-flex w-100 justify-content-between">
                             <label class="mb-1">Chofer:</label>
                             <label class="text-right"> {{$pedidoDetalle->pedido->transporteRecojo->choferTransporte->nombre_apellido}} </label>
                         </div>

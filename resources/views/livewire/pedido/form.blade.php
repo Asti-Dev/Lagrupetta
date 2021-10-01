@@ -18,9 +18,20 @@
             @endforeach
         </select>
     </div>
-    <div class="form-group">
-        <label for="direccion">Dirección</label>
-        <input type="text" class="form-control item" name="direccion" id="direccion" wire:model="direccion">
+    <div class="row">
+        <div class="col form-group">
+            <label for="distrito">Distrito</label>
+            <select class="form-control" name="distrito" id="distrito" wire:model='distrito'>
+                <option value="">Escoge un Distrito</option>
+                @foreach ($distritos as $distrito)
+                <option value="{{$distrito}}">{{$distrito}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col form-group">
+            <label for="direccion">Dirección</label>
+            <input type="text" class="form-control item" name="direccion" id="direccion" wire:model="direccion">
+        </div>
     </div>
     <div class="form-group">
         <strong>Chofer:</strong>
@@ -34,6 +45,14 @@
     <div class="form-group">
         <label for="fechaRecojoAprox">Fecha de Recojo</label>
         <input type="date" wire:model="fechaRecojoAprox" id="fechaRecojoAprox" name="fechaRecojoAprox" min="2021-01-00" class="form-control">
+    </div>
+    <div class="form-group">
+        <strong>Rango de Recojo:</strong>
+        <select class="form-control" wire:model="rango" name="rango_recojo">
+            <option value=""> Selecciona un rango</option>
+            <option value="9am-12pm">9am-12pm</option>
+            <option value="6pm-9pm">6pm-9pm</option>
+        </select>
     </div>
     <div class="form-group">
         <label for="observacion" class="form-label">Observacion</label>

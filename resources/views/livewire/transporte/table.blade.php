@@ -101,9 +101,15 @@
                                 class="text-right">{{$transporte->pedido->bicicleta->marca .' '. $transporte->pedido->bicicleta->modelo}}
                             </label>
                         </div>
+                        <div class="d-flex w-100 justify-content-between">
+                            <b class="mb-1">Bicicleta Color:</b>
+                            <label
+                                class="text-right">{{$transporte->pedido->bicicleta->color}}
+                            </label>
+                        </div>
                         <div class="d-flex flex-column w-100 justify-content-between">
                             <b class="mb-1">Direccion:</b>
-                            <label class="text-right"> {{$transporte->direccion}} </label>
+                            <label class="text-right"> {{$transporte->distrito}}, {{$transporte->direccion}} </label>
                         </div>
                         <div class="d-flex flex-column w-100 justify-content-between">
                             <b class="mb-1">Observacion Cliente:</b>
@@ -121,6 +127,10 @@
                             <b class="mb-1">Fecha Recojo:</b>
                             <label class="text-right">
                                 {{ date('d/m/Y' ,strtotime($transporte->pedido->fecha_recojo_aprox))}} </label>
+                        </div>
+                        <div class="d-flex flex-column w-100 justify-content-between">
+                            <b class="mb-1">Rango de Recojo:</b>
+                            <label class="text-right"> {{$transporte->pedido->rango_recojo}} </label>
                         </div>
                         @endif
                         <div class="d-flex w-100 justify-content-between">

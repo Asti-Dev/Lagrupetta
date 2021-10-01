@@ -123,7 +123,7 @@
         <div class="form-group row">
             <label for="color" class="col-sm-4 font-weight-bold">Color de Bicicleta</label>
             <div class="form-group col-sm-8">
-                <input class="form-control" name="color" id="color">
+                <input class="form-control" name="color" id="color" value="{{$color}}">
             </div>
         </div>
     </form>

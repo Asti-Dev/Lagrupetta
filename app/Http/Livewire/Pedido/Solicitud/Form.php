@@ -27,10 +27,11 @@ class Form extends Component
     public $bicicletas = [];
     public $fechaRecojoAprox;
     public $observacion;
-    public $confirmacion;
-    public $estados = [];
     public $direccion;
-  
+    public $distrito;
+    public $distritos = Cliente::DISTRITOS;
+    public $rangos = array('9am-12pm','6pm-9pm');
+    public $rango;
 
 
     public function mount()
@@ -40,9 +41,9 @@ class Form extends Component
         $this->bicicleta = $this->pedido->bicicleta;
         $this->fechaRecojoAprox = date('Y-m-d',strtotime($this->pedido->fecha_recojo_aprox)) ;
         $this->observacion = $this->pedido->observacion_cliente;
-        $this->confirmacion = $this->pedido->confirmacion;
-        $this->estados = Pedido::ESTADOS;
         $this->direccion = $this->pedido->transporteRecojo->direccion;
+        $this->distrito = $this->pedido->transporteRecojo->distrito;
+        $this->rango = $this->pedido->rango_recojo;
     }
     public function rules()
     {
@@ -50,7 +51,8 @@ class Form extends Component
             'cliente' => 'required',
             'bicicleta.id' => 'required',
             'chofer' => 'required',
-            'confirmacion' => Rule::in(Pedido::ESTADOS),
+            'distrito' => 'require',
+            'direccion' => 'require',
         ];
     }
 
@@ -62,31 +64,22 @@ class Form extends Component
 
         $this->fechaRecojoAprox = $this->fechaRecojoAprox ?? $this->pedido->fecha_recojo_aprox;
 
-        if ($this->confirmacion === Pedido::ESTADOS[0]){
-            $this->pedido->update([
-                'cliente_id' => $cliente->id,
-                'bicicleta_id' => $this->bicicleta->id,
-                'fecha_recojo_aprox' => $this->fechaRecojoAprox,
-                'observacion_cliente' => $this->observacion,
-                'confirmacion' => $this->confirmacion,
-                'pedido_estado_id' => PedidoEstado::where('nombre', 'EN RUTA RECOJO')->first()->id,
-                'fecha_hora_confirmacion' => Carbon::now()->setTimezone('America/Lima'),
-            ]);
-        } else {
-            $this->pedido->update([
-                'cliente_id' => $cliente->id,
-                'bicicleta_id' => $this->bicicleta->id,
-                'fecha_recojo_aprox' => $this->fechaRecojoAprox,
-                'observacion_cliente' => $this->observacion,
-                'confirmacion' => $this->confirmacion,
-            ]);
-        }
 
-        $transporte = Transporte::find($this->pedido->transporteRecojo->id);
+        $this->pedido->update([
+            'cliente_id' => $cliente->id,
+            'bicicleta_id' => $this->bicicleta->id,
+            'fecha_recojo_aprox' => $this->fechaRecojoAprox,
+            'observacion_cliente' => $this->observacion,
+            'rango_recojo' => $this->rango,
+        ]);
+        
 
-        $transporte->update([
+        // $transporte = Transporte::find($this->pedido->transporteRecojo->id);
+
+        $this->pedido->transporteRecojo->update([
             'chofer' => $chofer->id,
             'direccion' => $this->direccion,
+            'distrito' => $this->distrito,
         ]);
 
         $url['aceptar'] = URL::temporarySignedRoute(

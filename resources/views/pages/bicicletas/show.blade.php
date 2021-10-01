@@ -25,6 +25,10 @@
                     {{ $bicicleta->modelo }}
                 </div>
                 <div class="form-group">
+                    <strong>Color:</strong>
+                    {{ $bicicleta->color }}
+                </div>
+                <div class="form-group">
                     <strong>Codigo:</strong>
                     {{ $bicicleta->codigo ?? '' }}
                 </div>

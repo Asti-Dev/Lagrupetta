@@ -14,7 +14,7 @@
 {{$pedido->cliente->tipo_doc}} {{$pedido->cliente->nro_doc}}
 </td>
 <td colspan="4" style="padding: 10px" width="34%" align="center">
-{{$pedido->cliente->direccion}}
+{{$pedido->transporteRecojo->distrito}}, {{$pedido->transporteRecojo->direccion}}
 </td>
 </tr>
 <tr>
@@ -35,7 +35,7 @@ Observacion
 </table>
 <br><br>
 <b>
-Fecha de Recojo: {{$hoy}}
+Fecha de Recojo: {{$hoy}} Rango: {{$pedido->rango_recojo}}
 </b>
 <table>
 </table>

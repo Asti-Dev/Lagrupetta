@@ -22,10 +22,13 @@
             </ul>
         </div>
     @endif
-    <div class="row d-flex justify-content-center">
-        <form class="col-5"  action="{{ route('clientes.update', $cliente->id ) }}" method="POST">
+    <div class="row d-flex justify-content-center align-items-center">
+        <form class="col-md-10 d-flex flex-column align-items-center" action="{{ route('clientes.update', $cliente->id ) }}" method="POST">
             @csrf
             @method('PUT')
+            <div class="w-100 d-flex flex-column flex-md-row justify-content-around">
+            <div>
+                <h4>Cliente</h4>
             <div class="row">
                 <div class="col form-group">
                     <label for="nombre_apellido">Nombre Completo</label>
@@ -99,7 +102,9 @@
                        name="fecha_cumpleanos" value="{{$cliente->fecha_cumpleanos}}"
                         class="form-control">
             </div>
-
+            </div>
+            <livewire:bicicleta.edit-bicicleta-cliente :bicicletas='$cliente->bicicletas'>
+            </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Actualizar</button>
             </div>

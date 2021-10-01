@@ -19,6 +19,16 @@
                     @error('chofer') <span class="text-danger">Escoge un chofer</span> @enderror
                 </div>
                 <div class="form-group">
+                    <label for="distrito">Distrito</label>
+                    <select class="form-control @error('distrito') is-invalid @enderror" wire:model="distrito" name="distrito">
+                        <option value=""> Selecciona un distrito</option>
+                        @foreach ($distritos as $distrito)
+                        <option value="{{$distrito}}">{{$distrito}}</option>
+                        @endforeach
+                    </select>
+                    @error('distrito') <span class="text-danger">Escoge un distrito</span> @enderror
+                </div>
+                <div class="form-group">
                     <label for="direccion">Dirección</label>
                     <input type="text" class="form-control item @error('direccion') is-invalid @enderror" name="direccion" id="direccion" wire:model="direccion">
                     @error('direccion') <span class="text-danger">Campo Obligatorio</span> @enderror

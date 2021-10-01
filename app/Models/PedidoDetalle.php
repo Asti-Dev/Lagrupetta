@@ -135,7 +135,7 @@ class PedidoDetalle extends Model
                     $fecha2 = new Carbon($fecha2);
                     return $query->whereBetween('created_at', [$fecha->format('Y-m-d')." 00:00:00" , $fecha2->format('Y-m-d')." 23:59:59"]);
                 } else{
-                    return $query->whereBetween('created_at', [$fecha->format('Y-m-d')." 00:00:00" , today()]);
+                    return $query->whereBetween('created_at', [$fecha->format('Y-m-d')." 00:00:00" , now()]);
                 }
         }
     }

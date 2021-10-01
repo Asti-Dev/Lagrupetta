@@ -29,6 +29,17 @@
             </div>
         </div>
         <div class="form-group row">
+            <label for="distrito" class="col-sm-4 col-form-label">Distrito: {{$distrito}}</label>
+            <div class="col-sm-8">
+                <select class="form-control" wire:model='distrito' name="distrito" id="distrito">
+                    <option value="">Escoge un Distrito</option>
+                    @foreach ($distritos as $value)
+                    <option value="{{$value}}">{{$value}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
             <label class="col-sm-4 col-form-label" for="direccion">Dirección</label>
             <div class="col-sm-8">
             <input type="text" class="form-control item" name="direccion" id="direccion" wire:model="direccion">
@@ -45,7 +56,6 @@
                 </select>
             </div>
         </div>
-
         <div class="form-group row">
             <label for="fechaRecojoAprox" class="col-sm-4 col-form-label">Fecha de Recojo: <br> {{date('d/m/Y',strtotime($pedido->fecha_recojo_aprox))}}</label>
             <div class="col-sm-8">
@@ -55,19 +65,20 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="observacion" class="col-sm-4 col-form-label">Observacion</label>
+            <label for="rango" class="col-sm-4 col-form-label">Rango de Recojo:</label>
             <div class="col-sm-8">
-            <textarea class="form-control" wire:model="observacion" name="observacion" id="observacion" rows="3">{{ $observacion }}</textarea>
+                <select class="form-control" wire:model='rango' name="rango" id="rango_recojo">
+                    <option value="">Escoge un rango</option>
+                    @foreach ($rangos as $value)
+                    <option value="{{$value}}">{{$value}}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
         <div class="form-group row">
-            <label for="confirmacion" class="col-sm-4 col-form-label">Estado:</label>
+            <label for="observacion" class="col-sm-4 col-form-label">Observacion</label>
             <div class="col-sm-8">
-            <select class="form-control" wire:model="confirmacion" name="confirmacion">
-                    @foreach ($estados as $estado)
-                    <option value="{{$estado}}">{{$estado}}</option>
-                    @endforeach
-            </select>
+            <textarea class="form-control" wire:model="observacion" name="observacion" id="observacion" rows="3">{{ $observacion }}</textarea>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">

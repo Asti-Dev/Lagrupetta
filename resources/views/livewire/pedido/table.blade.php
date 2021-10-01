@@ -117,6 +117,10 @@
                                         <p class="text-right">{{ ($pedido->bicicleta->marca . ' ' . $pedido->bicicleta->modelo) ?? ''}}</p>
                                     </div>
                                     <div class="form-group d-flex justify-content-between">
+                                      <strong>Color:</strong>
+                                      <p class="text-right">{{ $pedido->bicicleta->color ?? ''}}</p>
+                                    </div>
+                                    <div class="form-group d-flex justify-content-between">
                                         <strong>Telefono:</strong>
                                         <p class="text-right">{{ $pedido->cliente->telefono ?? ''  }}</p>
                                     </div>
@@ -147,7 +151,7 @@
                                     </div>
                                     <div class="form-group d-flex justify-content-between">
                                         <strong>Direccion de Recojo:</strong>
-                                        <p class="text-right">{{ $pedido->transporteRecojo->direccion ?? ''  }}</p>
+                                        <p class="text-right">{{ $pedido->transporteRecojo->distrito ?? ''  }} {{ $pedido->transporteRecojo->direccion ?? ''  }}</p>
                                     </div>
                                     <div class="form-group d-flex justify-content-between">
                                         <strong>Fecha de Recojo:</strong>
@@ -156,6 +160,10 @@
                                             date('d/m/Y h:i A' ,strtotime( $pedido->transporteRecojo->fecha_hora_completado) ) :
                                             date('d/m/Y',strtotime( $pedido->fecha_recojo_aprox) )
                                         }}</p>
+                                    </div>
+                                    <div class="form-group d-flex justify-content-between">
+                                      <strong>Rango de recojo:</strong>
+                                      <p class="text-right">{{ $pedido->rango_recojo ?? ''  }}</p>
                                     </div>
                                     <div class="form-group d-flex justify-content-between">
                                         <strong>Observacion Chofer Recojo:</strong>
@@ -217,7 +225,7 @@
                                       </div>
                                       <div class="form-group d-flex justify-content-between">
                                           <strong>Direccion de Entrega:</strong>
-                                          <p class="text-right">{{ $pedido->transporteEntrega->direccion ?? ''  }}</p>
+                                          <p class="text-right">{{ $pedido->transporteEntrega->distrito ?? ''  }} {{ $pedido->transporteEntrega->direccion ?? ''  }}</p>
                                       </div>
                                       <div class="form-group d-flex justify-content-between">
                                           <strong>Fecha de Entrega:</strong>

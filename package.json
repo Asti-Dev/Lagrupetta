@@ -22,8 +22,7 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
-        "@chartisan/chartjs": "^2.1.0",
         "alpinejs": "^2.8.2",
-        "chart.js": "^2.9.4"
+        "apexcharts": "^3.28.3"
     }
 }
