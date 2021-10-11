@@ -19,15 +19,18 @@
         </div>
     </div>
     <div class="row mt-3">
+        @hasanyrole('super-admin|administrador|jefe mecanicos')
         <div class="col-md-6">
-            @hasanyrole('super-admin|administrador|chofer|jefe mecanicos')
             <livewire:widget.mecanicos />
-            @endhasanyrole
         </div>
+        @endhasanyrole
+        @hasanyrole('super-admin|administrador')
         <div class="col-md-6">
             <livewire:widget.charts.chart1 />
         </div>
+        @endhasanyrole
     </div>
+    @hasanyrole('super-admin|administrador')
     <div class="row mt-3">
         <div class="col-md-6">
             <livewire:widget.charts.chart3 />
@@ -36,6 +39,7 @@
             <livewire:widget.charts.chart2 />
         </div>
     </div>
+    @endhasanyrole
 </div>
 @endsection
 @section('javascript')

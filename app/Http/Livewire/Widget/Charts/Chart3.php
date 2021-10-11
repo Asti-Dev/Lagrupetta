@@ -23,7 +23,9 @@ class Chart3 extends Component
     public function render()
     {
         $transportesIdList = collect(Pedido::with('transportes')->get())->map(function($pedido){
-            return isset($pedido->transportes[1]) ? $pedido->transportes[1]['id'] : $pedido->transportes[0]['id'];
+            return isset($pedido->transportes[1]) 
+            ? $pedido->transportes[1]['id'] 
+            : $pedido->transportes[0]['id'];
         })->toArray();
 
         $transportes = Transporte::whereIn('id', $transportesIdList)->filtrarFecha($this->fechaIni,$this->fechaFin)->get();

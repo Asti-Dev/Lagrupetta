@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProcesarNotificacion;
 use App\Mail\MailCotizacion;
 use App\Mail\ServicioTerminado;
 use App\Models\Bicicleta;
@@ -27,6 +28,7 @@ class CotizacionController extends Controller
 {
     public function show($pedidoId)
     {
+        //mostrar Cotizacion en Pedidos
         $data = [];
         $data['pedido'] = Pedido::find($pedidoId);
 
@@ -40,6 +42,7 @@ class CotizacionController extends Controller
      */
     public function edit($pedidoDetalleId)
     {
+        //Reenviar Correo Cotizacion
         $empleado = Empleado::find(session()->get('empleado_id'));
         $pedidoDetalle = PedidoDetalle::find($pedidoDetalleId);
         $pedido = Pedido::find($pedidoDetalle->pedido->id);
@@ -89,7 +92,7 @@ class CotizacionController extends Controller
      */
     public function update(Request $request, $pedidoDetalleId)
     {
-
+        //crear cotizacion y diagnostico
         $pedidoDetalle = PedidoDetalle::find($pedidoDetalleId);
 
         $request->validate([
@@ -119,6 +122,8 @@ class CotizacionController extends Controller
             'pedido_estado_id' => PedidoEstado::where('nombre', 'COTIZADO')->first()->id,
         ]);
 
+        event(new ProcesarNotificacion($pedido, false, PedidoDetalle::ESTADOS[1]));
+
         $url['aceptar'] = URL::temporarySignedRoute(
             'pedido.aceptarCotizacion',
             now()->addMinutes(1440),
@@ -145,7 +150,7 @@ class CotizacionController extends Controller
 
     public function updateCotizacion(Request $request, $pedidoDetalleId)
     {
-
+        //actualizar cotizacion
         $pedidoDetalle = PedidoDetalle::find($pedidoDetalleId);
 
         $request->validate([
@@ -172,6 +177,8 @@ class CotizacionController extends Controller
             'confirmacion' => PedidoDetalle::ESTADOS[1],
         ]);
 
+        event(new ProcesarNotificacion($pedido, false, PedidoDetalle::ESTADOS[1]));
+
         $url['aceptar'] = URL::temporarySignedRoute(
             'pedido.aceptarCotizacion',
             now()->addMinutes(1440),
@@ -197,7 +204,9 @@ class CotizacionController extends Controller
 
     }
 
-    public function diagnosticoSalida(Request $request, $id){
+    public function diagnosticoSalida(Request $request, $id)
+    {
+        //Hacer Informe Final
 
         $pedido = Pedido::find($id);
 
@@ -213,6 +222,8 @@ class CotizacionController extends Controller
         $pedido->update([
             'pedido_estado_id' => PedidoEstado::where('nombre', 'TERMINADO')->first()->id,
         ]);
+
+        event(new ProcesarNotificacion($pedido));
 
         try{
             Mail::to($pedido->cliente->email)

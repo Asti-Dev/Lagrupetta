@@ -110,9 +110,6 @@
                     <div class="d-flex w-100 justify-content-between">
                         @hasanyrole('super-admin|mecanico|jefe mecanicos')
                         <div class="d-flex flex-column">
-                        @if ($pedidoDetalle->pedido->pedidoEstado->nombre === 'EN ALMACEN')
-                        <a  wire:click.prevent="enTaller({{$pedidoDetalle->pedido->id}})"class="btn btn-primary">En Taller</a>
-                        @endif
                         @if($pedidoDetalle->pedido->pedidoEstado->nombre  === 'CORREGIR')
                         <a href="{{route('corregir', ['revisionId' => $pedidoDetalle->pedido->revision->id] )}}" 
                             class="btn btn-primary">Corregir</a>
@@ -128,10 +125,6 @@
                         @if($pedidoDetalle->confirmacion === 'EN ESPERA' || $pedidoDetalle->confirmacion === 'RECHAZADO')
                             <a href="{{route('cotizacion.edit', $pedidoDetalle->id)}}"
                                 class="btn btn-primary">Reenviar Cotizacion</a>
-                        @endif
-                        @if($pedidoDetalle->pedido->pedidoEstado->nombre == 'TERMINADO')
-                        <a wire:click="depositar({{$pedidoDetalle->pedido->id}})" 
-                            class="btn btn-primary">Depositar</a>
                         @endif
                         @if (in_array($pedidoDetalle->pedido->pedidoEstado->nombre , $estadosEditar))
                         <a href="{{route('cotizacion.edit2',  $pedidoDetalle->pedido->id )}}" 

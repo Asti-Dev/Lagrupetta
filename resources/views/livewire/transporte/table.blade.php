@@ -161,7 +161,7 @@
                             Depositar
                         </a>
                         @endif
-                        @if ($transporte->pedido->pedidoEstado->nombre === 'EN ALMACEN TERMINADO')
+                        @if ($transporte->pedido->pedidoEstado->nombre === 'TERMINADO')
                             <a  wire:click.prevent="retirar({{$transporte->pedido->id}})"class="btn btn-primary">Retirar</a>
                         @endif
                         @endhasanyrole

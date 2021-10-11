@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Transporte;
 
+use App\Events\ProcesarNotificacion;
 use App\Models\Empleado;
 use App\Models\Pedido;
 use App\Models\PedidoEstado;
@@ -28,9 +29,6 @@ class Transporte extends Component
     public $cliente;
     public $chofers;
     public $chofer;
-    //cuando editar
-    //cuando depositar
-    //cuando retirar
 
 
     public function rules()
@@ -66,6 +64,9 @@ class Transporte extends Component
         $this->transporte->pedido->update([
             'pedido_estado_id' => $estado->id,
         ]);
+
+        event(new ProcesarNotificacion($this->transporte->pedido));
+
     }
 
     function retirar($id){
@@ -76,6 +77,8 @@ class Transporte extends Component
         $pedido->update([
             'pedido_estado_id' => $estado->id,
         ]);
+
+        event(new ProcesarNotificacion($pedido));
     }
     /** Mostrar los pedido que tengan una instancia en transporte y poder separarlos en recojo y entrega
      * poder ingresar a la instancia y poner observaciones marcar como completado o fallido
@@ -113,6 +116,7 @@ class Transporte extends Component
             ]);
         }
         
+        event(new ProcesarNotificacion($this->transporte->pedido, false, ModelsTransporte::CUMPLIMIENTO[0] ));
 
         $this->view = 'table';
     }
@@ -124,6 +128,8 @@ class Transporte extends Component
             'completado' => ModelsTransporte::CUMPLIMIENTO[1] ,
             'fecha_hora_completado' => now(),
         ]);
+
+        event(new ProcesarNotificacion($this->transporte->pedido, false, ModelsTransporte::CUMPLIMIENTO[1] ));
 
         $this->view = 'table';
     }

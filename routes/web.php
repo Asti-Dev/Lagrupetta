@@ -16,9 +16,11 @@ use App\Http\Livewire\Cobranza\Cobranza;
 use App\Http\Livewire\Diagnostico\Diagnostico;
 use App\Http\Livewire\Export\Clientes;
 use App\Http\Livewire\Export\Pedidos;
+use App\Http\Livewire\Import\Repuestos;
 use App\Http\Livewire\Paquete\Paquete;
 use App\Http\Livewire\ParteModelo\ParteModelo;
 use App\Http\Livewire\Pedido\CreatePedidoCliente;
+use App\Http\Livewire\Pedido\Logs\Logs;
 use App\Http\Livewire\Pedido\Pedido;
 use App\Http\Livewire\Pedido\PedidoDetalle\Cotizacion\CotizacionEdit;
 use App\Http\Livewire\Pedido\PedidoDetalle\Cotizar;
@@ -30,7 +32,6 @@ use App\Http\Livewire\Revision\Revision;
 use App\Http\Livewire\Servicio\Servicio;
 use App\Http\Livewire\Taller\Corregir;
 use App\Http\Livewire\Taller\Taller;
-use App\Http\Livewire\Test;
 use App\Http\Livewire\Transporte\Transporte;
 use Illuminate\Support\Facades\Route;
 
@@ -62,8 +63,6 @@ Route::get('/rechazarCotizacion/{pedido}', [ConfirmationsController::class, 'rec
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/test', Test::class)->middleware(['role:super-admin']);
 
 Route::get('/detallePDF', [ConfirmationsController::class, 'generatePDF'])->name('pdf')->middleware('auth');
 
@@ -113,13 +112,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'administracion'], function() 
 
     Route::put('/cobranza/update/{pedidoDetalleId}', [CobranzaController::class, 'update'])->name('cobranza.update')->middleware(['role:super-admin|administrador']);
 
+    Route::get('/historial_pedidos', Logs::class)->name('historial')->middleware(['role:super-admin|administrador']);
+
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'logistica'], function() {
 
     Route::get('/transportes', Transporte::class)->name('transportes.index')->middleware(['role:super-admin|administrador|chofer|jefe mecanicos']);
-
-    Route::get('/almacen', Almacen::class)->name('almacen.index')->middleware(['role:super-admin|administrador|chofer|jefe mecanicos|mecanico']);
 
     Route::get('/taller', Taller::class)->name('taller.index')->middleware(['role:super-admin|administrador|chofer|jefe mecanicos|mecanico']);
 
@@ -150,5 +149,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'exportar'], function() {
     Route::get('/clientesXls', Clientes::class)->name('clientes.export')->middleware(['role:super-admin|administrador']);
 
     Route::get('/repuestosXls', [ExportController::class, 'exportRepuestos'])->name('repuestos.export')->middleware(['role:super-admin|administrador']);
+
+});
+
+Route::group(['middleware' => 'auth', 'prefix' => 'importar'], function() {
+
+    Route::get('/repuestosImpXls', Repuestos::class)->name('repuestos.import')->middleware(['role:super-admin|administrador']);
 
 });

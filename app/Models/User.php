@@ -47,6 +47,13 @@ class User extends Authenticatable
     }
 
     public function empleado() {
-        return $this->hasOne(Empleado::class)->first();
+        return $this->hasOne(Empleado::class);
+    }
+
+    public function pedidoLogs()
+    {
+        return $this->belongsToMany(PedidoLog::class, 'pedido_logs_usuario', 'user_id' , 'pedido_log_id')
+        ->withPivot('visto')
+        ->withTimestamps();
     }
 }

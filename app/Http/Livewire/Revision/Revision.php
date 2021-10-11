@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Revision;
 
+use App\Events\ProcesarNotificacion;
 use App\Models\PedidoEstado;
 use App\Models\Prueba;
 use App\Models\Revision as ModelsRevision;
@@ -68,6 +69,7 @@ class Revision extends Component
         $this->revision->pedido->update([
             'pedido_estado_id' => PedidoEstado::where('nombre','=','CORREGIR')->first()->id,
         ]);
+        event(new ProcesarNotificacion($this->revision->pedido->pedidoLog));
 
         $this->view = 'table';
 

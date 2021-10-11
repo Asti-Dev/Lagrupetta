@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\ProcesarNotificacion;
+use App\Listeners\EnviarNotificacion;
 use App\Listeners\SetEmpleadoIdSession;
+use App\Models\PedidoLog;
+use App\Observers\BellNotificationObserver;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -32,6 +36,9 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Event::listen(
+            ProcesarNotificacion::class,
+            [EnviarNotificacion::class, 'handle']
+        );
     }
 }

@@ -63,6 +63,14 @@ class Pedido extends Model
         return $this->hasOne(Transporte::class)->where('ruta', 'ENTREGA')->withTrashed();
     }
 
+    public function logs(){
+        return $this->hasMany(PedidoLog::class, 'pedido_id', 'id');
+    }
+
+    public function pedidoLog(){
+        return $this->hasOne(PedidoLog::class, 'pedido_id','id')->latest();
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -70,8 +78,8 @@ class Pedido extends Model
             $model->created_by = Auth::id();
             $model->updated_by = Auth::id();
             $model->codigo = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
-
         });
+
         static::updating(function ($model) {
             $model->updated_by = Auth::id();
         });

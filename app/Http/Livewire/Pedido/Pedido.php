@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Pedido;
 
+use App\Events\ProcesarNotificacion;
 use App\Models\Cliente;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Empleado;
@@ -83,6 +84,8 @@ class Pedido extends Component
             ]);
         }
 
+        event(new ProcesarNotificacion($this->pedido));
+
         
         $this->view = 'table';
     }
@@ -94,6 +97,8 @@ class Pedido extends Component
         $this->pedido->update([
             'pedido_estado_id' => PedidoEstado::where('nombre','PAGO PENDIENTE')->first()->id,
         ]);
+
+        event(new ProcesarNotificacion($this->pedido));
     }
     public function completado($id)
     {
@@ -102,16 +107,27 @@ class Pedido extends Component
         $this->pedido->update([
             'pedido_estado_id' => PedidoEstado::where('nombre','FACTURADO')->first()->id,
         ]);
+
+        event(new ProcesarNotificacion($this->pedido));
     }
 
     public function destroy($id)
     {
-        ModelsPedido::find($id)->delete();
+        $pedido = ModelsPedido::find($id);
+
+        $pedido->delete();
+
+        event(new ProcesarNotificacion($pedido, true));
+
     }
 
     public function restore($id)
     {
-        ModelsPedido::withTrashed()->find($id)->restore();
+        $pedido = ModelsPedido::withTrashed()->find($id);
+        $pedido->restore();
+
+        event(new ProcesarNotificacion($pedido));
+
     }
 
     public function render()

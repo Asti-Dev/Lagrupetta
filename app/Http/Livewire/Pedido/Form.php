@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Pedido;
 
+use App\Events\ProcesarNotificacion;
 use App\Mail\MailSolicitud;
 use App\Models\Bicicleta;
 use App\Models\Cliente;
@@ -84,6 +85,8 @@ class Form extends Component
             'direccion' => $this->direccion,
             'distrito' => $this->distrito,
         ]);
+
+        event(new ProcesarNotificacion($pedido));
 
         $url['aceptar'] = URL::temporarySignedRoute(
             'pedido.aceptarSolicitud', now()->addMinutes(300), ['pedido' => $pedido->id]

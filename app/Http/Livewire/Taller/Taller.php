@@ -29,29 +29,8 @@ class Taller extends Component
         'EN CALIDAD',
         'CORREGIR',
         'TERMINADO',
-        'EN ALMACEN TERMINADO',
     ];
 
-    function enTaller($id){
-        $pedido = Pedido::find($id);
-
-        $estado = PedidoEstado::where('nombre', '=', 'EN TALLER')->first();
-
-        $pedido->update([
-            'pedido_estado_id' => $estado->id,
-        ]);
-    }
-
-    public function depositar($id)
-    {
-        $pedido = Pedido::find($id);
-
-        $estado = PedidoEstado::where('nombre', '=', 'DEPOSITADO MECANICO')->first();
-
-        $pedido->update([
-            'pedido_estado_id' => $estado->id,
-        ]);
-    }
 
     public function render()
     {
@@ -60,9 +39,6 @@ class Taller extends Component
         $data['pedidoDetalles'] = PedidoDetalle::mecanicoSession()->whereHas('pedido.pedidoEstado', function($q){
 
             $q->where('nombre', '=', 'EN TALLER')
-            ->orWhere('nombre', '=', 'EN RUTA RECOJO')
-            ->orWhere('nombre', '=', 'DEPOSITADO')
-            ->orWhere('nombre', '=', 'EN ALMACEN')
             ->orWhere('nombre', '=', 'COTIZADO')
             ->orWhere('nombre', '=', 'EN PROCESO')
             ->orWhere('nombre', '=', 'EN ESPERA')

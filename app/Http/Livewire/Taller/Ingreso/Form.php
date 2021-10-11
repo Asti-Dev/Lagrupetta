@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Taller\Ingreso;
 
+use App\Events\ProcesarNotificacion;
 use App\Models\Empleado;
 use App\Models\Pedido;
 use App\Models\PedidoDetalle;
@@ -36,11 +37,11 @@ class Form extends Component
     public function asignar(){
         $mecanico = Empleado::where('nombre_apellido','=', $this->mecanico)->first();
 
-        // $transporte = Transporte::find($this->pedido->transporteRecojo->id); 
+        $transporte = Transporte::find($this->pedido->transporteRecojo->id); 
 
-        // $transporte->update(
-        //     ['fecha_hora_local' => now()]
-        //     );
+        $transporte->update(
+            ['fecha_hora_local' => now()]
+        );
 
         $pedidoDetalle = PedidoDetalle::create([
             'mecanico' => $mecanico->id
@@ -48,8 +49,10 @@ class Form extends Component
 
         $this->pedido->update([
             'pedido_detalle_id' => $pedidoDetalle->id,
-            // 'pedido_estado_id' => PedidoEstado::where('nombre','EN TALLER')->first()->id
+            'pedido_estado_id' => PedidoEstado::where('nombre','EN TALLER')->first()->id
         ]);
+
+        event(new ProcesarNotificacion($this->pedido));
 
         session()->flash('success', 'Mecanico asignado!');
 

@@ -16,7 +16,7 @@
     </div>
     <div class="form-group">
         <label for="explicacion" class="form-label">Explicacion</label>
-        <textarea wire:model='explicacion' name="explicacion" id="explicacion" rows="3" class="form-control
+        <textarea wire:model.debounce.2s='explicacion' name="explicacion" id="explicacion" rows="3" class="form-control
         @error('explicacion') is-invalid @enderror">{{$explicacion}}</textarea>
         @error('explicacion') <span class="text-danger">Campo Obligatorio</span> @enderror
     </div>

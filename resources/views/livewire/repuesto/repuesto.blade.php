@@ -4,9 +4,13 @@
             <h2>Repuestos</h2>
         </div>
         @hasanyrole('super-admin|administrador')
-                <a class="btn btn-success" href="{{ route('repuestos.export') }}">
+                <a class="btn btn-success mr-3" href="{{ route('repuestos.export') }}">
                     <i class="fas fa-file-export"></i>
                     Exportar
+                </a>
+                <a class="btn btn-success" href="{{ route('repuestos.import') }}">
+                    <i class="fas fa-file-import"></i>
+                    Importar
                 </a>
         @endhasanyrole
     </div>

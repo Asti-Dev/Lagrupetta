@@ -78,7 +78,7 @@
         <div class="form-group row">
             <label for="observacion" class="col-sm-4 col-form-label">Observacion</label>
             <div class="col-sm-8">
-            <textarea class="form-control" wire:model="observacion" name="observacion" id="observacion" rows="3">{{ $observacion }}</textarea>
+            <textarea class="form-control" wire:model.debounce.2s="observacion" name="observacion" id="observacion" rows="3">{{ $observacion }}</textarea>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">

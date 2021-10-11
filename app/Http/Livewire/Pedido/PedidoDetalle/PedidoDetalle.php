@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Pedido\PedidoDetalle;
 
+use App\Events\ProcesarNotificacion;
 use Livewire\Component;
 use App\Models\Paquete;
 use App\Models\Pedido;
@@ -57,6 +58,8 @@ class PedidoDetalle extends Component
             'pedido_estado_id' => PedidoEstado::where('nombre', '=', 'EN CALIDAD')->first()->id,
             'revision_id' => $revision->id
         ]);
+
+        event(new ProcesarNotificacion($pedido->pedidoLog));
 
         return Redirect::route('taller.index');
     }
@@ -235,10 +238,12 @@ class PedidoDetalle extends Component
                 $this->pedido->update([
                     'pedido_estado_id' => PedidoEstado::where('nombre', '=', 'EN PROCESO')->first()->id,
                 ]);
+                event(new ProcesarNotificacion($this->pedido->pedidoLog));
             } else {
                 $this->pedido->update([
                     'pedido_estado_id' => PedidoEstado::where('nombre', '=', 'EN ESPERA')->first()->id,
                 ]);
+                event(new ProcesarNotificacion($this->pedido->pedidoLog));
             }
         } else {
              redirect()->route('taller.index');

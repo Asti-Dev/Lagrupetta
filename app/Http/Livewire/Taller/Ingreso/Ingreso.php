@@ -30,10 +30,9 @@ class Ingreso extends Component
 
     public function render()
     {
-        $data['pedidos'] = Pedido::doesntHave('pedidoDetalle')->whereHas('pedidoEstado', function($q){
+        $data['pedidos'] = Pedido::whereHas('pedidoEstado', function($q){
 
-            $q->where('nombre', '!=', 'SOLICITADO');
-        
+            $q->where('nombre', '=', 'DEPOSITADO');        
         })
         ->buscarCliente($this->cliente)
         ->orderBy('id', 'desc')->paginate(3);

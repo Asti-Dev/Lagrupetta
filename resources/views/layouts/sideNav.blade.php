@@ -43,8 +43,8 @@
             @endhasanyrole
             @hasanyrole('super-admin|administrador|chofer|jefe mecanicos')
             <li class="nav-item">
-              <a class="nav-link text-light" href="{{ route('cobranza.index') }}">
-                {{ __('Cobranza') }}
+              <a class="nav-link text-light" href="{{ route('historial') }}">
+                {{ __('Historial Pedidos') }}
               </a>
             </li>
             @endhasanyrole
@@ -90,15 +90,15 @@
           <ul class="ml-5 nav-item navbar-nav">
             @hasanyrole('super-admin|administrador|chofer|jefe mecanicos')
             <li class="nav-item">
-              <a class="nav-link text-light" href="{{ route('transportes.index') }}">
-                {{ __('Transportes') }}
+              <a class="nav-link text-light" href="{{ route('cobranza.index') }}">
+                {{ __('Cobranza') }}
               </a>
             </li>
             @endhasanyrole
             @hasanyrole('super-admin|administrador|chofer|jefe mecanicos')
             <li class="nav-item">
-              <a class="nav-link text-light" href="{{ route('almacen.index') }}">
-                {{ __('Almacen') }}
+              <a class="nav-link text-light" href="{{ route('transportes.index') }}">
+                {{ __('Transportes') }}
               </a>
             </li>
             @endhasanyrole

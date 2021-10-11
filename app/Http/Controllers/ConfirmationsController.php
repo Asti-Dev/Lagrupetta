@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProcesarNotificacion;
 use App\Mail\CotizacionRechazo;
 use App\Mail\SolicitudRechazo;
 use App\Models\Pedido;
@@ -80,7 +81,8 @@ class ConfirmationsController extends Controller
             ['fecha_confirmacion' => Carbon::now()->setTimezone('America/Lima')]
         );
 
-        
+        event(new ProcesarNotificacion($pedido, false , PedidoDetalle::ESTADOS[0]));
+
         return view('respuesta.aceptar', $data);
     }
 
@@ -91,6 +93,7 @@ class ConfirmationsController extends Controller
             ['fecha_confirmacion' => Carbon::now()->setTimezone('America/Lima')]
         );
 
+        event(new ProcesarNotificacion($pedido, false , PedidoDetalle::ESTADOS[0]));
         return redirect()->route('pedidos.index')
             ->with('success', 'Cotizacion Aceptada!');
     }
@@ -133,7 +136,7 @@ class ConfirmationsController extends Controller
         Mail::to($pedido->cliente->user->email)
             ->send(new CotizacionRechazo($pedido));
 
-        
+        event(new ProcesarNotificacion($pedido, false , PedidoDetalle::ESTADOS[2]));
 
         return view('respuesta.rechazar', $data);
 
@@ -169,6 +172,7 @@ class ConfirmationsController extends Controller
             session()->flash('danger', 'Email no enviado!');
         }
 
+        event(new ProcesarNotificacion($pedido, false , PedidoDetalle::ESTADOS[2]));
 
         return redirect()->route('pedidos.index')
             ->with('success', 'Cotizacion Rechazada!');
